@@ -5,10 +5,12 @@
     <color name="white">#FFFFFFFF</color>
 
     <!-- Theme Colors -->
-    <color name="theme_primary">#81ecec</color>
+    <color name="theme_primary">#018986</color>
     <color name="theme_secondary">#00cec9</color>
 
     <!-- Additional Colors -->
+    <color name="teal">#81ecec</color>
+    <color name="dark_teal">#00cec9</color>
     <color name="light_blue">#74b9ff</color>
     <color name="dark_blue">#0984e3</color>
     <color name="lavender">#a29bfe</color>

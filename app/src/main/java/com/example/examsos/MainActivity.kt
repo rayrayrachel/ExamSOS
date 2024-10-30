@@ -61,14 +61,23 @@ class MainActivity : AppCompatActivity() {
      */
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
+            R.id.refresh -> {
+                val intent = Intent(this, MainActivity::class.java)
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
+                startActivity(intent)
+                finish()
+                Log.i(myTag, "restart clicked")
+                true
+            }
+            R.id.settings -> {
+                Log.i(myTag, "Settings clicked")
+                true
+            }
             R.id.logout -> {
                 val intent = Intent(this, LoginActivity::class.java)
                 startActivity(intent)
-                Log.i(myTag, "Logout clicked")
-                true
-            }
-            R.id.more -> {
-                Log.i(myTag, "More clicked")
+
+                Log.i(myTag, "Settings clicked")
                 true
             }
             else -> super.onOptionsItemSelected(item)

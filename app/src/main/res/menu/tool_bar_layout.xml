@@ -3,15 +3,27 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@+id/more"
-        android:icon="@drawable/moremenu"
-        android:title="@string/more_appbar_name"
-        app:showAsAction="always" />
+        android:id="@+id/refresh"
+        android:icon="@drawable/refresh"
+        android:title="@string/appbar_item_more"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/announcement"
+        android:title="@string/appbar_item_announcement"/>
+
+    <item
+        android:id="@+id/settings"
+        android:title="@string/appbar_item_settings"/>
+
+    <item
+        android:id="@+id/about_us"
+        android:title="@string/appbar_item_about_us"/>
+
 
     <item
         android:id="@+id/logout"
-        android:icon="@drawable/logout"
-        android:title="@string/more_appbar_name"
-        app:showAsAction="ifRoom"
-        />
+        android:title="@string/appbar_item_logout"/>
+
+
 </menu>

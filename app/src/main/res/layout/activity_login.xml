@@ -8,7 +8,7 @@
         android:id="@+id/textView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/login_appbar_name"
+        android:text="@string/appbar_item_login"
         tools:layout_editor_absoluteX="131dp"
         tools:layout_editor_absoluteY="205dp" />
 </androidx.constraintlayout.widget.ConstraintLayout>
