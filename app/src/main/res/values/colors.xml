@@ -1,5 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!-- Basic Colors -->
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+
+    <!-- Theme Colors -->
+    <color name="theme_primary">#81ecec</color>
+    <color name="theme_secondary">#00cec9</color>
+
+    <!-- Additional Colors -->
+    <color name="light_blue">#74b9ff</color>
+    <color name="dark_blue">#0984e3</color>
+    <color name="lavender">#a29bfe</color>
+    <color name="deep_purple">#6c5ce7</color>
+    <color name="mint_green">#55efc4</color>
+    <color name="emerald">#00b894</color>
+    <color name="soft_yellow">#ffeaa7</color>
+    <color name="sun_yellow">#fdcb6e</color>
+    <color name="vibrant_pink">#e84393</color>
 </resources>
