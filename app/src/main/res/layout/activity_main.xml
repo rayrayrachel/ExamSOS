@@ -23,7 +23,10 @@
             android:minHeight="?attr/actionBarSize"
             android:layout_height="56dp"
             app:titleTextColor="@android:color/white"
-            android:background="@color/theme_primary"/>
+            app:popupTheme="@style/CustomOverflowMenuStyle"
+
+            android:background="@color/theme_primary" />
+
 
         <TextView
             android:id="@+id/textView"
