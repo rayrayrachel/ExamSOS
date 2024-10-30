@@ -12,6 +12,15 @@
     <string name="appbar_item_settings">Settings</string>
     <string name="appbar_item_about_us">About Us</string>
     <string name="appbar_item_announcement">Announcement</string>
+
+
+    <!-- Login Page Strings -->
+    <string name="login_text_welcome">Welcome to ExamSOS</string>
+    <string name="login_text_prompt_email">Please input email address</string>
+    <string name="login_text_prompt_password">Please input password</string>
+    <string name="login_button_login">Login</string>
+
+
 </resources>
 
 

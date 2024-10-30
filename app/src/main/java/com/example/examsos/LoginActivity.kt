@@ -27,6 +27,12 @@ class LoginActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login) // Ensure this layout file exists
 
+        val buttonClick = findViewById<Button>(R.id.login_button)
+        buttonClick.setOnClickListener {
+            val intent = Intent(this, MainActivity::class.java)
+            startActivity(intent)
+            finish()
+        }
         Log.i(myTag, "*** LoginActivity: In onCreate")
     }
 
