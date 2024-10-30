@@ -23,38 +23,38 @@ class MainActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
-        Log.i(myTag, "*** Ray: In onCreate")
+        Log.i(myTag, "*** MainActivity: In onCreate")
 
     }
 
     override fun onStart() {
         super.onStart()
-        Log.i(myTag, "*** Ray: In onStart")
+        Log.i(myTag, "*** MainActivity: In onStart")
     }
 
     override fun onStop() {
         super.onStop()
-        Log.i(myTag, "*** Ray: In onStop")
+        Log.i(myTag, "*** MainActivity: In onStop")
     }
 
     override fun onPause() {
         super.onPause()
-        Log.i(myTag, "*** Ray: In onPause")
+        Log.i(myTag, "*** MainActivity: In onPause")
     }
 
     override fun onRestart() {
         super.onRestart()
-        Log.i(myTag, "*** Ray: In onRestart")
+        Log.i(myTag, "*** MainActivity: In onRestart")
     }
 
     override fun onResume() {
         super.onResume()
-        Log.i(myTag, "*** Ray: In onResume")
+        Log.i(myTag, "*** MainActivity: In onResume")
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        Log.i(myTag, "*** Ray: In onDestroy")
+        Log.i(myTag, "*** MainActivity: In onDestroy")
     }
 
 }
