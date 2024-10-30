@@ -20,6 +20,16 @@
     <string name="login_text_prompt_password">Please input password</string>
     <string name="login_button_login">Login</string>
 
+    <!-- About Us Page Strings -->
+    <string name="about_us_text">Information About Developer</string>
+
+    <!-- Settings Page Strings -->
+    <string name="settings_text">Settings</string>
+
+    <!-- Announcement Page Strings -->
+    <string name="announcement_text">Dummy Announcement</string>
+
+
 
 </resources>
 

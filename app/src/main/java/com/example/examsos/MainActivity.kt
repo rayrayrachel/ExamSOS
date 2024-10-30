@@ -70,9 +70,24 @@ class MainActivity : AppCompatActivity() {
                 true
             }
             R.id.settings -> {
+                val intent = Intent(this, SettingsActivity::class.java)
+                startActivity(intent)
                 Log.i(myTag, "Settings clicked")
                 true
             }
+            R.id.about_us -> {
+                val intent = Intent(this, AboutUsActivity::class.java)
+                startActivity(intent)
+                Log.i(myTag, "About Us clicked")
+                true
+            }
+            R.id.announcement -> {
+                val intent = Intent(this, AnnouncementActivity::class.java)
+                startActivity(intent)
+                Log.i(myTag, "Announcement clicked")
+                true
+            }
+
             R.id.logout -> {
                 val intent = Intent(this, LoginActivity::class.java)
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
