@@ -4,5 +4,7 @@
     <string name="level_page_name">Level</string>
     <string name="note_page_name">Note</string>
     <string name="more_appbar_name">More</string>
+    <string name="login_appbar_name">Login</string>
+    <string name="back_appbar_name">Back</string>
 </resources>
 
