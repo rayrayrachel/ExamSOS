@@ -3,6 +3,8 @@
     <string name="home_page_name">Home</string>
     <string name="level_page_name">Level</string>
     <string name="note_page_name">Note</string>
+    <string name="notification_page_name">Notifications</string>
+
 
     <!-- Action items for the app bar -->
     <string name="appbar_item_more">More</string>

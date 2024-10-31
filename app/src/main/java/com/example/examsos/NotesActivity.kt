@@ -30,7 +30,7 @@ class NotesActivity : AppCompatActivity(){
         return when (item.itemId) {
             R.id.upButton -> {
                 finish()
-                Log.i(myTag, "restart clicked")
+                Log.i(myTag, "Up Button clicked")
                 true
             }
 
