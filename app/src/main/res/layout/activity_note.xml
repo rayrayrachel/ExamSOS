@@ -8,13 +8,25 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        tools:layout_editor_absoluteX="0dp"
+        tools:layout_editor_absoluteY="0dp">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/notes_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:background="@color/theme_primary"
+            android:minHeight="?attr/actionBarSize"
+            app:popupTheme="@style/CustomOverflowMenuStyle"
+            app:title="@string/note_page_name"
+            app:titleTextColor="@android:color/white" />
 
         <TextView
             android:id="@+id/textView4"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/note_page_name" />
+            android:text="@string/note_text" />
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

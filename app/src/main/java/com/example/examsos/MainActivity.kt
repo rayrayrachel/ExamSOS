@@ -33,9 +33,10 @@ class MainActivity : AppCompatActivity() {
         val mToolbar = findViewById<Toolbar>(R.id.main_toolbar)
         setSupportActionBar(mToolbar)
 
+
         val buttonClick = findViewById<Button>(R.id.button3)
         buttonClick.setOnClickListener {
-            val intent = Intent(this, QuizActivity::class.java)
+            val intent = Intent(this, NotesActivity::class.java)
             startActivity(intent)
         }
 
@@ -50,6 +51,8 @@ class MainActivity : AppCompatActivity() {
      */
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.tool_bar_layout, menu)
+        val upButton = menu?.findItem(R.id.upButton)
+        upButton?.isVisible = false
         return super.onCreateOptionsMenu(menu)
     }
 

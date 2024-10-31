@@ -20,4 +20,9 @@
     <color name="soft_yellow">#ffeaa7</color>
     <color name="sun_yellow">#fdcb6e</color>
     <color name="vibrant_pink">#e84393</color>
+
+    <color name="light_gray">#dfe6e9</color>
+    <color name="medium_gray">#b2bec3</color>
+    <color name="dark_gray">#636e72</color>
+    <color name="darker_gray">#2d3436</color>
 </resources>

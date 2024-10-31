@@ -29,6 +29,8 @@
     <!-- Announcement Page Strings -->
     <string name="announcement_text">Dummy Announcement</string>
 
+    <!-- Announcement Note Strings -->
+    <string name="note_text">Dummy Note</string>
 
 
 </resources>
