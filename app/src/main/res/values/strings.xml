@@ -36,6 +36,26 @@
 
     <string name="blank_fragment"> blank fragment</string>
 
+    <!-- Image Description Strings -->
+    <string name="tree_view">Your Tree</string>
+
+    <!-- Main Page Strings -->
+    <string name="main_page_login_day_count">LOGIN DAYS</string>
+    <string name="days_unit">DAYS</string>
+    <string name="levels_unit">LEVELS</string>
+    <string name="level_completed_text">COMPLETED</string>
+    <string name="login_welcome_msg">*** Login everyday to grow! ***</string>
+
+    <!-- Main Page Fragment Strings -->
+    <string name="announcement_header">ANNOUNCEMENT</string>
+    <string name="day_streak_header">DAY STREAK COUNT</string>
+    <string name="quick_start_button">QUICK START!!</string>
+
+    <!-- Dummy User Data Strings -->
+    <string name="dummy_username">DUMMY USERNAME</string>
+    <string name="dummy_day_streak">10</string>
+    <string name="dummy_thing">DUMMY thing</string>
+    <string name="dummy_level_completed_number">300</string>
 
 </resources>
 

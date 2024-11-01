@@ -7,9 +7,11 @@ import android.view.Menu
 import android.view.MenuItem
 import android.widget.Button
 import android.widget.ImageButton
+import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.viewpager2.widget.ViewPager2
+import com.bumptech.glide.Glide
 import com.example.examsos.adapter.TabsPagerAdapter
 
 /**
@@ -41,11 +43,13 @@ class MainActivity : AppCompatActivity() {
         val mToolbar = findViewById<Toolbar>(R.id.main_toolbar)
         setSupportActionBar(mToolbar)
 
-        val buttonClick = findViewById<Button>(R.id.button3)
-        buttonClick.setOnClickListener {
-            val intent = Intent(this, QuizActivity::class.java)
-            startActivity(intent)
-        }
+        val imageView = findViewById<ImageView>(R.id.imageView)
+
+        // Load the GIF from raw resources
+        Glide.with(this)
+            .asGif()
+            .load(R.raw.tree_healthy)
+            .into(imageView)
 
         val viewPager = findViewById<ViewPager2>(R.id.viewPager)
         val adapter = TabsPagerAdapter(this)
