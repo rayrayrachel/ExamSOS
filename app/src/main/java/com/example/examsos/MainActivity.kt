@@ -6,17 +6,25 @@ import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.Button
+import android.widget.ImageButton
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
+import androidx.viewpager2.widget.ViewPager2
+import com.example.examsos.adapter.TabsPagerAdapter
 
 /**
  * MainActivity is the entry point of the application.
  * It handles user interactions, displays the main UI,
  * and manages the action bar menu items.
  */
-
 class MainActivity : AppCompatActivity() {
     private val myTag = "RachelsTag"
+
+    // Declare ImageButton variables at the class level
+    private lateinit var homeButton: ImageButton
+    private lateinit var levelsButton: ImageButton
+    private lateinit var notesButton: ImageButton
+    private lateinit var notificationsButton: ImageButton
 
     /**
      * Called when the activity is first created.
@@ -33,14 +41,76 @@ class MainActivity : AppCompatActivity() {
         val mToolbar = findViewById<Toolbar>(R.id.main_toolbar)
         setSupportActionBar(mToolbar)
 
-
         val buttonClick = findViewById<Button>(R.id.button3)
         buttonClick.setOnClickListener {
-            val intent = Intent(this, NotesActivity::class.java)
+            val intent = Intent(this, QuizActivity::class.java)
             startActivity(intent)
         }
 
+        val viewPager = findViewById<ViewPager2>(R.id.viewPager)
+        val adapter = TabsPagerAdapter(this)
+        viewPager.adapter = adapter
+
+        // Initialize the ImageButtons
+        homeButton = findViewById(R.id.nav_home)
+        levelsButton = findViewById(R.id.nav_levels)
+        notesButton = findViewById(R.id.nav_notes)
+        notificationsButton = findViewById(R.id.nav_notifications)
+
+        homeButton.setOnClickListener {
+            viewPager.currentItem = 0 // Set to the first fragment
+        }
+
+        levelsButton.setOnClickListener {
+            viewPager.currentItem = 1 // Set to the second fragment
+        }
+
+        notesButton.setOnClickListener {
+            viewPager.currentItem = 2 // Set to the third fragment
+        }
+
+        notificationsButton.setOnClickListener {
+            viewPager.currentItem = 3 // Set to the fourth fragment
+        }
+
+        // Register the page change callback
+        viewPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
+            override fun onPageSelected(position: Int) {
+                updateButtonColors(position)
+            }
+        })
+
         Log.i(myTag, "*** MainActivity: In onCreate")
+    }
+
+    private fun updateButtonColors(selectedPosition: Int) {
+        // Reset all buttons to default color
+        homeButton.setBackgroundColor(getColor(R.color.white))
+        levelsButton.setBackgroundColor(getColor(R.color.white))
+        notesButton.setBackgroundColor(getColor(R.color.white))
+        notificationsButton.setBackgroundColor(getColor(R.color.white))
+        // Reset all button icons to default color
+        homeButton.setColorFilter(getColor(R.color.theme_primary))
+        levelsButton.setColorFilter(getColor(R.color.theme_primary))
+        notesButton.setColorFilter(getColor(R.color.theme_primary))
+        notificationsButton.setColorFilter(getColor(R.color.theme_primary))
+
+        // Change the color of the selected button and icon to teal and white
+        when (selectedPosition) {
+            0 -> {homeButton.setBackgroundColor(getColor(R.color.theme_secondary))
+                homeButton.setColorFilter(getColor(R.color.white))
+            }
+            1 -> {levelsButton.setBackgroundColor(getColor(R.color.theme_secondary))
+                levelsButton.setColorFilter(getColor(R.color.white))
+            }
+            2 -> {notesButton.setBackgroundColor(getColor(R.color.theme_secondary))
+                notesButton.setColorFilter(getColor(R.color.white))
+            }
+            3 -> {notificationsButton.setBackgroundColor(getColor(R.color.theme_secondary))
+                notificationsButton.setColorFilter(getColor(R.color.white))
+            }
+
+        }
     }
 
     /**
@@ -96,7 +166,7 @@ class MainActivity : AppCompatActivity() {
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
                 startActivity(intent)
                 finish()
-                Log.i(myTag, "Settings clicked")
+                Log.i(myTag, "Logout clicked")
                 true
             }
             else -> super.onOptionsItemSelected(item)

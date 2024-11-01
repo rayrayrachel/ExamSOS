@@ -21,12 +21,36 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".LoginActivity"/>
-        <activity android:name=".AnnouncementActivity"/>
-        <activity android:name=".SettingsActivity"/>
-        <activity android:name=".AboutUsActivity"/>
-        <activity android:name=".QuizActivity"/>
-        <activity android:name=".NotesActivity"/>
+
+        <!-- LoginActivity: For user authentication -->
+        <activity
+            android:name=".LoginActivity"
+            android:label="@string/appbar_item_login" />
+
+        <!-- AnnouncementActivity: Display announcements -->
+        <activity
+            android:name=".AnnouncementActivity"
+            android:label="@string/appbar_item_announcement" />
+
+        <!-- SettingsActivity: Application settings and preferences -->
+        <activity
+            android:name=".SettingsActivity"
+            android:label="@string/appbar_item_settings" />
+
+        <!-- AboutUsActivity: About the application -->
+        <activity
+            android:name=".AboutUsActivity"
+            android:label="@string/appbar_item_about_us" />
+
+        <!-- QuizActivity: Quiz section -->
+        <activity
+            android:name=".QuizActivity"
+            android:label="@string/level_page_name" />
+
+        <!-- NotesActivity: Note-taking section -->
+        <activity
+            android:name=".NotesActivity"
+            android:label="@string/note_page_name" />
 
     </application>
 

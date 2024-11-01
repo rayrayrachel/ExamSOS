@@ -34,6 +34,8 @@
     <!-- Announcement Note Strings -->
     <string name="note_text">Dummy Note</string>
 
+    <string name="blank_fragment"> blank fragment</string>
+
 
 </resources>
 
