@@ -5,12 +5,14 @@
     <item
         android:id="@+id/refresh"
         android:icon="@drawable/ic_refresh"
+        android:iconTint="@color/white"
         android:title="@string/appbar_item_more"
         app:showAsAction="ifRoom" />
 
     <item
         android:id="@+id/upButton"
-        android:icon="@drawable/ic_backarrow"
+        android:icon="@drawable/ic_back_arrow"
+        android:iconTint="@color/white"
         android:title="@string/appbar_item_back"
         app:showAsAction="ifRoom" />
 

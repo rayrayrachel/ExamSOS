@@ -44,18 +44,44 @@
     <string name="days_unit">DAYS</string>
     <string name="levels_unit">LEVELS</string>
     <string name="level_completed_text">COMPLETED</string>
-    <string name="login_welcome_msg">*** Login everyday to grow! ***</string>
+    <string name="login_welcome_msg">*** Login everyday to grow your tree! ***</string>
 
     <!-- Main Page Fragment Strings -->
-    <string name="announcement_header">ANNOUNCEMENT</string>
-    <string name="day_streak_header">DAY STREAK COUNT</string>
-    <string name="quick_start_button">QUICK START!!</string>
+    <string name="announcement_header">RECENT ANNOUNCEMENT</string>
+    <string name="day_streak_header">DAY STREAK OF THE WEEK</string>
+    <string name="quick_start_button">!!QUICK START!!</string>
+    <string name="fragment_title_home">DASHBOARD</string>
+    <string name="fragment_title_levelS">LEVELS CATEGORIES</string>
+    <string name="fragment_title_notes">RECENT NOTES</string>
+    <string name="fragment_title_notifications">UNREAD NOTIFICATIONS</string>
+    <string name="home_streak_icon_1">Monday Streak Icon</string>
+    <string name="home_streak_icon_2">Tuesday Streak Icon</string>
+    <string name="home_streak_icon_3">Wednesday Streak Icon</string>
+    <string name="home_streak_icon_4">Thursday Streak Icon</string>
+    <string name="home_streak_icon_5">Friday Streak Icon</string>
+    <string name="home_streak_icon_6">Saturday Streak Icon</string>
+    <string name="home_streak_icon_7">Sunday Streak Icon</string>
+    <string name="home_streak_label_monday">Mon</string>
+    <string name="home_streak_label_tuesday">Tue</string>
+    <string name="home_streak_label_wednesday">Wed</string>
+    <string name="home_streak_label_thursday">Thu</string>
+    <string name="home_streak_label_friday">Fri</string>
+    <string name="home_streak_label_saturday">Sat</string>
+    <string name="home_streak_label_sunday">Sun</string>
+    <string name="quick_start_button_label">RANDOM QUIZ</string>
+    <string name="announcement_icon_description">Announcement Icon</string>
 
     <!-- Dummy User Data Strings -->
     <string name="dummy_username">DUMMY USERNAME</string>
     <string name="dummy_day_streak">10</string>
     <string name="dummy_thing">DUMMY thing</string>
     <string name="dummy_level_completed_number">300</string>
+
+
+    <string name="dummy_announcement_text">Daily quizzes has been released! Check it out!</string>
+    <string name="dummy_announcement_header">RELEASE: DAILY QUIZZES</string>
+    <string name="go_to_notification_button_label">GO TO NOTIFICATION</string>
+
 
 </resources>
 

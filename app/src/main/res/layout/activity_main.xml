@@ -8,6 +8,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:gravity="center_horizontal"
+    android:background="@raw/app_background"
     tools:context=".MainActivity">
 
     <LinearLayout
@@ -27,110 +28,112 @@
             app:popupTheme="@style/CustomOverflowMenuStyle"
             app:titleTextColor="@android:color/white" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/light_gray"
-                android:gravity="center_vertical"
-                android:orientation="horizontal"
-                android:padding="10dp">
 
                 <LinearLayout
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:background="@drawable/container_square"
-                    android:gravity="center"
-                    android:orientation="vertical"
-                    android:padding="10dp">
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
+                        android:paddingHorizontal="10dp">
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:background="@drawable/container_square"
+                            android:gravity="center"
+                            android:orientation="vertical"
+                            android:padding="10dp">
+
+                            <TextView
+                                android:id="@+id/dayLoginText"
+                                style="@style/FancyTextStyle"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/main_page_login_day_count" />
+
+                            <TextView
+                                android:id="@+id/dayCountText"
+                                style="@style/LargeNumberTextStyle"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/dummy_day_streak" />
+
+                            <TextView
+                                android:id="@+id/daysText"
+                                style="@style/FancyTextStyle"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/days_unit" />
+
+                        </LinearLayout>
+
+                        <ImageView
+                            android:id="@+id/imageView"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="8"
+                            android:contentDescription="@string/tree_view"
+                            android:scaleType="fitCenter" />
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:background="@drawable/container_square"
+                            android:gravity="center"
+                            android:orientation="vertical"
+                            android:padding="10dp">
+
+                            <TextView
+                                android:id="@+id/scoreText"
+                                style="@style/FancyTextStyle"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/level_completed_text" />
+
+                            <TextView
+                                android:id="@+id/scoreNum"
+                                style="@style/LargeNumberTextStyle"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/dummy_level_completed_number" />
+
+                            <TextView
+                                android:id="@+id/scoreUnit"
+                                style="@style/FancyTextStyle"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/levels_unit" />
+
+                        </LinearLayout>
+
+
+                    </LinearLayout>
 
                     <TextView
-                        android:id="@+id/dayLoginText"
-                        style="@style/FancyTextStyle"
-                        android:layout_width="wrap_content"
+                        android:id="@+id/login_welcome_msg_text_view"
+                        style="@style/MessageTextStyle"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="@string/main_page_login_day_count" />
+                        android:gravity="center_horizontal"
 
-                    <TextView
-                        android:id="@+id/dayCountText"
-                        style="@style/LargeNumberTextStyle"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/dummy_day_streak" />
+                        android:text="@string/login_welcome_msg" />
 
-                    <TextView
-                        android:id="@+id/daysText"
-                        style="@style/FancyTextStyle"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/days_unit" />
 
                 </LinearLayout>
-
-                <ImageView
-                    android:id="@+id/imageView"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="8"
-                    android:contentDescription="@string/tree_view"
-                    android:scaleType="fitCenter" />
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:background="@drawable/container_square"
-                    android:gravity="center"
-                    android:orientation="vertical"
-                    android:padding="10dp">
-
-                    <TextView
-                        android:id="@+id/scoreText"
-                        style="@style/FancyTextStyle"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/level_completed_text" />
-
-                    <TextView
-                        android:id="@+id/scoreNum"
-                        style="@style/LargeNumberTextStyle"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/dummy_level_completed_number" />
-
-                    <TextView
-                        android:id="@+id/scoreUnit"
-                        style="@style/FancyTextStyle"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/levels_unit" />
-
-                </LinearLayout>
-
-
-            </LinearLayout>
-
-            <TextView
-                android:id="@+id/login_welcome_msg_text_view"
-                style="@style/FancyTextStyle"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center_horizontal"
-                android:background="@color/medium_gray"
-                android:text="@string/login_welcome_msg" />
-
-        </LinearLayout>
-
 
         <androidx.viewpager2.widget.ViewPager2
             android:id="@+id/viewPager"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
+
 
     </LinearLayout>
 
