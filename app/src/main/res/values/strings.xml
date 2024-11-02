@@ -70,6 +70,28 @@
     <string name="home_streak_label_sunday">Sun</string>
     <string name="quick_start_button_label">RANDOM QUIZ</string>
     <string name="announcement_icon_description">Announcement Icon</string>
+    <string name="dummy_announcement_text">Daily quizzes has been released! Check it out!</string>
+    <string name="dummy_announcement_header">RELEASE: DAILY QUIZZES</string>
+
+    <!--Notes Page Fragment Strings-->
+
+    <string name="recent_note_title">[ADVANCED] IELTS Exam Daily Vocabulary</string>
+    <string name="recent_note_date">accessed on 4/10/2024</string>
+    <string name="dummy_recent_note_content">1. Cohesion:\nThe use of linking words and phrases to connect ideas effectively.\n\n2. Lexical Resource:\nA range of vocabulary used appropriately to convey precise meanings.\n\n3. Complex Sentences:\nSentences that combine independent and dependent clauses to enhance writing.\n\n4. Task Achievement:\nThe extent to which the response meets the requirements of the prompt.</string>
+    <string name="go_to_notes_button_label">MORE NOTES</string>
+
+    <!--Level Page Fragment Strings-->
+    <string name="preschool_icon">Preschool_icon\n</string>
+    <string name="middle_school_icon">middle_school\n</string>
+    <string name="high_school_icon">high_school</string>
+    <string name="advanced_icon">advanced\n</string>
+    <string name="level_category_preschool">Preschool</string>
+    <string name="level_category_middle_school">Middle School</string>
+    <string name="level_category_high_school">High School</string>
+    <string name="level_category_advanced">Advanced</string>
+
+    <!--Notification Page Fragment Strings-->
+    <string name="go_to_notification_button_label">READ ALL NOTIFICATIONS</string>
 
     <!-- Dummy User Data Strings -->
     <string name="dummy_username">DUMMY USERNAME</string>
@@ -78,10 +100,18 @@
     <string name="dummy_level_completed_number">300</string>
 
 
-    <string name="dummy_announcement_text">Daily quizzes has been released! Check it out!</string>
-    <string name="dummy_announcement_header">RELEASE: DAILY QUIZZES</string>
-    <string name="go_to_notification_button_label">GO TO NOTIFICATION</string>
 
+
+
+
+    <!--Feedback Messages String-->
+    <string name="toast_message_go_to_notes_button">Displaying More Notes</string>
+    <string name="toast_message_fragment_level_category_middleschool">Middle School Category Chosen</string>
+    <string name="toast_message_fragment_level_category_preschool">Preschool Category Chosen</string>
+    <string name="toast_message_fragment_level_category_highschool">High School Category Chosen</string>
+    <string name="toast_message_fragment_level_category_advanced">Advanced Category Chosen</string>
+    <string name="toast_quick_start_button">Accessing Random Quiz</string>
+    <string name="toast_message_check_all_notification_button">Redirect To Notifications</string>
 
 </resources>
 

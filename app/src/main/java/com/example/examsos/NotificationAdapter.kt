@@ -10,8 +10,8 @@ class NotificationAdapter(private val dataList: ArrayList<NotificationDataClass>
     RecyclerView.Adapter<NotificationAdapter.ViewHolderClass>() {
 
     class ViewHolderClass(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        private val announcementHeader: TextView = itemView.findViewById(R.id.recent_announcement_header)
-        private val announcementText: TextView = itemView.findViewById(R.id.announcement_text)
+        private val announcementHeader: TextView = itemView.findViewById(R.id.notification_header)
+        private val announcementText: TextView = itemView.findViewById(R.id.notification_text)
 
         fun bind(notification: NotificationDataClass) {
             announcementHeader.text = notification.dataTitle
@@ -21,7 +21,7 @@ class NotificationAdapter(private val dataList: ArrayList<NotificationDataClass>
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolderClass {
         val view =  LayoutInflater.from(parent.context)
-            .inflate(R.layout.announcement_item_layout, parent, false)
+            .inflate(R.layout.notification_item_layout, parent, false)
         return ViewHolderClass(view)
     }
 

@@ -57,6 +57,7 @@ class MainActivity : AppCompatActivity() {
 
         // Initialize the ImageButtons
         homeButton = findViewById(R.id.nav_home)
+
         levelsButton = findViewById(R.id.nav_levels)
         notesButton = findViewById(R.id.nav_notes)
         notificationsButton = findViewById(R.id.nav_notifications)
@@ -127,6 +128,12 @@ class MainActivity : AppCompatActivity() {
         menuInflater.inflate(R.menu.tool_bar_layout, menu)
         val upButton = menu?.findItem(R.id.upButton)
         upButton?.isVisible = false
+        menu?.let {
+            for (i in 0 until it.size()) {
+                val item = it.getItem(i)
+                item.icon?.setTint(getColor(R.color.white))
+            }
+        }
         return super.onCreateOptionsMenu(menu)
     }
 

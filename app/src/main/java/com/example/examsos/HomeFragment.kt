@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 
 class HomeFragment : Fragment() {
@@ -24,6 +25,7 @@ class HomeFragment : Fragment() {
 
             val intent = Intent(requireContext(), QuizActivity::class.java)
             startActivity(intent)
+            Toast.makeText(requireContext(), getString(R.string.toast_quick_start_button), Toast.LENGTH_SHORT).show()
         }
 
         return view

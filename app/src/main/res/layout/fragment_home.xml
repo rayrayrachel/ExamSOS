@@ -20,7 +20,8 @@
             android:layout_height="wrap_content"
             android:background="@drawable/rounded_corner_fragment_background_less_opaque"
             android:text="@string/fragment_title_home"
-            />
+            app:drawableLeftCompat="@drawable/ic_home"
+            app:drawableTint="@color/light_gray" />
 
 
         <LinearLayout
@@ -28,13 +29,13 @@
             android:layout_height="match_parent"
             android:orientation="vertical"
             android:layout_marginHorizontal="10dp"
-            android:layout_marginTop="5dp">
+            android:layout_marginTop="20dp">
 
 
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginVertical="5dp"
+                android:layout_marginVertical="10dp"
 
                 app:cardElevation="4dp"
                 app:cardCornerRadius="10dp">
@@ -43,7 +44,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
->
+                    >
 
                     <TextView
                         android:id="@+id/streak_header"
@@ -201,7 +202,7 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-
+                    android:paddingBottom="15dp"
                     android:orientation="vertical">
                     <TextView
                         android:id="@+id/announcement_header"
@@ -231,7 +232,7 @@
 
 
                             <ImageView
-                                android:id="@+id/announcement_icon"
+                                android:id="@+id/notification_icon"
                                 android:layout_width="wrap_content"
                                 android:layout_height="match_parent"
                                 android:layout_marginEnd="8dp"
@@ -246,14 +247,14 @@
                                 android:layout_weight="1">
 
                                 <TextView
-                                    android:id="@+id/recent_announcement_header"
+                                    android:id="@+id/notification_header"
                                     style="@style/LargeNumberTextStyle"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:text="@string/dummy_announcement_header" />
 
                                 <TextView
-                                    android:id="@+id/announcement_text"
+                                    android:id="@+id/notification_text"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_marginBottom="10dp"
@@ -269,7 +270,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:cardElevation="4dp"
-                android:layout_marginVertical="5dp"
+                android:layout_marginVertical="10dp"
                 app:cardCornerRadius="10dp">
 
                 <LinearLayout
@@ -293,7 +294,7 @@
                         android:text="@string/quick_start_button_label"
                         android:textColor="@color/white"
                         android:textSize="20sp"
-                        app:buttonColor="@color/theme_secondary"
+                        app:buttonColor="@color/dark_teal"
                         app:cornerRadius="50dp"
                         app:glowColor="@color/theme_secondary"
                         app:pressedGlowSize="25dp"

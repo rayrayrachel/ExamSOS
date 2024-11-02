@@ -21,12 +21,12 @@ xmlns:app="http://schemas.android.com/apk/res-auto"
 
 
             <ImageView
-                android:id="@+id/announcement_icon"
+                android:id="@+id/notification_icon"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_marginEnd="8dp"
                 android:contentDescription="@string/announcement_icon_description"
-                android:src="@drawable/ic_announcement" />
+                android:src="@drawable/ic_notifications" />
 
 
             <LinearLayout
@@ -36,14 +36,14 @@ xmlns:app="http://schemas.android.com/apk/res-auto"
                 android:layout_weight="1">
 
                 <TextView
-                    android:id="@+id/recent_announcement_header"
+                    android:id="@+id/notification_header"
                     style="@style/LargeNumberTextStyle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/dummy_announcement_header" />
 
                 <TextView
-                    android:id="@+id/announcement_text"
+                    android:id="@+id/notification_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="10dp"
