@@ -67,7 +67,7 @@
                     <TextView
                         android:id="@+id/note_content_snippet"
                         style="@style/HeaderTextStyle"
-                        android:gravity="left"
+                        android:gravity="start"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/dummy_recent_note_content"
