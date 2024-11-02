@@ -8,6 +8,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:gravity="center_horizontal"
+    android:background="@raw/app_background"
     tools:context=".MainActivity">
 
     <LinearLayout
@@ -35,10 +36,10 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/light_gray"
+
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
-                android:padding="10dp">
+                android:paddingHorizontal="10dp">
 
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -117,11 +118,11 @@
 
             <TextView
                 android:id="@+id/login_welcome_msg_text_view"
-                style="@style/FancyTextStyle"
+                style="@style/MessageTextStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center_horizontal"
-                android:background="@color/medium_gray"
+
                 android:text="@string/login_welcome_msg" />
 
         </LinearLayout>

@@ -5,7 +5,7 @@
     <color name="white">#FFFFFFFF</color>
 
     <!-- Theme Colors -->
-    <color name="theme_primary">#018986</color>
+    <color name="theme_primary">#004744</color>
     <color name="theme_secondary">#00cec9</color>
 
     <!-- Additional Colors -->
@@ -25,4 +25,10 @@
     <color name="medium_gray">#b2bec3</color>
     <color name="dark_gray">#636e72</color>
     <color name="darker_gray">#2d3436</color>
+
+
+
+    <color name="less_opaque_white">#E5F1F6F5</color>
+    <color name="not_opaque_white">#B4F1F6F5</color>
+    <color name="not_opaque_teal">#BB59E7D5</color>
 </resources>
