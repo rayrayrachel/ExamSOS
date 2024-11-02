@@ -7,7 +7,7 @@ import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 
-class AboutUsActivity : AppCompatActivity(){
+class ActivityAboutUs : AppCompatActivity(){
 
     private val myTag = "RachelsTag"
 

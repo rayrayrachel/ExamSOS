@@ -1,10 +1,12 @@
-package com.example.examsos
+package com.example.examsos.adapter
 
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.example.examsos.dataValue.NotificationDataClass
+import com.example.examsos.R
 
 class NotificationAdapter(private val dataList: ArrayList<NotificationDataClass>) :
     RecyclerView.Adapter<NotificationAdapter.ViewHolderClass>() {

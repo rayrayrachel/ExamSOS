@@ -1,29 +1,212 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:background="@raw/app_background">
 
         <androidx.appcompat.widget.Toolbar
-            android:id="@+id/sub_toolbar"
+            android:id="@+id/quiz_toolbar"
             android:layout_width="match_parent"
-            android:minHeight="?attr/actionBarSize"
+            android:minHeight="@dimen/toolbar_min_height"
             android:layout_height="56dp"
             app:titleTextColor="@android:color/white"
+            app:title="@string/appbar_item_quiz_header"
             android:background="@color/theme_primary"/>
-
-        <TextView
-            android:id="@+id/textView3"
-            android:layout_width="wrap_content"
+        <ProgressBar
+            android:id="@+id/quiz_progress_bar"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="quiz" />
+            android:layout_margin="@dimen/primary_margin"
+            android:indeterminate="false"
+            android:progress="50"
+            android:max="100"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:progressTint="@color/theme_secondary"/>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/quiz_icon_height"
+            android:orientation="horizontal"
+            android:layout_marginHorizontal="@dimen/primary_margin"
+            android:layout_marginBottom="@dimen/primary_margin"
+            android:scaleType="fitCenter">
+
+            <ImageView
+                android:id="@+id/quiz_first_life"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:contentDescription="@string/quiz_life_icon_1"
+                app:srcCompat="@drawable/good_leaf" />
+            <ImageView
+                android:id="@+id/quiz_second_life"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:contentDescription="@string/quiz_life_icon_2"
+                app:srcCompat="@drawable/good_leaf" />
+            <ImageView
+                android:id="@+id/quiz_third_life"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:contentDescription="@string/quiz_life_icon_3"
+                app:srcCompat="@drawable/good_leaf" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginHorizontal="@dimen/primary_margin"
+            android:background="@drawable/rounded_corner_fragment_background"
+            android:orientation="vertical">
+            <TextView
+                android:id="@+id/quiz_question_number"
+                style="@style/LargeNumberTextStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/rounded_corner_fragment_background_less_opaque"
+                android:padding="@dimen/primary_padding"
+                android:shadowColor="@color/medium_gray"
+                android:layout_marginBottom="@dimen/card_margin_vertical"
+                android:text="@string/dummy_quiz_question_number" />
+
+            <TextView
+                android:id="@+id/quiz_selection_header"
+                style="@style/HeaderTextStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/all_rounded_corner_background"
+                android:padding="@dimen/primary_padding"
+                android:shadowColor="@color/medium_gray"
+                android:text="@string/dummy_quiz_question" />
+
+            <GridLayout
+                android:id="@+id/grid_layout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:columnCount="2"
+                android:layout_margin="@dimen/card_margin"
+                android:rowCount="2">
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/quiz_multi_top_right_answer"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_rowWeight="1"
+                    android:layout_columnWeight="1"
+                    android:layout_margin="@dimen/card_view_margin"
+                    android:backgroundTint="@color/lavender"
+                    android:clickable="true"
+                    android:foreground="?attr/selectableItemBackground"
+                    app:cardCornerRadius="@dimen/card_radius"
+                    app:cardElevation="@dimen/card_elevation">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:paddingTop="@dimen/text_padding_top"
+                        android:shadowColor="@color/black"
+                        android:gravity="center"
+                        android:shadowDx="2"
+                        android:shadowDy="2"
+                        android:shadowRadius="3"
+                        android:text="@string/quiz_multi_top_right_answer"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/quiz_text_size" />
+                </androidx.cardview.widget.CardView>
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/quiz_multi_top_left_answer"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_rowWeight="1"
+                    android:layout_columnWeight="1"
+                    android:layout_margin="@dimen/card_view_margin"
+                    android:backgroundTint="@color/mint_green"
+                    android:clickable="true"
+                    android:foreground="?attr/selectableItemBackground"
+                    app:cardCornerRadius="@dimen/card_radius"
+                    app:cardElevation="@dimen/card_elevation">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:paddingTop="@dimen/text_padding_top"
+                        android:shadowColor="@color/black"
+                        android:gravity="center"
+                        android:shadowDx="2"
+                        android:shadowDy="2"
+                        android:shadowRadius="3"
+                        android:text="@string/quiz_multi_top_left_answer"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/quiz_text_size" />
+                </androidx.cardview.widget.CardView>
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/quiz_multi_bottom_left_answer"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_rowWeight="1"
+                    android:layout_columnWeight="1"
+                    android:layout_margin="@dimen/card_view_margin"
+                    android:backgroundTint="@color/soft_yellow"
+                    android:clickable="true"
+                    android:foreground="?attr/selectableItemBackground"
+                    app:cardCornerRadius="@dimen/card_radius"
+                    app:cardElevation="@dimen/card_elevation">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:paddingTop="@dimen/text_padding_top"
+                        android:shadowColor="@color/black"
+                        android:gravity="center"
+                        android:shadowDx="2"
+                        android:shadowDy="2"
+                        android:shadowRadius="3"
+                        android:text="@string/quiz_multi_bottom_left_answer"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/quiz_text_size" />
+                </androidx.cardview.widget.CardView>
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/quiz_multi_bottom_right_answer"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_rowWeight="1"
+                    android:layout_columnWeight="1"
+                    android:layout_margin="@dimen/card_view_margin"
+                    android:backgroundTint="@color/vibrant_pink"
+                    android:clickable="true"
+                    android:foreground="?attr/selectableItemBackground"
+                    app:cardCornerRadius="@dimen/card_radius"
+                    app:cardElevation="@dimen/card_elevation">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:paddingTop="@dimen/text_padding_top"
+                        android:shadowColor="@color/black"
+                        android:gravity="center"
+                        android:shadowDx="2"
+                        android:shadowDy="2"
+                        android:shadowRadius="3"
+                        android:text="@string/quiz_multi_bottom_right_answer"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/quiz_text_size" />
+                </androidx.cardview.widget.CardView>
+
+            </GridLayout>
+
+        </LinearLayout>
+
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

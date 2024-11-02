@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -9,13 +8,13 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:layout_marginHorizontal="5dp"
+        android:layout_marginHorizontal="@dimen/card_margin"
         android:background="@drawable/rounded_corner_fragment_background">
 
         <TextView
             android:id="@+id/fragment_title_home"
             style="@style/LargeNumberTextStyle"
-            android:padding="10dp"
+            android:padding="@dimen/primary_padding"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/rounded_corner_fragment_background_less_opaque"
@@ -28,19 +27,18 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:columnCount="2"
-            android:rowCount="2"
-            android:padding="16dp">
+            android:layout_margin="@dimen/card_margin"
+            android:rowCount="2">
 
-            <!-- Card for Preschool -->
             <androidx.cardview.widget.CardView
-                android:id="@+id/fragment_level_category_preschool"
+                android:id="@+id/fragment_level_category_humanities"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_margin="10dp"
+                android:layout_margin="@dimen/card_margin"
                 android:layout_rowWeight="1"
                 android:layout_columnWeight="1"
-                app:cardCornerRadius="12dp"
-                app:cardElevation="6dp"
+                app:cardCornerRadius="@dimen/card_radius"
+                app:cardElevation="@dimen/card_elevation"
                 android:backgroundTint="@color/lavender"
                 android:clickable="true"
                 android:foreground="?attr/selectableItemBackground">
@@ -50,14 +48,13 @@
                     android:layout_height="match_parent"
                     android:gravity="center"
                     android:orientation="vertical"
-                    android:padding="16dp"
-                    tools:ignore="UseCompoundDrawables">
+                    android:padding="@dimen/card_padding">
 
                     <ImageView
                         android:layout_width="48dp"
                         android:layout_height="48dp"
-                        android:contentDescription="@string/preschool_icon"
-                        android:src="@drawable/ic_kid" />
+                        android:contentDescription="@string/humanities_icon"
+                        android:src="@drawable/ic_humanity" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -67,40 +64,37 @@
                         android:shadowDx="2"
                         android:shadowDy="2"
                         android:shadowRadius="3"
-                        android:text="@string/level_category_preschool"
+                        android:text="@string/level_category_humanities"
                         android:textColor="@color/white"
                         android:textSize="20sp" />
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 
-            <!-- Card for Middle School -->
             <androidx.cardview.widget.CardView
-                android:id="@+id/fragment_level_category_middleschool"
+                android:id="@+id/fragment_level_category_STEM"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_margin="10dp"
+                android:layout_margin="@dimen/card_margin"
                 android:layout_rowWeight="1"
                 android:layout_columnWeight="1"
-                app:cardCornerRadius="12dp"
-                app:cardElevation="6dp"
+                app:cardCornerRadius="@dimen/card_radius"
+                app:cardElevation="@dimen/card_elevation"
                 android:backgroundTint="@color/mint_green"
                 android:clickable="true"
                 android:foreground="?attr/selectableItemBackground">
 
                 <LinearLayout
-
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:gravity="center"
                     android:orientation="vertical"
-                    android:padding="16dp"
-                    tools:ignore="UseCompoundDrawables">
+                    android:padding="@dimen/card_padding">
 
                     <ImageView
                         android:layout_width="48dp"
                         android:layout_height="48dp"
-                        android:contentDescription="@string/middle_school_icon"
-                        android:src="@drawable/ic_teen" />
+                        android:contentDescription="@string/STEM_school_icon"
+                        android:src="@drawable/ic_stem" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -110,22 +104,21 @@
                         android:shadowDx="2"
                         android:shadowDy="2"
                         android:shadowRadius="3"
-                        android:text="@string/level_category_middle_school"
+                        android:text="@string/level_category_STEM"
                         android:textColor="@color/white"
                         android:textSize="20sp" />
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 
-            <!-- Card for High School -->
             <androidx.cardview.widget.CardView
-                android:id="@+id/fragment_level_category_highschool"
+                android:id="@+id/fragment_level_category_Literature"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_margin="10dp"
+                android:layout_margin="@dimen/card_margin"
                 android:layout_rowWeight="1"
                 android:layout_columnWeight="1"
-                app:cardCornerRadius="12dp"
-                app:cardElevation="6dp"
+                app:cardCornerRadius="@dimen/card_radius"
+                app:cardElevation="@dimen/card_elevation"
                 android:backgroundTint="@color/soft_yellow"
                 android:clickable="true"
                 android:foreground="?attr/selectableItemBackground">
@@ -135,14 +128,13 @@
                     android:layout_height="match_parent"
                     android:gravity="center"
                     android:orientation="vertical"
-                    android:padding="16dp"
-                    tools:ignore="UseCompoundDrawables">
+                    android:padding="@dimen/card_padding">
 
                     <ImageView
                         android:layout_width="48dp"
                         android:layout_height="48dp"
-                        android:contentDescription="@string/high_school_icon"
-                        android:src="@drawable/ic_young_adult" />
+                        android:contentDescription="@string/biology_icon"
+                        android:src="@drawable/ic_biology" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -152,22 +144,21 @@
                         android:shadowDx="2"
                         android:shadowDy="2"
                         android:shadowRadius="3"
-                        android:text="@string/level_category_high_school"
+                        android:text="@string/level_category_biology"
                         android:textColor="@color/white"
                         android:textSize="20sp" />
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 
-            <!-- Card for Advanced -->
             <androidx.cardview.widget.CardView
-                android:id="@+id/fragment_level_category_advanced"
+                android:id="@+id/fragment_level_category_biology"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_margin="10dp"
+                android:layout_margin="@dimen/card_margin"
                 android:layout_rowWeight="1"
                 android:layout_columnWeight="1"
-                app:cardCornerRadius="12dp"
-                app:cardElevation="6dp"
+                app:cardCornerRadius="@dimen/card_radius"
+                app:cardElevation="@dimen/card_elevation"
                 android:backgroundTint="@color/vibrant_pink"
                 android:clickable="true"
                 android:foreground="?attr/selectableItemBackground">
@@ -177,14 +168,13 @@
                     android:layout_height="match_parent"
                     android:gravity="center"
                     android:orientation="vertical"
-                    android:padding="16dp"
-                    tools:ignore="UseCompoundDrawables">
+                    android:padding="@dimen/card_padding">
 
                     <ImageView
                         android:layout_width="48dp"
                         android:layout_height="48dp"
-                        android:contentDescription="@string/advanced_icon"
-                        android:src="@drawable/ic_adult" />
+                        android:contentDescription="@string/literature_icon"
+                        android:src="@drawable/ic_literature" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -194,7 +184,7 @@
                         android:shadowDx="2"
                         android:shadowDy="2"
                         android:shadowRadius="3"
-                        android:text="@string/level_category_advanced"
+                        android:text="@string/level_category_literature"
                         android:textColor="@color/white"
                         android:textSize="20sp" />
                 </LinearLayout>

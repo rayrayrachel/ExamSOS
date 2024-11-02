@@ -8,36 +8,35 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:layout_marginHorizontal="5dp"
+        android:layout_marginHorizontal="@dimen/card_margin"
         android:background="@drawable/rounded_corner_fragment_background">
 
         <TextView
             android:id="@+id/fragment_title_home"
             style="@style/LargeNumberTextStyle"
-            android:padding="10dp"
+            android:padding="@dimen/card_padding"
             android:shadowColor="@color/medium_gray"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/rounded_corner_fragment_background_less_opaque"
             android:text="@string/fragment_title_notes"
             app:drawableLeftCompat="@drawable/ic_note"
-            app:drawableTint="@color/light_gray"/>
+            app:drawableTint="@color/light_gray" />
 
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
-            android:layout_margin="10dp"
-            app:cardCornerRadius="10dp"
-            app:cardElevation="4dp"
+            android:layout_margin="@dimen/card_margin"
+            app:cardCornerRadius="@dimen/card_radius"
+            app:cardElevation="@dimen/card_elevation"
             android:backgroundTint="@color/white">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:padding="16dp">
-
+                android:padding="@dimen/card_padding">
 
                 <TextView
                     android:id="@+id/note_title"
@@ -48,7 +47,6 @@
                     android:textSize="18sp"
                     android:textColor="@color/black" />
 
-
                 <TextView
                     android:id="@+id/note_date"
                     android:layout_width="wrap_content"
@@ -58,7 +56,6 @@
                     android:textSize="12sp"
                     android:textColor="@color/darker_gray" />
 
-
                 <ScrollView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -67,7 +64,7 @@
                     <TextView
                         android:id="@+id/note_content_snippet"
                         style="@style/HeaderTextStyle"
-                        android:gravity="left"
+                        android:gravity="start"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/dummy_recent_note_content"
@@ -75,14 +72,13 @@
                         android:scrollbars="vertical" />
                 </ScrollView>
             </LinearLayout>
-
         </androidx.cardview.widget.CardView>
-        <com.sanojpunchihewa.glowbutton.GlowButton
 
+        <com.sanojpunchihewa.glowbutton.GlowButton
             android:id="@+id/go_to_notes_button"
             android:layout_width="match_parent"
-            android:layout_height="75dp"
-            android:layout_marginHorizontal="10dp"
+            android:layout_height="@dimen/button_height"
+            android:layout_marginHorizontal="@dimen/card_margin"
             android:layout_marginBottom="10dp"
             android:text="@string/go_to_notes_button_label"
             android:textColor="@color/white"
@@ -93,5 +89,4 @@
             app:pressedGlowSize="25dp"
             app:unpressedGlowSize="10dp" />
     </LinearLayout>
-
 </androidx.constraintlayout.widget.ConstraintLayout>

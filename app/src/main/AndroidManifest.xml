@@ -14,44 +14,53 @@
         tools:targetApi="31">
 
         <activity
-            android:name=".MainActivity"
+            android:name=".ActivityController"
             android:exported="true">
-
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
 
-        <!-- LoginActivity: For user authentication -->
         <activity
-            android:name=".LoginActivity"
+            android:name=".ActivityMain"
+            android:label="@string/home_page_name" />
+
+
+        <!-- ActivityLogin: For user authentication -->
+        <activity
+            android:name=".ActivityLogin"
             android:label="@string/appbar_item_login" />
 
-        <!-- AnnouncementActivity: Display announcements -->
+        <!-- ActivityAnnouncement: Display announcements -->
         <activity
-            android:name=".AnnouncementActivity"
+            android:name=".ActivityAnnouncement"
             android:label="@string/appbar_item_announcement" />
 
-        <!-- SettingsActivity: Application settings and preferences -->
+        <!-- ActivitySettings: Application settings and preferences -->
         <activity
-            android:name=".SettingsActivity"
+            android:name=".ActivitySettings"
             android:label="@string/appbar_item_settings" />
 
-        <!-- AboutUsActivity: About the application -->
+        <!-- ActivityAboutUs: About the application -->
         <activity
-            android:name=".AboutUsActivity"
+            android:name=".ActivityAboutUs"
             android:label="@string/appbar_item_about_us" />
+
+        <!-- QuizActivitySelection: Quiz selction section -->
+        <activity
+            android:name=".ActivityQuizSelection"
+            android:label="@string/level_page_name" />
+
+        <!-- ActivityNotes: Note-taking section -->
+        <activity
+            android:name=".ActivityNotes"
+            android:label="@string/note_page_name" />
 
         <!-- QuizActivity: Quiz section -->
         <activity
-            android:name=".QuizActivity"
-            android:label="@string/level_page_name" />
-
-        <!-- NotesActivity: Note-taking section -->
-        <activity
-            android:name=".NotesActivity"
-            android:label="@string/note_page_name" />
+            android:name=".ActivityQuiz"
+            android:label="@string/appbar_item_quiz_header" />
 
     </application>
 

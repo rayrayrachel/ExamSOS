@@ -9,7 +9,7 @@
     android:orientation="vertical"
     android:gravity="center_horizontal"
     android:background="@raw/app_background"
-    tools:context=".MainActivity">
+    tools:context=".ActivityMain">
 
     <LinearLayout
         android:id="@+id/main_content"

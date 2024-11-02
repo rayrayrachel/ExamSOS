@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
-import android.widget.Button
 import android.widget.ImageButton
 import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
@@ -13,14 +12,16 @@ import androidx.appcompat.widget.Toolbar
 import androidx.viewpager2.widget.ViewPager2
 import com.bumptech.glide.Glide
 import com.example.examsos.adapter.TabsPagerAdapter
+import com.google.firebase.Firebase
+import com.google.firebase.auth.auth
 
 /**
- * MainActivity is the entry point of the application.
+ * ActivityMain is the entry point of the application.
  * It handles user interactions, displays the main UI,
  * and manages the action bar menu items.
  */
-class MainActivity : AppCompatActivity() {
-    private val myTag = "RachelsTag"
+class ActivityMain : AppCompatActivity() {
+    private val myTag = "Rachel'sTag"
 
     // Declare ImageButton variables at the class level
     private lateinit var homeButton: ImageButton
@@ -64,18 +65,22 @@ class MainActivity : AppCompatActivity() {
 
         homeButton.setOnClickListener {
             viewPager.currentItem = 0 // Set to the first fragment
+            Log.i(myTag,"*** Home Fragment Button Clicked: In Home Fragment")
         }
 
         levelsButton.setOnClickListener {
             viewPager.currentItem = 1 // Set to the second fragment
+            Log.i(myTag, "*** Home Fragment Button Clicked: In Level Fragment")
         }
 
         notesButton.setOnClickListener {
             viewPager.currentItem = 2 // Set to the third fragment
+            Log.i(myTag, "*** Home Fragment Button Clicked: In Notes Fragment")
         }
 
         notificationsButton.setOnClickListener {
             viewPager.currentItem = 3 // Set to the fourth fragment
+            Log.i(myTag,"*** Home Fragment Button Clicked: In Notification Fragment")
         }
 
         // Register the page change callback
@@ -85,7 +90,7 @@ class MainActivity : AppCompatActivity() {
             }
         })
 
-        Log.i(myTag, "*** MainActivity: In onCreate")
+        Log.i(myTag, "*** ActivityMain: In onCreate")
     }
 
     private fun updateButtonColors(selectedPosition: Int) {
@@ -146,7 +151,7 @@ class MainActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.refresh -> {
-                val intent = Intent(this, MainActivity::class.java)
+                val intent = Intent(this, ActivityMain::class.java)
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
                 startActivity(intent)
                 finish()
@@ -154,28 +159,29 @@ class MainActivity : AppCompatActivity() {
                 true
             }
             R.id.settings -> {
-                val intent = Intent(this, SettingsActivity::class.java)
+                val intent = Intent(this, ActivitySettings::class.java)
                 startActivity(intent)
                 Log.i(myTag, "Settings clicked")
                 true
             }
             R.id.about_us -> {
-                val intent = Intent(this, AboutUsActivity::class.java)
+                val intent = Intent(this, ActivityAboutUs::class.java)
                 startActivity(intent)
                 Log.i(myTag, "About Us clicked")
                 true
             }
             R.id.announcement -> {
-                val intent = Intent(this, AnnouncementActivity::class.java)
+                val intent = Intent(this, ActivityAnnouncement::class.java)
                 startActivity(intent)
                 Log.i(myTag, "Announcement clicked")
                 true
             }
 
             R.id.logout -> {
-                val intent = Intent(this, LoginActivity::class.java)
+                val intent = Intent(this, ActivityLogin::class.java)
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
                 startActivity(intent)
+                Firebase.auth.signOut()
                 finish()
                 Log.i(myTag, "Logout clicked")
                 true
@@ -189,7 +195,7 @@ class MainActivity : AppCompatActivity() {
      */
     override fun onStart() {
         super.onStart()
-        Log.i(myTag, "*** MainActivity: In onStart")
+        Log.i(myTag, "*** ActivityMain: In onStart")
     }
 
     /**
@@ -197,7 +203,7 @@ class MainActivity : AppCompatActivity() {
      */
     override fun onStop() {
         super.onStop()
-        Log.i(myTag, "*** MainActivity: In onStop")
+        Log.i(myTag, "*** ActivityMain: In onStop")
     }
 
     /**
@@ -205,7 +211,7 @@ class MainActivity : AppCompatActivity() {
      */
     override fun onPause() {
         super.onPause()
-        Log.i(myTag, "*** MainActivity: In onPause")
+        Log.i(myTag, "*** ActivityMain: In onPause")
     }
 
     /**
@@ -213,7 +219,7 @@ class MainActivity : AppCompatActivity() {
      */
     override fun onRestart() {
         super.onRestart()
-        Log.i(myTag, "*** MainActivity: In onRestart")
+        Log.i(myTag, "*** ActivityMain: In onRestart")
     }
 
     /**
@@ -221,7 +227,7 @@ class MainActivity : AppCompatActivity() {
      */
     override fun onResume() {
         super.onResume()
-        Log.i(myTag, "*** MainActivity: In onResume")
+        Log.i(myTag, "*** ActivityMain: In onResume")
     }
 
     /**
@@ -229,6 +235,6 @@ class MainActivity : AppCompatActivity() {
      */
     override fun onDestroy() {
         super.onDestroy()
-        Log.i(myTag, "*** MainActivity: In onDestroy")
+        Log.i(myTag, "*** ActivityMain: In onDestroy")
     }
 }

@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">Exam SOS</string>
     <string name="home_page_name">Home</string>
-    <string name="level_page_name">Level</string>
+    <string name="level_page_name">QUIZ SELECTION</string>
     <string name="note_page_name">Note</string>
     <string name="notification_page_name">Notifications</string>
 
@@ -49,9 +49,9 @@
     <!-- Main Page Fragment Strings -->
     <string name="announcement_header">RECENT ANNOUNCEMENT</string>
     <string name="day_streak_header">DAY STREAK OF THE WEEK</string>
-    <string name="quick_start_button">!!QUICK START!!</string>
+    <string name="quick_start_button">TAKE YOUR DAILY QUIZ</string>
     <string name="fragment_title_home">DASHBOARD</string>
-    <string name="fragment_title_levelS">LEVELS CATEGORIES</string>
+    <string name="fragment_title_levelS">QUIZ CATEGORIES</string>
     <string name="fragment_title_notes">RECENT NOTES</string>
     <string name="fragment_title_notifications">UNREAD NOTIFICATIONS</string>
     <string name="home_streak_icon_1">Monday Streak Icon</string>
@@ -68,10 +68,10 @@
     <string name="home_streak_label_friday">Fri</string>
     <string name="home_streak_label_saturday">Sat</string>
     <string name="home_streak_label_sunday">Sun</string>
-    <string name="quick_start_button_label">RANDOM QUIZ</string>
+    <string name="quick_start_button_label">DAILY QUIZ</string>
     <string name="announcement_icon_description">Announcement Icon</string>
-    <string name="dummy_announcement_text">Daily quizzes has been released! Check it out!</string>
-    <string name="dummy_announcement_header">RELEASE: DAILY QUIZZES</string>
+    <string name="dummy_announcement_text">A new quiz category has been released! Check it out!</string>
+    <string name="dummy_announcement_header">RELEASE: Politics Category</string>
 
     <!--Notes Page Fragment Strings-->
 
@@ -81,14 +81,14 @@
     <string name="go_to_notes_button_label">MORE NOTES</string>
 
     <!--Level Page Fragment Strings-->
-    <string name="preschool_icon">Preschool_icon\n</string>
-    <string name="middle_school_icon">middle_school\n</string>
-    <string name="high_school_icon">high_school</string>
-    <string name="advanced_icon">advanced\n</string>
-    <string name="level_category_preschool">Preschool</string>
-    <string name="level_category_middle_school">Middle School</string>
-    <string name="level_category_high_school">High School</string>
-    <string name="level_category_advanced">Advanced</string>
+    <string name="humanities_icon">HUMANITIES\n</string>
+    <string name="STEM_school_icon">STEM\n</string>
+    <string name="biology_icon">BIOLOGY</string>
+    <string name="literature_icon">LITERATURES\n</string>
+    <string name="level_category_humanities">HUMANITIES</string>
+    <string name="level_category_STEM">STEM</string>
+    <string name="level_category_biology">BIOLOGY</string>
+    <string name="level_category_literature">LITERATURES</string>
 
     <!--Notification Page Fragment Strings-->
     <string name="go_to_notification_button_label">READ ALL NOTIFICATIONS</string>
@@ -100,18 +100,47 @@
     <string name="dummy_level_completed_number">300</string>
 
 
-
-
-
-
     <!--Feedback Messages String-->
     <string name="toast_message_go_to_notes_button">Displaying More Notes</string>
-    <string name="toast_message_fragment_level_category_middleschool">Middle School Category Chosen</string>
-    <string name="toast_message_fragment_level_category_preschool">Preschool Category Chosen</string>
-    <string name="toast_message_fragment_level_category_highschool">High School Category Chosen</string>
-    <string name="toast_message_fragment_level_category_advanced">Advanced Category Chosen</string>
+    <string name="toast_message_fragment_level_category_stem">STEM School Category Chosen</string>
+    <string name="toast_message_fragment_level_category_humanities">Humanities Category Chosen</string>
+    <string name="toast_message_fragment_level_category_biology">Biology Category Chosen</string>
+    <string name="toast_message_fragment_level_category_literature">literature Category Chosen</string>
     <string name="toast_quick_start_button">Accessing Random Quiz</string>
     <string name="toast_message_check_all_notification_button">Redirect To Notifications</string>
+
+
+    <!--Level Page String-->
+    <string name="quiz_category_level_header">Quiz Category Level</string>
+    <string name="quiz_category_header">Quiz Category</string>
+    <string name="select_a_category_selector_hint">Select A Category</string>
+    <string name="select_quiz_category_level_selector_hint">Select Quiz Category Level</string>
+    <string name="level_icon_description">Level Icon\n</string>
+    <string name="dummy_level_header">Level Header</string>
+    <string name="dummy_level_text">level description\n</string>
+    <string name="quiz_selection_instruction">CLICK TO ENTER QUIZ</string>
+    <string name="appbar_item_quiz_header">[Literature] Vocab Quiz 20 – 1</string>
+    <string name="quiz_button_label">RANDOM QUIZ</string>
+
+    <!--Quiz Page String-->
+    <string name="dummy_quiz_question">Which word below means \"to suggest or hint at something in an indirect or subtle way\"?</string>
+    <string name="quiz_multi_top_right_answer">Proclaim</string>
+    <string name="quiz_multi_top_left_answer">Intimate</string>
+    <string name="quiz_multi_bottom_left_answer">Define</string>
+    <string name="quiz_multi_bottom_right_answer">Denounce</string>
+    <string name="dummy_quiz_question_number">QUESTION 1</string>
+    <string name="quiz_life_icon_1">Quiz Life Icon 1</string>
+    <string name="quiz_life_icon_2">Quiz Life Icon 2</string>
+    <string name="quiz_life_icon_3">Quiz Life Icon 3</string>
+    <string name="number_of_questions_label">Number Of Question</string>
+    <string name="enter_number_of_questions_hint">Select The Number Of Questions</string>
+    <string name="login_header_password">PASSWORD</string>
+    <string name="login_header_email">EMAIL</string>
+    <string name="sign_up_button_text">SIGN UP</string>
+    <string name="login_or">or</string>
+    <string name="app_logo_desc">login_page_app_logo</string>
+    <string name="hide_icon_description">hide</string>
+    <string name="register_while_logged_in">Register While Logged In</string>
 
 </resources>
 

@@ -9,7 +9,7 @@ import android.widget.Button
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 
-class HomeFragment : Fragment() {
+class FragmentHome : Fragment() {
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -23,7 +23,7 @@ class HomeFragment : Fragment() {
         val buttonClick = view.findViewById<Button>(R.id.quick_start_button_id)
         buttonClick.setOnClickListener {
 
-            val intent = Intent(requireContext(), QuizActivity::class.java)
+            val intent = Intent(requireContext(), ActivityQuiz::class.java)
             startActivity(intent)
             Toast.makeText(requireContext(), getString(R.string.toast_quick_start_button), Toast.LENGTH_SHORT).show()
         }

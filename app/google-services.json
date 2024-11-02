@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "431844866511",
+    "project_id": "examsos",
+    "storage_bucket": "examsos.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:431844866511:android:860e4bc3dc9384e5a7faba",
+        "android_client_info": {
+          "package_name": "com.example.examsos"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyADG6u9NDYRI-VedNl-NW9RSoiXPa71wMQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

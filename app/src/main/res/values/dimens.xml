@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources>
+    <!--> Home Fragment Dimensions <-->
+    <dimen name="corner_radius">15dp</dimen>
+    <dimen name="primary_padding">20dp</dimen>
+    <dimen name="primary_margin">10dp</dimen>
+    <dimen name="card_margin_vertical">5dp</dimen>
+    <dimen name="card_elevation">4dp</dimen>
+    <dimen name="button_height">75dp</dimen>
+    <dimen name="header_margin_horizontal">10dp</dimen>
+    <dimen name="icon_margin_end">8dp</dimen>
+
+    <!--> Level Category Selection Fragment Dimensions <-->
+    <dimen name="card_radius">15dp</dimen>
+    <dimen name="card_padding">20dp</dimen>
+    <dimen name="card_margin">5dp</dimen>
+
+    <!--> Level Category Selection Fragment Dimensions <-->
+    <dimen name="notification_button_margin">5dp</dimen>
+    <dimen name="notification_button_height">75dp</dimen>
+
+    <dimen name="quiz_icon_height">100dp</dimen>
+    <dimen name="toolbar_min_height">56dp</dimen>
+    <dimen name="text_padding_top">8dp</dimen>
+    <dimen name="quiz_text_size">20sp</dimen>
+    <dimen name="card_view_margin">10dp</dimen>
+
+    <dimen name="toolbar_height">56dp</dimen>
+    <dimen name="glow_button_height">75dp</dimen>
+    <dimen name="glow_button_text_size">20sp</dimen>
+    <dimen name="layout_margin_horizontal">10dp</dimen>
+    <dimen name="glow_button_margin_top">10dp</dimen>
+    <dimen name="text_padding">10dp</dimen>
+    <dimen name="auto_complete_padding">15dp</dimen>
+    <dimen name="recycler_view_padding">10dp</dimen>
+</resources>

@@ -9,7 +9,7 @@ import android.widget.Button
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 
-class NotesFragment : Fragment() {
+class FragmentNotes : Fragment() {
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -22,7 +22,7 @@ class NotesFragment : Fragment() {
         val buttonClick = view.findViewById<Button>(R.id.go_to_notes_button)
         buttonClick.setOnClickListener {
 
-            val intent = Intent(requireContext(), NotesActivity::class.java)
+            val intent = Intent(requireContext(), ActivityNotes::class.java)
             startActivity(intent)
             Toast.makeText(requireContext(), getString(R.string.toast_message_go_to_notes_button), Toast.LENGTH_SHORT).show()
 

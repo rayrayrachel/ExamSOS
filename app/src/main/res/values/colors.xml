@@ -8,7 +8,7 @@
     <color name="theme_primary">#004744</color>
     <color name="theme_secondary">#00cec9</color>
 
-    <!-- Additional Colors -->
+    <!-- Vibrant Component Colors -->
     <color name="teal">#81ecec</color>
     <color name="dark_teal">#00cec9</color>
     <color name="light_blue">#74b9ff</color>
@@ -21,13 +21,14 @@
     <color name="sun_yellow">#fdcb6e</color>
     <color name="vibrant_pink">#e84393</color>
 
+    <!-- Greyscale Component Colors -->
     <color name="light_gray">#dfe6e9</color>
     <color name="medium_gray">#b2bec3</color>
     <color name="dark_gray">#636e72</color>
     <color name="darker_gray">#2d3436</color>
 
 
-
+    <!-- Transparent Container Colors -->
     <color name="less_opaque_white">#3DF1F6F5</color>
     <color name="not_opaque_white">#DE6C7A7A</color>
     <color name="not_opaque_teal">#BB59E7D5</color>

@@ -8,7 +8,7 @@ import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 
-class NotesActivity : AppCompatActivity(){
+class ActivityNotes : AppCompatActivity(){
 
     private val myTag = "RachelsTag"
 
@@ -35,28 +35,28 @@ class NotesActivity : AppCompatActivity(){
             }
 
             R.id.settings -> {
-                val intent = Intent(this, SettingsActivity::class.java)
+                val intent = Intent(this, ActivitySettings::class.java)
                 startActivity(intent)
                 Log.i(myTag, "Settings clicked")
                 true
             }
 
             R.id.about_us -> {
-                val intent = Intent(this, AboutUsActivity::class.java)
+                val intent = Intent(this, ActivityAboutUs::class.java)
                 startActivity(intent)
                 Log.i(myTag, "About Us clicked")
                 true
             }
 
             R.id.announcement -> {
-                val intent = Intent(this, AnnouncementActivity::class.java)
+                val intent = Intent(this, ActivityAnnouncement::class.java)
                 startActivity(intent)
                 Log.i(myTag, "Announcement clicked")
                 true
             }
 
             R.id.logout -> {
-                val intent = Intent(this, LoginActivity::class.java)
+                val intent = Intent(this, ActivityLogin::class.java)
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
                 startActivity(intent)
                 finish()
