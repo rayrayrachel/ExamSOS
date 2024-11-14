@@ -13,7 +13,7 @@
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/sub_toolbar"
             android:layout_width="match_parent"
-            android:minHeight="?attr/actionBarSize"
+            android:minHeight="@dimen/actionBarSize"
             android:layout_height="@dimen/toolbar_height"
             app:titleTextColor="@android:color/white"
             android:background="@color/theme_primary" />
@@ -21,22 +21,9 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:maxWidth="200dp"
             android:orientation="vertical"
             android:layout_marginHorizontal="@dimen/layout_margin_horizontal">
-
-            <com.sanojpunchihewa.glowbutton.GlowButton
-                android:id="@+id/level_selector_quick_start_button_id"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/glow_button_height"
-                android:text="@string/quiz_button_label"
-                android:textColor="@color/white"
-                android:textSize="@dimen/glow_button_text_size"
-                app:buttonColor="@color/dark_teal"
-                app:cornerRadius="50dp"
-                app:glowColor="@color/theme_secondary"
-                app:pressedGlowSize="25dp"
-                app:unpressedGlowSize="10dp"
-                android:layout_marginTop="@dimen/glow_button_margin_top" />
 
             <LinearLayout
                 android:padding="@dimen/text_padding"
@@ -46,41 +33,44 @@
                 android:background="@drawable/all_rounded_corner_background"
                 android:layout_marginVertical="@dimen/text_padding">
 
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/quiz_category_level_header"
                     style="@style/HeaderTextStyle"
-                    android:layout_gravity="start"
-                    android:paddingBottom="@dimen/text_padding" />
+                    android:layout_gravity="start" />
 
-                <AutoCompleteTextView
-                    android:id="@+id/level_spinner"
+                <RadioGroup
+                    android:id="@+id/level_radio_group"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    style="@style/SelectorTextStyle"
-                    android:hint="@string/select_quiz_category_level_selector_hint"
-                    android:padding="@dimen/auto_complete_padding"
-                    android:background="@drawable/container_square"
-                    android:inputType="none" />
+                    android:orientation="horizontal"
+                    android:maxWidth="200dp">
 
-                <TextView
-                    style="@style/HeaderTextStyle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="start"
-                    android:paddingBottom="@dimen/text_padding"
-                    android:text="@string/quiz_category_header" />
 
-                <AutoCompleteTextView
-                    android:id="@+id/category_spinner"
-                    style="@style/SelectorTextStyle"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/container_square"
-                    android:hint="@string/select_a_category_selector_hint"
-                    android:inputType="none"
-                    android:padding="@dimen/auto_complete_padding" />
+                    <RadioButton
+                        android:id="@+id/level_easy"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/quiz_difficulty_easy" />
+
+                    <RadioButton
+                        android:id="@+id/level_medium"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/quiz_difficulty_medium" />
+
+                    <RadioButton
+                        android:id="@+id/level_hard"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/quiz_difficulty_hard" />
+
+                </RadioGroup>
 
 
                 <TextView
@@ -91,14 +81,55 @@
                     android:layout_gravity="start"
                     android:paddingBottom="@dimen/text_padding" />
 
-                <EditText
-                    android:id="@+id/number_of_questions_input"
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/number_of_questions_display_min"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/number_of_question_slider_min"
+                        android:gravity="center" />
+
+                    <com.google.android.material.slider.Slider
+                        android:id="@+id/number_of_questions_slider"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="10"
+                        android:valueFrom="5"
+                        android:valueTo="20"
+                        android:stepSize="1"
+                        android:contentDescription="@string/number_of_question_slider_description" />
+
+                    <TextView
+                        android:id="@+id/number_of_questions_display_max"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/number_of_question_slider_max"
+                        android:gravity="center" />
+                </LinearLayout>
+
+                <TextView
+                    style="@style/HeaderTextStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="start"
+                    android:paddingBottom="@dimen/text_padding"
+                    android:text="@string/quiz_category_header" />
+
+
+                <AutoCompleteTextView
+                    android:id="@+id/category_spinner"
                     style="@style/SelectorTextStyle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:autofillHints="@string/enter_number_of_questions_hint"
                     android:background="@drawable/container_square"
-                    android:inputType="number"
+                    android:hint="@string/select_a_category_selector_hint"
+                    android:inputType="none"
                     android:padding="@dimen/auto_complete_padding" />
 
             </LinearLayout>

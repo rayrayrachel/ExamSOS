@@ -3,9 +3,11 @@ package com.example.examsos
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.graphics.Rect
 import android.os.Bundle
 import android.text.InputType
 import android.util.Log
+import android.view.MotionEvent
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.Button
@@ -163,7 +165,21 @@ class ActivityLogin : AppCompatActivity() {
         sb.show()
     }
 
-    //TODO hide keyboard when pressing other thing than text view
+    override fun dispatchTouchEvent(event: MotionEvent): Boolean {
+        if (event.action == MotionEvent.ACTION_DOWN) {
+            val view = currentFocus
+            if (view is EditText) {
+                val outRect = Rect()
+                view.getGlobalVisibleRect(outRect)
+                if (!outRect.contains(event.rawX.toInt(), event.rawY.toInt())) {
+                    hideKeyboard(this)
+                    view.clearFocus()
+                }
+            }
+        }
+        return super.dispatchTouchEvent(event)
+    }
+
     fun showKeyboard(activity: Activity, editText: EditText) {
         val imm = activity.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         imm.showSoftInput(editText, InputMethodManager.SHOW_IMPLICIT)

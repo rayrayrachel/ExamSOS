@@ -34,4 +34,5 @@
     <dimen name="text_padding">10dp</dimen>
     <dimen name="auto_complete_padding">15dp</dimen>
     <dimen name="recycler_view_padding">10dp</dimen>
+    <dimen name="actionBarSize">20dp</dimen>
 </resources>

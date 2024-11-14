@@ -132,8 +132,8 @@
     <string name="quiz_life_icon_1">Quiz Life Icon 1</string>
     <string name="quiz_life_icon_2">Quiz Life Icon 2</string>
     <string name="quiz_life_icon_3">Quiz Life Icon 3</string>
-    <string name="number_of_questions_label">Number Of Question</string>
-    <string name="enter_number_of_questions_hint">Select The Number Of Questions</string>
+
+    <!--Login Page String-->
     <string name="login_header_password">PASSWORD</string>
     <string name="login_header_email">EMAIL</string>
     <string name="sign_up_button_text">SIGN UP</string>
@@ -141,6 +141,16 @@
     <string name="app_logo_desc">login_page_app_logo</string>
     <string name="hide_icon_description">hide</string>
     <string name="register_while_logged_in">Register While Logged In</string>
+
+    <!--Quiz Selection Page String-->
+    <string name="number_of_questions_label">Number Of Question</string>
+    <string name="enter_number_of_questions_hint">Select The Number Of Questions</string>
+    <string name="number_of_question_slider_min">5</string>
+    <string name="number_of_question_slider_max">20</string>
+    <string name="number_of_question_slider_description">slider</string>
+    <string name="quiz_difficulty_easy">Easy</string>
+    <string name="quiz_difficulty_medium">Medium</string>
+    <string name="quiz_difficulty_hard">Hard</string>
 
 </resources>
 
