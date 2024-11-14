@@ -1,10 +1,13 @@
 package com.example.examsos
 
+import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.text.InputType
 import android.util.Log
 import android.view.View
+import android.view.inputmethod.InputMethodManager
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageButton
@@ -38,10 +41,13 @@ class ActivityLogin : AppCompatActivity() {
      *        most recently supplied in onSaveInstanceState(Bundle).
      *        Note: Otherwise it is null.
      */
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
         Log.i(myTag, "*** ActivityLogin: In onCreate")
+
+
 
         //calling email edit text field
         emailEditText = findViewById<EditText>(R.id.editTextTextEmailAddress)
@@ -50,6 +56,8 @@ class ActivityLogin : AppCompatActivity() {
         passwordEditText = findViewById<EditText>(R.id.editTextTextPassword)
         val showHideButton = findViewById<ImageButton>(R.id.hide_password_button)
         var isPasswordVisible = false
+
+
 
         //calling login button
         loginButton = findViewById<Button>(R.id.login_button)
@@ -77,30 +85,99 @@ class ActivityLogin : AppCompatActivity() {
         singUpButton.setOnClickListener{ v ->signUpClick(v) }
     }
 
-    private fun loginClick(){
-        val intent = Intent(this, ActivityMain::class.java)
-        startActivity(intent)
+    private fun loginClick() {
         Log.i(myTag, "*** ActivityLogin: Login Button Clicked")
-        finish()
+
+        val email = emailEditText.text.toString()
+        val password = passwordEditText.text.toString()
+
+        // Check if email and password are empty
+        if (email.isEmpty() || password.isEmpty()) {
+            displayMessage(findViewById(android.R.id.content), "Please enter both email and password")
+            return
+        }
+
+        // Check if the email is valid
+        if (!android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+            displayMessage(findViewById(android.R.id.content), "Please enter a valid email address")
+            return
+        }
+
+        // Sign in Firebase Authentication
+        mAuth.signInWithEmailAndPassword(email, password)
+            .addOnCompleteListener(this) { task ->
+                if (task.isSuccessful) {
+                    Log.i(myTag, "*** ActivityLogin: Login successful")
+                    val intent = Intent(this, ActivityMain::class.java)
+                    startActivity(intent)
+                    finish()
+                } else {
+                    Log.e(myTag, "*** ActivityLogin: Login failed: ${task.exception?.message}")
+                    displayMessage(findViewById(android.R.id.content), "Login failed: ${task.exception?.message}")
+                }
+            }
     }
 
-    private fun signUpClick(view: View){
+
+    private fun signUpClick(view: View) {
         Log.i(myTag, "*** ActivityLogin: Signup Button Clicked")
-        if(mAuth.currentUser!=null){
-            displayMessage(view, getString(R.string.register_while_logged_in))
+
+        val email = emailEditText.text.toString()
+        val password = passwordEditText.text.toString()
+
+        // Check if the email and password are empty
+        if (email.isEmpty() || password.isEmpty()) {
+            displayMessage(view, "Please fill in both email and password")
+            return
         }
-        else{
-            mAuth.createUserWithEmailAndPassword(
-                emailEditText.text.toString(),
-                passwordEditText.text.toString()
-            )
+
+        // Check if the email is valid
+        if (!android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+            displayMessage(view, "Please enter a valid email address")
+            return
         }
+
+        // Check if the password is more than 6 character
+        if (password.length < 6) {
+            displayMessage(view, "Password must be at least 6 characters long")
+            return
+        }
+
+        mAuth.createUserWithEmailAndPassword(email, password)
+            .addOnCompleteListener(this) { task ->
+                if (task.isSuccessful) {
+                    Log.i(myTag, "*** ActivityLogin: User registration successful")
+                    val intent = Intent(this, ActivityMain::class.java)
+                    startActivity(intent)
+                    finish()
+                } else {
+                    Log.e(myTag, "*** ActivityLogin: Registration failed: ${task.exception?.message}")
+                    displayMessage(view, "Registration failed: ${task.exception?.message}")
+                }
+            }
     }
+
 
     private fun displayMessage(view: View, msgTxt : String){
         val sb = Snackbar.make(view, msgTxt, Snackbar.LENGTH_SHORT)
         sb.show()
     }
+
+    //TODO hide keyboard when pressing other thing than text view
+    fun showKeyboard(activity: Activity, editText: EditText) {
+        val imm = activity.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        imm.showSoftInput(editText, InputMethodManager.SHOW_IMPLICIT)
+    }
+
+    // Hide keyboard
+    fun hideKeyboard(activity: Activity) {
+        val view = activity.currentFocus
+        if (view != null) {
+            val imm = activity.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+            imm.hideSoftInputFromWindow(view.windowToken, 0)
+        }
+    }
+
 
     /**
      * Called when the activity is becoming visible to the user.

@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- Splash Screen Theme -->
-
 
     <style name="CustomOverflowMenuStyle" parent="Widget.AppCompat.PopupMenu.Overflow">
-        <item name="android:background">@color/theme_secondary</item>
+        <item name="android:background">@color/menu_item_background</item>
+        <item name="android:itemTextAppearance">@style/CustomOverflowMenuItemStyle</item>
+    </style>
+
+    <style name="CustomOverflowMenuItemStyle">
         <item name="android:textColor">@color/white</item>
     </style>
 

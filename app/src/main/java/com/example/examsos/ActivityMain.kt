@@ -43,6 +43,7 @@ class ActivityMain : AppCompatActivity() {
 
         val mToolbar = findViewById<Toolbar>(R.id.main_toolbar)
         setSupportActionBar(mToolbar)
+        mToolbar.overflowIcon?.setTint(resources.getColor(android.R.color.white, theme))
 
         val imageView = findViewById<ImageView>(R.id.imageView)
 
