@@ -74,21 +74,20 @@
     <string name="dummy_announcement_header">RELEASE: Politics Category</string>
 
     <!--Notes Page Fragment Strings-->
-
     <string name="recent_note_title">[ADVANCED] IELTS Exam Daily Vocabulary</string>
     <string name="recent_note_date">accessed on 4/10/2024</string>
     <string name="dummy_recent_note_content">1. Cohesion:\nThe use of linking words and phrases to connect ideas effectively.\n\n2. Lexical Resource:\nA range of vocabulary used appropriately to convey precise meanings.\n\n3. Complex Sentences:\nSentences that combine independent and dependent clauses to enhance writing.\n\n4. Task Achievement:\nThe extent to which the response meets the requirements of the prompt.</string>
     <string name="go_to_notes_button_label">MORE NOTES</string>
 
     <!--Level Page Fragment Strings-->
-    <string name="humanities_icon">HUMANITIES\n</string>
-    <string name="STEM_school_icon">STEM\n</string>
-    <string name="biology_icon">BIOLOGY</string>
-    <string name="literature_icon">LITERATURES\n</string>
-    <string name="level_category_humanities">HUMANITIES</string>
-    <string name="level_category_STEM">STEM</string>
-    <string name="level_category_biology">BIOLOGY</string>
-    <string name="level_category_literature">LITERATURES</string>
+    <string name="custom_quiz_icon">CUSTOM\n</string>
+    <string name="daily_quiz_icon">DAILY\n</string>
+    <string name="random_quiz_icon">RANDOM\n</string>
+    <string name="advanced_marathon_icon">MARATHON\n</string>
+    <string name="custom_quiz_button">CUSTOM</string>
+    <string name="daily_quiz_button">DAILY</string>
+    <string name="random_quiz_button">RANDOM</string>
+    <string name="advanced_marathon_button">MARATHON</string>
 
     <!--Notification Page Fragment Strings-->
     <string name="go_to_notification_button_label">READ ALL NOTIFICATIONS</string>
@@ -111,9 +110,9 @@
 
 
     <!--Level Page String-->
-    <string name="quiz_category_level_header">Quiz Category Level</string>
-    <string name="quiz_category_header">Quiz Category</string>
-    <string name="select_a_category_selector_hint">Select A Category</string>
+    <string name="quiz_category_level_header">Quiz Difficulty</string>
+    <string name="quiz_type_header">Quiz Type</string>
+    <string name="select_quiz_type_hint">Select A Quiz Type</string>
     <string name="select_quiz_category_level_selector_hint">Select Quiz Category Level</string>
     <string name="level_icon_description">Level Icon\n</string>
     <string name="dummy_level_header">Level Header</string>
@@ -146,7 +145,7 @@
     <string name="number_of_questions_label">Number Of Question</string>
     <string name="enter_number_of_questions_hint">Select The Number Of Questions</string>
     <string name="number_of_question_slider_min">5</string>
-    <string name="number_of_question_slider_max">20</string>
+    <string name="number_of_question_slider_max">50</string>
     <string name="number_of_question_slider_description">slider</string>
     <string name="quiz_difficulty_easy">Easy</string>
     <string name="quiz_difficulty_medium">Medium</string>

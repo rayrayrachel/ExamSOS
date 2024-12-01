@@ -100,7 +100,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="10"
                         android:valueFrom="5"
-                        android:valueTo="20"
+                        android:valueTo="50"
                         android:stepSize="1"
                         android:contentDescription="@string/number_of_question_slider_description" />
 
@@ -119,16 +119,16 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="start"
                     android:paddingBottom="@dimen/text_padding"
-                    android:text="@string/quiz_category_header" />
+                    android:text="@string/quiz_type_header" />
 
 
-                <AutoCompleteTextView
+                <Spinner
                     android:id="@+id/category_spinner"
                     style="@style/SelectorTextStyle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@drawable/container_square"
-                    android:hint="@string/select_a_category_selector_hint"
+                    android:hint="@string/select_quiz_type_hint"
                     android:inputType="none"
                     android:padding="@dimen/auto_complete_padding" />
 

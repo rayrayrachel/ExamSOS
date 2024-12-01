@@ -53,7 +53,7 @@
                     <ImageView
                         android:layout_width="48dp"
                         android:layout_height="48dp"
-                        android:contentDescription="@string/humanities_icon"
+                        android:contentDescription="@string/custom_quiz_icon"
                         android:src="@drawable/ic_humanity" />
 
                     <TextView
@@ -64,7 +64,7 @@
                         android:shadowDx="2"
                         android:shadowDy="2"
                         android:shadowRadius="3"
-                        android:text="@string/level_category_humanities"
+                        android:text="@string/custom_quiz_button"
                         android:textColor="@color/white"
                         android:textSize="20sp" />
                 </LinearLayout>
@@ -93,7 +93,7 @@
                     <ImageView
                         android:layout_width="48dp"
                         android:layout_height="48dp"
-                        android:contentDescription="@string/STEM_school_icon"
+                        android:contentDescription="@string/daily_quiz_icon"
                         android:src="@drawable/ic_stem" />
 
                     <TextView
@@ -104,7 +104,7 @@
                         android:shadowDx="2"
                         android:shadowDy="2"
                         android:shadowRadius="3"
-                        android:text="@string/level_category_STEM"
+                        android:text="@string/daily_quiz_button"
                         android:textColor="@color/white"
                         android:textSize="20sp" />
                 </LinearLayout>
@@ -133,7 +133,7 @@
                     <ImageView
                         android:layout_width="48dp"
                         android:layout_height="48dp"
-                        android:contentDescription="@string/biology_icon"
+                        android:contentDescription="@string/random_quiz_icon"
                         android:src="@drawable/ic_biology" />
 
                     <TextView
@@ -144,7 +144,7 @@
                         android:shadowDx="2"
                         android:shadowDy="2"
                         android:shadowRadius="3"
-                        android:text="@string/level_category_biology"
+                        android:text="@string/random_quiz_button"
                         android:textColor="@color/white"
                         android:textSize="20sp" />
                 </LinearLayout>
@@ -173,7 +173,7 @@
                     <ImageView
                         android:layout_width="48dp"
                         android:layout_height="48dp"
-                        android:contentDescription="@string/literature_icon"
+                        android:contentDescription="@string/advanced_marathon_icon"
                         android:src="@drawable/ic_literature" />
 
                     <TextView
@@ -184,7 +184,7 @@
                         android:shadowDx="2"
                         android:shadowDy="2"
                         android:shadowRadius="3"
-                        android:text="@string/level_category_literature"
+                        android:text="@string/advanced_marathon_button"
                         android:textColor="@color/white"
                         android:textSize="20sp" />
                 </LinearLayout>

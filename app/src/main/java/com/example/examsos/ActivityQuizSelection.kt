@@ -4,6 +4,11 @@ import android.os.Bundle
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
+import android.widget.Spinner
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -27,6 +32,8 @@ class ActivityQuizSelection : AppCompatActivity() {
 
         // Set up the RecyclerView
         setupRecyclerView2()
+
+        setupQuizTypeSpinner()
     }
 
     /**
@@ -61,6 +68,40 @@ class ActivityQuizSelection : AppCompatActivity() {
         val adapter = LevelAdapter(levelList)
         recyclerView.adapter = adapter
     }
+
+    private fun setupQuizTypeSpinner() {
+        val categorySpinner = findViewById<Spinner>(R.id.category_spinner)
+
+        val quizTypeList = listOf(
+            "Any Type",
+            "Multiple Choice",
+            "True/False"
+        )
+
+        val adapter = ArrayAdapter(
+            this,
+            android.R.layout.simple_spinner_item,
+            quizTypeList
+        )
+
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+
+        categorySpinner.adapter = adapter
+
+        categorySpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                val selectedType = parent?.getItemAtPosition(position).toString()
+                if (position != 0) { // Ignore the placeholder item
+                 //   Toast.makeText(this@MainActivity, "Selected: $selectedType", Toast.LENGTH_SHORT).show()
+                }
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+                // Do nothing
+            }
+        }
+    }
+
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.sub_tool_bar_layout, menu)
