@@ -150,6 +150,10 @@
     <string name="quiz_difficulty_easy">Easy</string>
     <string name="quiz_difficulty_medium">Medium</string>
     <string name="quiz_difficulty_hard">Hard</string>
+    <string name="login_text_register">Sign up to enjoy!</string>
+    <string name="login_header_username">USERNAME</string>
+    <string name="login_text_prompt_username">Please Input Username</string>
+    <string name="signup_page_name">Sign Up</string>
 
 </resources>
 

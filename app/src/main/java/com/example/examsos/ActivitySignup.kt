@@ -17,14 +17,12 @@ import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
 
-/**
- * ActivityLogin is responsible for user authentication.
- * It handles the UI for logging in and any associated actions.
- */
-class ActivityLogin : AppCompatActivity() {
+
+class ActivitySignup : AppCompatActivity() {
 
     private val myTag = "Rachel'sTag"
 
+    private lateinit var username: EditText
     private lateinit var emailEditText: EditText
     private lateinit var passwordEditText:EditText
     private lateinit var loginButton:Button
@@ -46,10 +44,10 @@ class ActivityLogin : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_login)
+        setContentView(R.layout.activity_signup)
         Log.i(myTag, "*** ActivityLogin: In onCreate")
 
-
+        username = findViewById<EditText>(R.id.editUsername)
 
         //calling email edit text field
         emailEditText = findViewById<EditText>(R.id.editTextTextEmailAddress)
@@ -90,43 +88,59 @@ class ActivityLogin : AppCompatActivity() {
     private fun loginClick() {
         Log.i(myTag, "*** ActivityLogin: Login Button Clicked")
 
-        val email = emailEditText.text.toString()
-        val password = passwordEditText.text.toString()
-
-        // Check if email and password are empty
-        if (email.isEmpty() || password.isEmpty()) {
-            displayMessage(findViewById(android.R.id.content), "Please enter both email and password")
-            return
-        }
-
-        // Check if the email is valid
-        if (!android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-            displayMessage(findViewById(android.R.id.content), "Please enter a valid email address")
-            return
-        }
-
-        // Sign in Firebase Authentication
-        mAuth.signInWithEmailAndPassword(email, password)
-            .addOnCompleteListener(this) { task ->
-                if (task.isSuccessful) {
-                    Log.i(myTag, "*** ActivityLogin: Login successful")
-                    val intent = Intent(this, ActivityMain::class.java)
-                    startActivity(intent)
-                    finish()
-                } else {
-                    Log.e(myTag, "*** ActivityLogin: Login failed: ${task.exception?.message}")
-                    displayMessage(findViewById(android.R.id.content), "Login failed: ${task.exception?.message}")
-                }
-            }
+        val intent = Intent(this, ActivityLogin::class.java)
+        startActivity(intent)
+        finish()
     }
 
 
     private fun signUpClick(view: View) {
         Log.i(myTag, "*** ActivityLogin: Signup Button Clicked")
 
-        val intent = Intent(this, ActivitySignup::class.java)
-        startActivity(intent)
-        finish()
+        val username = username.text.toString()
+        val email = emailEditText.text.toString()
+        val password = passwordEditText.text.toString()
+
+        if (username.isEmpty()) {
+            displayMessage(view, "Please fill in username")
+            return
+        }
+
+        if (email.isEmpty() || password.isEmpty()) {
+            displayMessage(view, "Please fill in both email and password")
+            return
+        }
+
+        // Check if the email and password are empty
+        if (email.isEmpty() || password.isEmpty()) {
+            displayMessage(view, "Please fill in both email and password")
+            return
+        }
+
+        // Check if the email is valid
+        if (!android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+            displayMessage(view, "Please enter a valid email address")
+            return
+        }
+
+        // Check if the password is more than 6 character
+        if (password.length < 6) {
+            displayMessage(view, "Password must be at least 6 characters long")
+            return
+        }
+
+        mAuth.createUserWithEmailAndPassword(email, password)
+            .addOnCompleteListener(this) { task ->
+                if (task.isSuccessful) {
+                    Log.i(myTag, "*** ActivityLogin: User registration successful")
+                    val intent = Intent(this, ActivityMain::class.java)
+                    startActivity(intent)
+                    finish()
+                } else {
+                    Log.e(myTag, "*** ActivityLogin: Registration failed: ${task.exception?.message}")
+                    displayMessage(view, "Registration failed: ${task.exception?.message}")
+                }
+            }
     }
 
 
@@ -170,7 +184,7 @@ class ActivityLogin : AppCompatActivity() {
      */
     override fun onStart() {
         super.onStart()
-        Log.i(myTag, "*** ActivityLogin: In onStart")
+        Log.i(myTag, "*** ActivitySignup: In onStart")
     }
 
     /**
@@ -178,7 +192,7 @@ class ActivityLogin : AppCompatActivity() {
      */
     override fun onStop() {
         super.onStop()
-        Log.i(myTag, "*** ActivityLogin: In onStop")
+        Log.i(myTag, "*** ActivitySignup: In onStop")
     }
 
     /**
@@ -186,7 +200,7 @@ class ActivityLogin : AppCompatActivity() {
      */
     override fun onPause() {
         super.onPause()
-        Log.i(myTag, "*** ActivityLogin: In onPause")
+        Log.i(myTag, "*** ActivitySignup: In onPause")
     }
 
     /**
@@ -194,7 +208,7 @@ class ActivityLogin : AppCompatActivity() {
      */
     override fun onRestart() {
         super.onRestart()
-        Log.i(myTag, "*** ActivityLogin: In onRestart")
+        Log.i(myTag, "*** ActivitySignup: In onRestart")
     }
 
     /**
@@ -202,7 +216,7 @@ class ActivityLogin : AppCompatActivity() {
      */
     override fun onResume() {
         super.onResume()
-        Log.i(myTag, "*** ActivityLogin: In onResume")
+        Log.i(myTag, "*** ActivitySignup: In onResume")
     }
 
     /**
@@ -210,7 +224,7 @@ class ActivityLogin : AppCompatActivity() {
      */
     override fun onDestroy() {
         super.onDestroy()
-        Log.i(myTag, "*** ActivityLogin: In onDestroy")
+        Log.i(myTag, "*** ActivitySignup: In onDestroy")
     }
 
 

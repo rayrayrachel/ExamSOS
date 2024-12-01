@@ -9,7 +9,7 @@ import androidx.appcompat.widget.Toolbar
 
 class ActivityQuiz : AppCompatActivity(){
 
-    private val myTag = "RachelsTag"
+    private val myTag = "Rachel'sTag"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

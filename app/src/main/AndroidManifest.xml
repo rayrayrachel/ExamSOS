@@ -24,6 +24,10 @@
         </activity>
 
         <activity
+            android:name=".ActivitySignup"
+            android:label="@string/signup_page_name" />
+
+        <activity
             android:name=".ActivityMain"
             android:label="@string/home_page_name" />
 
