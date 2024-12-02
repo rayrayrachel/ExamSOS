@@ -7,13 +7,16 @@ import android.view.Menu
 import android.view.MenuItem
 import android.widget.ImageButton
 import android.widget.ImageView
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.viewpager2.widget.ViewPager2
 import com.bumptech.glide.Glide
 import com.example.examsos.adapter.TabsPagerAdapter
 import com.google.firebase.Firebase
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.auth
+import com.google.firebase.firestore.FirebaseFirestore
 
 /**
  * ActivityMain is the entry point of the application.
@@ -28,6 +31,7 @@ class ActivityMain : AppCompatActivity() {
     private lateinit var levelsButton: ImageButton
     private lateinit var notesButton: ImageButton
     private lateinit var notificationsButton: ImageButton
+    private lateinit var welcomeMessage: TextView
 
     /**
      * Called when the activity is first created.
@@ -63,6 +67,11 @@ class ActivityMain : AppCompatActivity() {
         levelsButton = findViewById(R.id.nav_levels)
         notesButton = findViewById(R.id.nav_notes)
         notificationsButton = findViewById(R.id.nav_notifications)
+
+        welcomeMessage = findViewById(R.id.login_welcome_msg_text_view)
+
+
+        fetchUsername()
 
         homeButton.setOnClickListener {
             viewPager.currentItem = 0 // Set to the first fragment
@@ -188,6 +197,38 @@ class ActivityMain : AppCompatActivity() {
                 true
             }
             else -> super.onOptionsItemSelected(item)
+        }
+    }
+
+    private fun fetchUsername() {
+        val currentUser = FirebaseAuth.getInstance().currentUser
+        if (currentUser != null) {
+            Log.i(myTag, "Current User UID: ${currentUser.uid}")
+        } else {
+            Log.e(myTag, "No user is logged in")
+        }
+
+        if (currentUser != null) {
+            val db = FirebaseFirestore.getInstance()
+            val userDocRef = db.collection("users").document(currentUser.uid)
+
+            userDocRef.get()
+                .addOnSuccessListener { document ->
+                    if (document.exists()) {
+                        val username = document.getString("name") // Field in Firestore
+                        welcomeMessage.text = "Welcome, $username!" // Update the TextView
+                    } else {
+                        Log.w(myTag, "No such document")
+                        welcomeMessage.text = "Welcome!" // Default message
+                    }
+                }
+                .addOnFailureListener { exception ->
+                    Log.e(myTag, "Error fetching username", exception)
+                    welcomeMessage.text = "Welcome!" // Default message
+                }
+        } else {
+            Log.w(myTag, "User not logged in")
+            welcomeMessage.text = "Welcome!" // Default message
         }
     }
 

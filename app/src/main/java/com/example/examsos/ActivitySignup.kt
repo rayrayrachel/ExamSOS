@@ -137,23 +137,24 @@ class ActivitySignup : AppCompatActivity() {
         mAuth.createUserWithEmailAndPassword(email, password)
             .addOnCompleteListener(this) { task ->
                 if (task.isSuccessful) {
-                    Log.i(myTag, "*** ActivitySignup: User registration successful")
+                    val userId = task.result?.user?.uid ?: return@addOnCompleteListener
                     val user = hashMapOf(
                         "name" to username,
                         "email" to email
                     )
 
                     db.collection("users")
-                        .add(user)
-                        .addOnSuccessListener { documentReference ->
-                            Log.d(myTag, "DocumentSnapshot added with ID: ${documentReference.id}")
+                        .document(userId)
+                        .set(user)
+                        .addOnSuccessListener {
+                            Log.d(myTag, "User document created with UID: $userId")
                             displayMessage(view, "Registered! Welcome.")
                             val intent = Intent(this, ActivityMain::class.java)
                             startActivity(intent)
                             finish()
                         }
                         .addOnFailureListener { e ->
-                            Log.w(myTag, "Error adding document", e)
+                            Log.w(myTag, "Error saving user data", e)
                             displayMessage(view, "Failed to save user data. Try again.")
                         }
                 } else {

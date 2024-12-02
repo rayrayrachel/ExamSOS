@@ -3,7 +3,7 @@
     <string name="home_page_name">Home</string>
     <string name="level_page_name">QUIZ SELECTION</string>
     <string name="note_page_name">Note</string>
-    <string name="notification_page_name">Notifications</string>
+    <string name="notification_page_name">NOTIFICATION</string>
 
 
     <!-- Action items for the app bar -->
