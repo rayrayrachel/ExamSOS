@@ -15,14 +15,16 @@ import android.widget.EditText
 import android.widget.ImageButton
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.snackbar.Snackbar
+import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.firestore
 
 
 class ActivitySignup : AppCompatActivity() {
 
     private val myTag = "Rachel'sTag"
 
-    private lateinit var username: EditText
+    private lateinit var usernameText: EditText
     private lateinit var emailEditText: EditText
     private lateinit var passwordEditText:EditText
     private lateinit var loginButton:Button
@@ -30,7 +32,8 @@ class ActivitySignup : AppCompatActivity() {
 
 
     private var mAuth = FirebaseAuth.getInstance()
-    private var currentUser = mAuth.currentUser
+
+    private val db = Firebase.firestore
 
     /**
      * Called when the activity is first created.
@@ -47,7 +50,7 @@ class ActivitySignup : AppCompatActivity() {
         setContentView(R.layout.activity_signup)
         Log.i(myTag, "*** ActivityLogin: In onCreate")
 
-        username = findViewById<EditText>(R.id.editUsername)
+        usernameText = findViewById<EditText>(R.id.editUsername)
 
         //calling email edit text field
         emailEditText = findViewById<EditText>(R.id.editTextTextEmailAddress)
@@ -97,9 +100,10 @@ class ActivitySignup : AppCompatActivity() {
     private fun signUpClick(view: View) {
         Log.i(myTag, "*** ActivityLogin: Signup Button Clicked")
 
-        val username = username.text.toString()
+        val username = usernameText.text.toString()
         val email = emailEditText.text.toString()
         val password = passwordEditText.text.toString()
+
 
         if (username.isEmpty()) {
             displayMessage(view, "Please fill in username")
@@ -129,15 +133,31 @@ class ActivitySignup : AppCompatActivity() {
             return
         }
 
+
         mAuth.createUserWithEmailAndPassword(email, password)
             .addOnCompleteListener(this) { task ->
                 if (task.isSuccessful) {
-                    Log.i(myTag, "*** ActivityLogin: User registration successful")
-                    val intent = Intent(this, ActivityMain::class.java)
-                    startActivity(intent)
-                    finish()
+                    Log.i(myTag, "*** ActivitySignup: User registration successful")
+                    val user = hashMapOf(
+                        "name" to username,
+                        "email" to email
+                    )
+
+                    db.collection("users")
+                        .add(user)
+                        .addOnSuccessListener { documentReference ->
+                            Log.d(myTag, "DocumentSnapshot added with ID: ${documentReference.id}")
+                            displayMessage(view, "Registered! Welcome.")
+                            val intent = Intent(this, ActivityMain::class.java)
+                            startActivity(intent)
+                            finish()
+                        }
+                        .addOnFailureListener { e ->
+                            Log.w(myTag, "Error adding document", e)
+                            displayMessage(view, "Failed to save user data. Try again.")
+                        }
                 } else {
-                    Log.e(myTag, "*** ActivityLogin: Registration failed: ${task.exception?.message}")
+                    Log.e(myTag, "*** ActivitySignup: Registration failed: ${task.exception?.message}")
                     displayMessage(view, "Registration failed: ${task.exception?.message}")
                 }
             }
