@@ -1,6 +1,7 @@
 package com.example.examsos
 
 import android.content.Intent
+import android.icu.util.Calendar
 import android.os.Bundle
 import android.util.Log
 import android.view.Menu
@@ -16,7 +17,9 @@ import com.example.examsos.adapter.TabsPagerAdapter
 import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.auth
+import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
+
 
 /**
  * ActivityMain is the entry point of the application.
@@ -32,7 +35,11 @@ class ActivityMain : AppCompatActivity() {
     private lateinit var notesButton: ImageButton
     private lateinit var notificationsButton: ImageButton
     private lateinit var welcomeMessage: TextView
+    private lateinit var loginDaysTextView: TextView
 
+    private val currentUser = FirebaseAuth.getInstance().currentUser
+    private val db = FirebaseFirestore.getInstance()
+    private val userDocRef = currentUser?.let { db.collection("users").document(it.uid) }
     /**
      * Called when the activity is first created.
      * Initializes the UI components and sets up the action bar.
@@ -70,7 +77,10 @@ class ActivityMain : AppCompatActivity() {
 
         welcomeMessage = findViewById(R.id.login_welcome_msg_text_view)
 
+        //Initialize the textvies
+        loginDaysTextView = findViewById(R.id.dayCountText)
 
+// get username from firestore
         fetchUsername()
 
         homeButton.setOnClickListener {
@@ -100,7 +110,10 @@ class ActivityMain : AppCompatActivity() {
             }
         })
 
-        Log.i(myTag, "*** ActivityMain: In onCreate")
+        val currentTimestamp = FieldValue.serverTimestamp()
+        checkLoginStreak()
+        fetchLoginDates()
+
     }
 
     private fun updateButtonColors(selectedPosition: Int) {
@@ -200,8 +213,103 @@ class ActivityMain : AppCompatActivity() {
         }
     }
 
+
+    private fun checkLoginStreak() {
+        val localTimestamp = System.currentTimeMillis()
+        Log.i(myTag, "Local timestamp for debugging: $localTimestamp")
+
+        userDocRef?.get()
+            ?.addOnSuccessListener { document ->
+                if (document.exists()) {
+                    // Get the current streak and last login data
+                    val lastLogin = document.getLong("lastLogin") ?: 0
+                    val streak = document.getLong("streak") ?: 0
+                    val loginDates = document.get("loginDates") as? List<Long> ?: emptyList()
+
+                    // Calculate difference in days between last login and current login
+                    val lastLoginDate = java.util.Date(lastLogin)
+                    val currentLoginDate = java.util.Date(localTimestamp)
+
+                    val lastLoginCalendar = java.util.Calendar.getInstance().apply {
+                        time = lastLoginDate
+                    }
+                    val currentLoginCalendar = java.util.Calendar.getInstance().apply {
+                        time = currentLoginDate
+                    }
+
+                    val daysDifference = currentLoginCalendar.get(java.util.Calendar.DAY_OF_YEAR) - lastLoginCalendar.get(java.util.Calendar.DAY_OF_YEAR)
+
+                    // Update streak based on login timing
+                    val newStreak = if (daysDifference == 1) {
+                        // Consecutive day login, increment streak
+                        streak + 1
+                    } else if (daysDifference > 1 || lastLoginCalendar.get(java.util.Calendar.YEAR) != currentLoginCalendar.get(java.util.Calendar.YEAR)) {
+                        // Not consecutive or a new year, reset streak
+                        1
+                    } else {
+                        // Same day login, don't reset streak
+                        streak
+                    }
+
+                    // Update Firestore
+                    userDocRef.update(
+                        mapOf(
+                            "streak" to newStreak,
+                            "lastLogin" to localTimestamp,
+                            "loginDates" to FieldValue.arrayUnion(localTimestamp)
+                        )
+                    ).addOnSuccessListener {
+                        Log.i(myTag, "Login streak and dates updated successfully.")
+                    }.addOnFailureListener { e ->
+                        Log.e(myTag, "Failed to update login streak and dates.", e)
+                    }
+
+                } else {
+                    Log.w(myTag, "User document does not exist. Creating a new document.")
+
+                    // Create a new document with initial values
+                    userDocRef.set(
+                        mapOf(
+                            "streak" to 1,
+                            "lastLogin" to localTimestamp,
+                            "loginDates" to listOf(localTimestamp)
+                        )
+                    ).addOnSuccessListener {
+                        Log.i(myTag, "New user document created successfully with initial values.")
+                    }.addOnFailureListener { e ->
+                        Log.e(myTag, "Failed to create new user document.", e)
+                    }
+                }
+            }
+            ?.addOnFailureListener { e ->
+                Log.e(myTag, "Error fetching user document.", e)
+            }
+    }
+
+
+    private fun fetchLoginDates() {
+        if (currentUser != null) {
+            userDocRef?.get()
+                ?.addOnSuccessListener { document ->
+                    if (document.exists()) {
+                        val streak = document.getLong("streak") ?: 0
+                        loginDaysTextView.text = "$streak"
+                    } else {
+                        Log.w(myTag, "No such document")
+                    }
+                }
+                ?.addOnFailureListener { exception ->
+                    Log.e(myTag, "Error fetching streak", exception)
+                }
+        } else {
+            Log.w(myTag, "User not logged in")
+        }
+    }
+
+
+
     private fun fetchUsername() {
-        val currentUser = FirebaseAuth.getInstance().currentUser
+
         if (currentUser != null) {
             Log.i(myTag, "Current User UID: ${currentUser.uid}")
         } else {
@@ -209,20 +317,19 @@ class ActivityMain : AppCompatActivity() {
         }
 
         if (currentUser != null) {
-            val db = FirebaseFirestore.getInstance()
-            val userDocRef = db.collection("users").document(currentUser.uid)
 
-            userDocRef.get()
-                .addOnSuccessListener { document ->
+            userDocRef?.get()
+                ?.addOnSuccessListener { document ->
                     if (document.exists()) {
                         val username = document.getString("name") // Field in Firestore
                         welcomeMessage.text = "Welcome, $username!" // Update the TextView
+
                     } else {
                         Log.w(myTag, "No such document")
                         welcomeMessage.text = "Welcome!" // Default message
                     }
                 }
-                .addOnFailureListener { exception ->
+                ?.addOnFailureListener { exception ->
                     Log.e(myTag, "Error fetching username", exception)
                     welcomeMessage.text = "Welcome!" // Default message
                 }
@@ -231,6 +338,8 @@ class ActivityMain : AppCompatActivity() {
             welcomeMessage.text = "Welcome!" // Default message
         }
     }
+
+
 
     /**
      * Called when the activity is becoming visible to the user.

@@ -17,6 +17,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.firestore
 
 
@@ -30,9 +31,7 @@ class ActivitySignup : AppCompatActivity() {
     private lateinit var loginButton:Button
     private lateinit var singUpButton: Button
 
-
     private var mAuth = FirebaseAuth.getInstance()
-
     private val db = Firebase.firestore
 
     /**
@@ -148,7 +147,7 @@ class ActivitySignup : AppCompatActivity() {
                         .set(user)
                         .addOnSuccessListener {
                             Log.d(myTag, "User document created with UID: $userId")
-                            displayMessage(view, "Registered! Welcome.")
+                            displayMessage(view, "Account Registered! Welcome, $userId.")
                             val intent = Intent(this, ActivityMain::class.java)
                             startActivity(intent)
                             finish()
@@ -198,6 +197,8 @@ class ActivitySignup : AppCompatActivity() {
             imm.hideSoftInputFromWindow(view.windowToken, 0)
         }
     }
+
+
 
 
     /**
