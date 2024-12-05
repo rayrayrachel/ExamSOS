@@ -17,4 +17,5 @@ interface TriviaApi {
 
     @GET("api_category.php")
     suspend fun getCategories(): TriviaCategoryResponse
+
 }

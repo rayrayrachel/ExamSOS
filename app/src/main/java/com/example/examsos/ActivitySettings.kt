@@ -14,9 +14,7 @@ import kotlinx.coroutines.launch
 class ActivitySettings : AppCompatActivity(){
 
     private val myTag = "Rachel'sTag"
-    val api = RetrofitClient.api
-
-
+//    val api = RetrofitClient.api
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -25,14 +23,14 @@ class ActivitySettings : AppCompatActivity(){
         val mToolbar = findViewById<Toolbar>(R.id.settings_toolbar)
         setSupportActionBar(mToolbar)
 
-        CoroutineScope(Dispatchers.IO).launch {
-            try {
-                val response = api.getQuestions(amount = 10, category = null, difficulty = "easy", type = "multiple")
-                Log.d(myTag, "Questions: ${response.results}")
-            } catch (e: Exception) {
-                Log.e(myTag, "Failed to fetch questions", e)
-            }
-            }
+//        CoroutineScope(Dispatchers.IO).launch {
+//            try {
+//                val response = api.getQuestions(amount = 10, category = null, difficulty = "easy", type = "multiple")
+//                Log.d(myTag, "Questions: ${response.results}")
+//            } catch (e: Exception) {
+//                Log.e(myTag, "Failed to fetch questions", e)
+//            }
+//            }
     }
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.sub_tool_bar_layout, menu)

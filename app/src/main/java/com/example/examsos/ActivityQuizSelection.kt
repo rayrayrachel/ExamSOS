@@ -21,10 +21,10 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-
 class ActivityQuizSelection : AppCompatActivity() {
 
     private val myTag = "Rachel'sTag"
+    val api = RetrofitClient.api
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,10 +42,8 @@ class ActivityQuizSelection : AppCompatActivity() {
     }
 
     /**
-     * Sets up the RecyclerView with sample data and the LevelAdapter.
+     * Fetch the trivia categories and update RecyclerView with the data.
      */
-
-
     private fun fetchTriviaCategories() {
         CoroutineScope(Dispatchers.IO).launch {
             try {
@@ -63,44 +61,85 @@ class ActivityQuizSelection : AppCompatActivity() {
         }
     }
 
-
-
-
+    /**
+     * Set up the RecyclerView with category data and handle category selection.
+     */
     private fun setupRecyclerViewWithData(data: List<TriviaCategory>) {
         val recyclerView = findViewById<RecyclerView>(R.id.level_recycler_view)
         recyclerView.layoutManager = LinearLayoutManager(this)
 
         val adapter = CategoryAdapter(data) { selectedCategory ->
-            // Get difficulty
+
+            // Fetch the selected difficulty level
             val difficulty = when (findViewById<RadioGroup>(R.id.level_radio_group).checkedRadioButtonId) {
                 R.id.level_easy -> "easy"
                 R.id.level_medium -> "medium"
                 R.id.level_hard -> "hard"
-                else -> "easy"
+                else -> "easy" // Default to easy if nothing is selected
             }
 
-            // Get number of questions
+            // Fetch the number of questions
             val questionSlider = findViewById<com.google.android.material.slider.Slider>(R.id.number_of_questions_slider)
-            val numberOfQuestions = questionSlider.value.toInt()
+            var numberOfQuestions = questionSlider.value.toInt()
 
-            // Get quiz type
-            val quizType = findViewById<Spinner>(R.id.category_spinner).selectedItem?.toString() ?: "Any Type"
+            // Fetch the selected quiz type
+            val quizType = findViewById<Spinner>(R.id.category_spinner).selectedItem?.toString()?.let { selected ->
+                when (selected) {
+                    "Any Type" -> null // API should ignore this parameter
+                    "Multiple Choice" -> "multiple"
+                    "True/False" -> "boolean"
+                    else -> null // Default fallback
+                }
+            }
 
-            // Log the values
+            // Log the selected values
             Log.d(myTag, "Category: ${selectedCategory.name}, Difficulty: $difficulty, Questions: $numberOfQuestions, Type: $quizType")
 
-            Toast.makeText(
-                this,
-                "Category: ${selectedCategory.name}, Difficulty: $difficulty, Questions: $numberOfQuestions, Type: $quizType",
-                Toast.LENGTH_SHORT
-            ).show()
+            // Make the API call to fetch questions based on the selected options
+            fetchQuestions(selectedCategory, difficulty, numberOfQuestions, quizType)
         }
 
         recyclerView.adapter = adapter
     }
 
+    /**
+     * Fetch the questions based on selected options.
+     */
+    private fun fetchQuestions(selectedCategory: TriviaCategory, difficulty: String, numberOfQuestions: Int, quizType: String?) {
+        CoroutineScope(Dispatchers.IO).launch {
+            try {
+                val response = api.getQuestions(
+                    amount = numberOfQuestions,  // Use the validated number here
+                    category = selectedCategory.id,
+                    difficulty = difficulty,
+                    type = quizType
+                )
+                Log.d(myTag, "Questions fetched: ${response.results}")
 
+                // Optionally, update the UI or navigate to another screen with the fetched questions
+                runOnUiThread {
+                    Toast.makeText(
+                        this@ActivityQuizSelection,
+                        "Fetched ${response.results.size} questions!",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+            } catch (e: Exception) {
+                Log.e(myTag, "Failed to fetch questions", e)
+                runOnUiThread {
+                    Toast.makeText(
+                        this@ActivityQuizSelection,
+                        "Failed to fetch questions. Please try again.",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+            }
+        }
+    }
 
+    /**
+     * Set up the quiz type spinner.
+     */
     private fun setupQuizTypeSpinner() {
         val categorySpinner = findViewById<Spinner>(R.id.category_spinner)
 
@@ -124,7 +163,7 @@ class ActivityQuizSelection : AppCompatActivity() {
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
                 val selectedType = parent?.getItemAtPosition(position).toString()
                 if (position != 0) { // Ignore the placeholder item
-                 //   Toast.makeText(this@MainActivity, "Selected: $selectedType", Toast.LENGTH_SHORT).show()
+                    // Toast.makeText(this@MainActivity, "Selected: $selectedType", Toast.LENGTH_SHORT).show()
                 }
             }
 
@@ -133,7 +172,6 @@ class ActivityQuizSelection : AppCompatActivity() {
             }
         }
     }
-
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.sub_tool_bar_layout, menu)
