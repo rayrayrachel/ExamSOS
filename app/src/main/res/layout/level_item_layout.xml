@@ -15,7 +15,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:paddingHorizontal="16dp"
+        android:padding="16dp"
         android:orientation="horizontal"
         android:gravity="center_vertical">
 
@@ -39,12 +39,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/dummy_level_header" />
-            <TextView
-                android:id="@+id/level_text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"
-                android:text="@string/dummy_level_text" />
+
         </LinearLayout>
     </LinearLayout>
 

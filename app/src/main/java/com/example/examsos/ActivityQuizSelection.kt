@@ -46,21 +46,21 @@ class ActivityQuizSelection : AppCompatActivity() {
 
         // Sample data for the adapter
         val levelList = arrayListOf(
-            LevelDataClass("[GCSE] Vocab Quiz 20", "Translation and vocabulary building for GCSE exams"),
-            LevelDataClass("[IELTS] English Vocab Quiz 19", "Advanced vocabulary for IELTS preparation"),
-            LevelDataClass("[Toffle] Vocab Quiz 18", "Vocabulary drills to ace the Toffle exam"),
-            LevelDataClass("[HKDSE] Listening Practice 17", "Improve listening and writing for HKDSE"),
-            LevelDataClass("[IELTS] English Vocab Quiz 16", "Improve vocabulary for IELTS band 7+"),
-            LevelDataClass("[GCSE] Vocab Quiz 15", "Essential vocabulary and translation practice"),
-            LevelDataClass("[HKDSE] English Quiz 14", "Grammar and reading comprehension for HKDSE"),
-            LevelDataClass("[Toffle] Vocab Quiz 13", "Advanced Toffle vocabulary practice"),
-            LevelDataClass("[IELTS] English Vocab Quiz 12", "Practice key vocabulary for high IELTS scores"),
-            LevelDataClass("[GCSE] Vocab Quiz 11", "Focus on important vocabulary for GCSE success"),
-            LevelDataClass("[HKDSE] Listening Practice 10", "Improve listening and comprehension for HKDSE"),
-            LevelDataClass("[IELTS] English Vocab Quiz 9", "Listening and vocabulary enhancement"),
-            LevelDataClass("[GCSE] Vocab Quiz 8", "Preparation for vocabulary and translation tasks"),
-            LevelDataClass("[Toffle] Vocab Quiz 7", "Vocabulary and comprehension practice for Toffle"),
-            LevelDataClass("[IELTS] English Vocab Quiz 6", "Vocabulary and listening practice for IELTS")
+            LevelDataClass("[GCSE] Vocab Quiz 20"),
+            LevelDataClass("[IELTS] English Vocab Quiz 19"),
+            LevelDataClass("[Toffle] Vocab Quiz 18" ),
+            LevelDataClass("[HKDSE] Listening Practice 17" ),
+            LevelDataClass("[IELTS] English Vocab Quiz 16" ),
+            LevelDataClass("[GCSE] Vocab Quiz 15" ),
+            LevelDataClass("[HKDSE] English Quiz 14"),
+            LevelDataClass("[Toffle] Vocab Quiz 13" ),
+            LevelDataClass("[IELTS] English Vocab Quiz 12"),
+            LevelDataClass("[GCSE] Vocab Quiz 11"),
+            LevelDataClass("[HKDSE] Listening Practice 10"),
+            LevelDataClass("[IELTS] English Vocab Quiz 9"),
+            LevelDataClass("[GCSE] Vocab Quiz 8"),
+            LevelDataClass("[Toffle] Vocab Quiz 7"),
+            LevelDataClass("[IELTS] English Vocab Quiz 6")
 
         )
 

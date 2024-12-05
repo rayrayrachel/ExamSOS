@@ -14,11 +14,11 @@ class LevelAdapter(private val dataList: ArrayList<LevelDataClass>) :
 
     class ViewHolderClass(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val LevelHeader: TextView = itemView.findViewById(R.id.level_header)
-        private val LevelText: TextView = itemView.findViewById(R.id.level_text)
+
 
         fun bind(levels: LevelDataClass) {
             LevelHeader.text = levels.dataTitle
-            LevelText.text = levels.dataDescription
+
         }
     }
 
