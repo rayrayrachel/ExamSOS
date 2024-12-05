@@ -5,5 +5,5 @@
         android:id="@+id/upButton"
         android:icon="@drawable/ic_back_arrow"
         android:title="@string/appbar_item_back"
-        app:showAsAction="ifRoom"/>
+        app:showAsAction="always"/>
 </menu>

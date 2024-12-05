@@ -30,7 +30,7 @@ class ActivityQuizSelection : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_quiz_selection)
 
-        val mToolbar = findViewById<Toolbar>(R.id.sub_toolbar)
+        val mToolbar = findViewById<Toolbar>(R.id.quiz_selection_toolbar)
         setSupportActionBar(mToolbar)
 
         Log.i(myTag, "*** QuizActivity: In onCreate")
@@ -262,10 +262,10 @@ class ActivityQuizSelection : AppCompatActivity() {
                 Log.i(myTag, "back clicked")
                 true
             }
+
             else -> super.onOptionsItemSelected(item)
         }
     }
-
     override fun onStart() {
         super.onStart()
         Log.i(myTag, "*** QuizActivity: In onStart")

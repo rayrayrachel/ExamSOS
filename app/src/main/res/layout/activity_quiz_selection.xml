@@ -11,9 +11,9 @@
         android:background="@raw/app_background">
 
         <androidx.appcompat.widget.Toolbar
-            android:id="@+id/sub_toolbar"
+            android:id="@+id/quiz_selection_toolbar"
             android:layout_width="match_parent"
-            android:minHeight="@dimen/actionBarSize"
+            android:minHeight="?attr/actionBarSize"
             android:layout_height="@dimen/toolbar_height"
             app:titleTextColor="@android:color/white"
             android:background="@color/theme_primary" />
