@@ -70,36 +70,100 @@ class ActivityQuizSelection : AppCompatActivity() {
 
         val adapter = CategoryAdapter(data) { selectedCategory ->
 
-            // Fetch the selected difficulty level
+            // Fetch selected difficulty level
             val difficulty = when (findViewById<RadioGroup>(R.id.level_radio_group).checkedRadioButtonId) {
                 R.id.level_easy -> "easy"
                 R.id.level_medium -> "medium"
                 R.id.level_hard -> "hard"
-                else -> "easy" // Default to easy if nothing is selected
+                else -> "easy"
             }
 
-            // Fetch the number of questions
+            // Fetch the number of question
             val questionSlider = findViewById<com.google.android.material.slider.Slider>(R.id.number_of_questions_slider)
             var numberOfQuestions = questionSlider.value.toInt()
 
-            // Fetch the selected quiz type
+            // Fetch selected quiz type
             val quizType = findViewById<Spinner>(R.id.category_spinner).selectedItem?.toString()?.let { selected ->
                 when (selected) {
-                    "Any Type" -> null // API should ignore this parameter
+                    "Any Type" -> null
                     "Multiple Choice" -> "multiple"
                     "True/False" -> "boolean"
-                    else -> null // Default fallback
+                    else -> null
                 }
             }
 
             // Log the selected values
             Log.d(myTag, "Category: ${selectedCategory.name}, Difficulty: $difficulty, Questions: $numberOfQuestions, Type: $quizType")
 
-            // Make the API call to fetch questions based on the selected options
-            fetchQuestions(selectedCategory, difficulty, numberOfQuestions, quizType)
+            // Fetch available questions count for selected category and difficulty
+            fetchCategoryQuestionCount(selectedCategory.id, difficulty, quizType) { availableCount ->
+                // Ensure requested number of questions doesn't exceed available count
+                if (numberOfQuestions > availableCount) {
+                    numberOfQuestions = availableCount
+                    runOnUiThread {
+                        Toast.makeText(
+                            this@ActivityQuizSelection,
+                            "Only $availableCount questions available. Adjusting your selection.",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+                }
+
+                // Proceed with fetching the questions
+                fetchQuestions(selectedCategory, difficulty, numberOfQuestions, quizType)
+            }
         }
 
         recyclerView.adapter = adapter
+    }
+    /**
+     * Fetch the available question count for a specific category and difficulty level.
+     */
+    private fun fetchCategoryQuestionCount(categoryId: Int, difficulty: String, quizType: String?, callback: (Int) -> Unit) {
+        CoroutineScope(Dispatchers.IO).launch {
+            try {
+                // Fetch the category's data from the API
+                val response = RetrofitClient.api.getCategoryQuestionCount(categoryId)
+
+                // Log the raw response
+                Log.d(myTag, "Raw response: $response")
+
+                // Retrieve the total question count based on difficulty
+                val availableCount = when (difficulty) {
+                    "easy" -> response.category_question_count.total_easy_question_count
+                    "medium" -> response.category_question_count.total_medium_question_count
+                    "hard" -> response.category_question_count.total_hard_question_count
+                    else -> response.category_question_count.total_question_count
+                }
+
+                // Handle the case where no questions are available for the category
+                if (availableCount == 0) {
+                    runOnUiThread {
+                        Toast.makeText(
+                            this@ActivityQuizSelection,
+                            "No questions available for this category and difficulty level.",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+                    callback(0)  // No questions available, call back 0
+                    return@launch
+                }
+
+                // Check if quiz type is selected
+                if (quizType != null) {
+                    //the api only return question count for different difficulty without quiz type,
+                // so when quiz type is not null, it has different count, and affect the logic,
+                // since the api does not provide, all i could do is to not proceed
+                }
+
+                // Return the available count to the callback
+                callback(availableCount)
+
+            } catch (e: Exception) {
+                Log.e(myTag, "Error fetching category question count", e)
+                callback(0)  // If there's an error, assume no questions are available
+            }
+        }
     }
 
     /**
@@ -109,21 +173,33 @@ class ActivityQuizSelection : AppCompatActivity() {
         CoroutineScope(Dispatchers.IO).launch {
             try {
                 val response = api.getQuestions(
-                    amount = numberOfQuestions,  // Use the validated number here
+                    amount = numberOfQuestions,
                     category = selectedCategory.id,
                     difficulty = difficulty,
                     type = quizType
                 )
                 Log.d(myTag, "Questions fetched: ${response.results}")
 
-                // Optionally, update the UI or navigate to another screen with the fetched questions
-                runOnUiThread {
-                    Toast.makeText(
-                        this@ActivityQuizSelection,
-                        "Fetched ${response.results.size} questions!",
-                        Toast.LENGTH_SHORT
-                    ).show()
+                // Check if no questions were returned from the API
+                if (response.results.isEmpty()) {
+                    runOnUiThread {
+                        Toast.makeText(
+                            this@ActivityQuizSelection,
+                            "Not enough questions available for this selection.",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+                } else {
+                    // Handle questions and update UI or navigate to another screen
+                    runOnUiThread {
+                        Toast.makeText(
+                            this@ActivityQuizSelection,
+                            "Fetched ${response.results.size} questions!",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
                 }
+
             } catch (e: Exception) {
                 Log.e(myTag, "Failed to fetch questions", e)
                 runOnUiThread {
@@ -136,6 +212,7 @@ class ActivityQuizSelection : AppCompatActivity() {
             }
         }
     }
+
 
     /**
      * Set up the quiz type spinner.
