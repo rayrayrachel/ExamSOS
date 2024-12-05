@@ -17,7 +17,7 @@
         android:layout_height="match_parent"
         android:padding="16dp"
         android:orientation="horizontal"
-        android:gravity="center_vertical">
+        android:gravity="start">
 
         <ImageView
             android:id="@+id/level_icon"
@@ -31,13 +31,15 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:layout_weight="1">
+            android:layout_weight="1"
+            android:gravity="start">
 
             <TextView
                 android:id="@+id/level_header"
                 style="@style/LargeNumberTextStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:gravity="start"
                 android:text="@string/dummy_level_header" />
 
         </LinearLayout>

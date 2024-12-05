@@ -16,10 +16,17 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.examsos.adapter.LevelAdapter
 import com.example.examsos.dataValue.LevelDataClass
 import com.example.examsos.R
+import com.example.examsos.adapter.CategoryAdapter
+import com.example.examsos.api.RetrofitClient
+import com.example.examsos.dataValue.TriviaCategory
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+
 
 class ActivityQuizSelection : AppCompatActivity() {
 
-    private val myTag = "RachelsTag"
+    private val myTag = "Rachel'sTag"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,7 +38,7 @@ class ActivityQuizSelection : AppCompatActivity() {
         Log.i(myTag, "*** QuizActivity: In onCreate")
 
         // Set up the RecyclerView
-        setupRecyclerView2()
+        fetchTriviaCategories()
 
         setupQuizTypeSpinner()
     }
@@ -39,35 +46,37 @@ class ActivityQuizSelection : AppCompatActivity() {
     /**
      * Sets up the RecyclerView with sample data and the LevelAdapter.
      */
-    private fun setupRecyclerView2() {
-        // Initialize the RecyclerView
+
+
+    private fun fetchTriviaCategories() {
+        CoroutineScope(Dispatchers.IO).launch {
+            try {
+                val response = RetrofitClient.api.getCategories()
+                val categoryList = response.trivia_categories
+
+                Log.d(myTag, "Categories fetched: $categoryList")
+
+                runOnUiThread {
+                    setupRecyclerViewWithData(categoryList)
+                }
+            } catch (e: Exception) {
+                Log.e(myTag, "Error fetching trivia categories", e)
+            }
+        }
+    }
+
+
+
+    private fun setupRecyclerViewWithData(categories: List<TriviaCategory>) {
         val recyclerView = findViewById<RecyclerView>(R.id.level_recycler_view)
         recyclerView.layoutManager = LinearLayoutManager(this)
 
-        // Sample data for the adapter
-        val levelList = arrayListOf(
-            LevelDataClass("[GCSE] Vocab Quiz 20"),
-            LevelDataClass("[IELTS] English Vocab Quiz 19"),
-            LevelDataClass("[Toffle] Vocab Quiz 18" ),
-            LevelDataClass("[HKDSE] Listening Practice 17" ),
-            LevelDataClass("[IELTS] English Vocab Quiz 16" ),
-            LevelDataClass("[GCSE] Vocab Quiz 15" ),
-            LevelDataClass("[HKDSE] English Quiz 14"),
-            LevelDataClass("[Toffle] Vocab Quiz 13" ),
-            LevelDataClass("[IELTS] English Vocab Quiz 12"),
-            LevelDataClass("[GCSE] Vocab Quiz 11"),
-            LevelDataClass("[HKDSE] Listening Practice 10"),
-            LevelDataClass("[IELTS] English Vocab Quiz 9"),
-            LevelDataClass("[GCSE] Vocab Quiz 8"),
-            LevelDataClass("[Toffle] Vocab Quiz 7"),
-            LevelDataClass("[IELTS] English Vocab Quiz 6")
-
-        )
-
-        // Set up the adapter
-        val adapter = LevelAdapter(levelList)
+        val adapter = CategoryAdapter(categories)
         recyclerView.adapter = adapter
     }
+
+
+
 
     private fun setupQuizTypeSpinner() {
         val categorySpinner = findViewById<Spinner>(R.id.category_spinner)
