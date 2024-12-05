@@ -19,6 +19,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.auth
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.ListenerRegistration
 
 
 /**
@@ -40,6 +41,9 @@ class ActivityMain : AppCompatActivity() {
     private val currentUser = FirebaseAuth.getInstance().currentUser
     private val db = FirebaseFirestore.getInstance()
     private val userDocRef = currentUser?.let { db.collection("users").document(it.uid) }
+
+    private var loginDatesListener: ListenerRegistration? = null
+
     /**
      * Called when the activity is first created.
      * Initializes the UI components and sets up the action bar.
@@ -110,9 +114,7 @@ class ActivityMain : AppCompatActivity() {
             }
         })
 
-        val currentTimestamp = FieldValue.serverTimestamp()
         checkLoginStreak()
-        fetchLoginDates()
 
     }
 
@@ -287,26 +289,43 @@ class ActivityMain : AppCompatActivity() {
     }
 
 
-    private fun fetchLoginDates() {
+
+    private fun listenForLoginDatesUpdates() {
         if (currentUser != null) {
-            userDocRef?.get()
-                ?.addOnSuccessListener { document ->
-                    if (document.exists()) {
-                        val streak = document.getLong("streak") ?: 0
-                        loginDaysTextView.text = "$streak"
-                    } else {
-                        Log.w(myTag, "No such document")
-                    }
+            loginDatesListener = userDocRef?.addSnapshotListener { snapshot, exception ->
+                if (exception != null) {
+                    Log.e(myTag, "Error listening to login dates updates", exception)
+                    return@addSnapshotListener
                 }
-                ?.addOnFailureListener { exception ->
-                    Log.e(myTag, "Error fetching streak", exception)
+
+                if (snapshot != null && snapshot.exists()) {
+                    // Get the loginDates list from Firestore
+                    val loginDates = snapshot.get("loginDates") as? List<Long> ?: emptyList()
+
+                    // convert timestamps to a set of unique days
+                    val uniqueDays = loginDates.map { timestamp ->
+                        val calendar = Calendar.getInstance()
+                        calendar.timeInMillis = timestamp
+                        // Extract the year and day of the year to ensure unique days
+                        "${calendar.get(Calendar.YEAR)}-${calendar.get(Calendar.DAY_OF_YEAR)}"
+                    }.toSet()
+
+                    // Get the count of the unique days
+                    val uniqueDaysCount = uniqueDays.size
+
+                    // Update the textview
+                    loginDaysTextView.text = "$uniqueDaysCount"
+                    Log.i(myTag, "Login days updated: $uniqueDaysCount")
+                } else {
+                    Log.w(myTag, "Document does not exist")
+                    loginDaysTextView.text = "0"
                 }
+            }
         } else {
             Log.w(myTag, "User not logged in")
+            loginDaysTextView.text = "0"
         }
     }
-
-
 
     private fun fetchUsername() {
 
@@ -346,6 +365,8 @@ class ActivityMain : AppCompatActivity() {
      */
     override fun onStart() {
         super.onStart()
+
+        listenForLoginDatesUpdates()
         Log.i(myTag, "*** ActivityMain: In onStart")
     }
 
@@ -354,6 +375,9 @@ class ActivityMain : AppCompatActivity() {
      */
     override fun onStop() {
         super.onStop()
+
+        loginDatesListener?.remove()
+
         Log.i(myTag, "*** ActivityMain: In onStop")
     }
 
