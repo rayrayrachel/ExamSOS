@@ -7,15 +7,13 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import android.widget.RadioGroup
 import android.widget.Spinner
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.examsos.adapter.LevelAdapter
-import com.example.examsos.dataValue.LevelDataClass
-import com.example.examsos.R
 import com.example.examsos.adapter.CategoryAdapter
 import com.example.examsos.api.RetrofitClient
 import com.example.examsos.dataValue.TriviaCategory
@@ -67,14 +65,39 @@ class ActivityQuizSelection : AppCompatActivity() {
 
 
 
-    private fun setupRecyclerViewWithData(categories: List<TriviaCategory>) {
+
+    private fun setupRecyclerViewWithData(data: List<TriviaCategory>) {
         val recyclerView = findViewById<RecyclerView>(R.id.level_recycler_view)
         recyclerView.layoutManager = LinearLayoutManager(this)
 
-        val adapter = CategoryAdapter(categories)
+        val adapter = CategoryAdapter(data) { selectedCategory ->
+            // Get difficulty
+            val difficulty = when (findViewById<RadioGroup>(R.id.level_radio_group).checkedRadioButtonId) {
+                R.id.level_easy -> "easy"
+                R.id.level_medium -> "medium"
+                R.id.level_hard -> "hard"
+                else -> "easy"
+            }
+
+            // Get number of questions
+            val questionSlider = findViewById<com.google.android.material.slider.Slider>(R.id.number_of_questions_slider)
+            val numberOfQuestions = questionSlider.value.toInt()
+
+            // Get quiz type
+            val quizType = findViewById<Spinner>(R.id.category_spinner).selectedItem?.toString() ?: "Any Type"
+
+            // Log the values
+            Log.d(myTag, "Category: ${selectedCategory.name}, Difficulty: $difficulty, Questions: $numberOfQuestions, Type: $quizType")
+
+            Toast.makeText(
+                this,
+                "Category: ${selectedCategory.name}, Difficulty: $difficulty, Questions: $numberOfQuestions, Type: $quizType",
+                Toast.LENGTH_SHORT
+            ).show()
+        }
+
         recyclerView.adapter = adapter
     }
-
 
 
 

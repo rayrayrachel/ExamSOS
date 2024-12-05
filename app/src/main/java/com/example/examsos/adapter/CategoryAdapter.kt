@@ -8,8 +8,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.examsos.R
 import com.example.examsos.dataValue.TriviaCategory
 
-class CategoryAdapter(private val categories: List<TriviaCategory>) :
-    RecyclerView.Adapter<CategoryAdapter.CategoryViewHolder>() {
+class CategoryAdapter(
+    private val categories: List<TriviaCategory>,
+    private val onCategoryClick: (TriviaCategory) -> Unit
+) : RecyclerView.Adapter<CategoryAdapter.CategoryViewHolder>() {
 
     inner class CategoryViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val categoryName: TextView = view.findViewById(R.id.level_header)
@@ -22,7 +24,12 @@ class CategoryAdapter(private val categories: List<TriviaCategory>) :
     }
 
     override fun onBindViewHolder(holder: CategoryViewHolder, position: Int) {
-        holder.categoryName.text = categories[position].name
+        val category = categories[position]
+        holder.categoryName.text = category.name
+
+        holder.itemView.setOnClickListener {
+            onCategoryClick(category)
+        }
     }
 
     override fun getItemCount() = categories.size
