@@ -18,6 +18,7 @@
             app:titleTextColor="@android:color/white"
             app:title="@string/appbar_item_quiz_header"
             android:background="@color/theme_primary"/>
+
         <ProgressBar
             android:id="@+id/quiz_progress_bar"
             android:layout_width="match_parent"
@@ -60,152 +61,12 @@
                 app:srcCompat="@drawable/good_leaf" />
         </LinearLayout>
 
-        <LinearLayout
+        <FrameLayout
+            android:id="@+id/fragment_container"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginHorizontal="@dimen/primary_margin"
-            android:background="@drawable/rounded_corner_fragment_background"
-            android:orientation="vertical">
-            <TextView
-                android:id="@+id/quiz_question_number"
-                style="@style/LargeNumberTextStyle"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/rounded_corner_fragment_background_less_opaque"
-                android:padding="@dimen/primary_padding"
-                android:shadowColor="@color/medium_gray"
-                android:layout_marginBottom="@dimen/card_margin_vertical"
-                android:text="@string/dummy_quiz_question_number" />
-
-            <TextView
-                android:id="@+id/quiz_selection_header"
-                style="@style/HeaderTextStyle"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/all_rounded_corner_background"
-                android:padding="@dimen/primary_padding"
-                android:shadowColor="@color/medium_gray"
-                android:text="@string/dummy_quiz_question" />
-
-            <GridLayout
-                android:id="@+id/grid_layout"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:columnCount="2"
-                android:layout_margin="@dimen/card_margin"
-                android:rowCount="2">
-
-                <androidx.cardview.widget.CardView
-                    android:id="@+id/quiz_multi_top_right_answer"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_rowWeight="1"
-                    android:layout_columnWeight="1"
-                    android:layout_margin="@dimen/card_view_margin"
-                    android:backgroundTint="@color/lavender"
-                    android:clickable="true"
-                    android:foreground="?attr/selectableItemBackground"
-                    app:cardCornerRadius="@dimen/card_radius"
-                    app:cardElevation="@dimen/card_elevation">
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:paddingTop="@dimen/text_padding_top"
-                        android:shadowColor="@color/black"
-                        android:gravity="center"
-                        android:shadowDx="2"
-                        android:shadowDy="2"
-                        android:shadowRadius="3"
-                        android:text="@string/quiz_multi_top_right_answer"
-                        android:textColor="@color/black"
-                        android:textSize="@dimen/quiz_text_size" />
-                </androidx.cardview.widget.CardView>
-
-                <androidx.cardview.widget.CardView
-                    android:id="@+id/quiz_multi_top_left_answer"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_rowWeight="1"
-                    android:layout_columnWeight="1"
-                    android:layout_margin="@dimen/card_view_margin"
-                    android:backgroundTint="@color/mint_green"
-                    android:clickable="true"
-                    android:foreground="?attr/selectableItemBackground"
-                    app:cardCornerRadius="@dimen/card_radius"
-                    app:cardElevation="@dimen/card_elevation">
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:paddingTop="@dimen/text_padding_top"
-                        android:shadowColor="@color/black"
-                        android:gravity="center"
-                        android:shadowDx="2"
-                        android:shadowDy="2"
-                        android:shadowRadius="3"
-                        android:text="@string/quiz_multi_top_left_answer"
-                        android:textColor="@color/black"
-                        android:textSize="@dimen/quiz_text_size" />
-                </androidx.cardview.widget.CardView>
-
-                <androidx.cardview.widget.CardView
-                    android:id="@+id/quiz_multi_bottom_left_answer"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_rowWeight="1"
-                    android:layout_columnWeight="1"
-                    android:layout_margin="@dimen/card_view_margin"
-                    android:backgroundTint="@color/soft_yellow"
-                    android:clickable="true"
-                    android:foreground="?attr/selectableItemBackground"
-                    app:cardCornerRadius="@dimen/card_radius"
-                    app:cardElevation="@dimen/card_elevation">
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:paddingTop="@dimen/text_padding_top"
-                        android:shadowColor="@color/black"
-                        android:gravity="center"
-                        android:shadowDx="2"
-                        android:shadowDy="2"
-                        android:shadowRadius="3"
-                        android:text="@string/quiz_multi_bottom_left_answer"
-                        android:textColor="@color/black"
-                        android:textSize="@dimen/quiz_text_size" />
-                </androidx.cardview.widget.CardView>
-
-                <androidx.cardview.widget.CardView
-                    android:id="@+id/quiz_multi_bottom_right_answer"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_rowWeight="1"
-                    android:layout_columnWeight="1"
-                    android:layout_margin="@dimen/card_view_margin"
-                    android:backgroundTint="@color/vibrant_pink"
-                    android:clickable="true"
-                    android:foreground="?attr/selectableItemBackground"
-                    app:cardCornerRadius="@dimen/card_radius"
-                    app:cardElevation="@dimen/card_elevation">
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:paddingTop="@dimen/text_padding_top"
-                        android:shadowColor="@color/black"
-                        android:gravity="center"
-                        android:shadowDx="2"
-                        android:shadowDy="2"
-                        android:shadowRadius="3"
-                        android:text="@string/quiz_multi_bottom_right_answer"
-                        android:textColor="@color/black"
-                        android:textSize="@dimen/quiz_text_size" />
-                </androidx.cardview.widget.CardView>
-
-            </GridLayout>
-
-        </LinearLayout>
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:layout_marginHorizontal="@dimen/primary_margin" />
 
     </LinearLayout>
 

@@ -1,5 +1,6 @@
 package com.example.examsos
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.Menu
@@ -16,6 +17,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.examsos.adapter.CategoryAdapter
 import com.example.examsos.api.RetrofitClient
+import com.example.examsos.dataValue.QuizQuestion
 import com.example.examsos.dataValue.TriviaCategory
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -168,8 +170,7 @@ class ActivityQuizSelection : AppCompatActivity() {
 
     /**
      * Fetch the questions based on selected options.
-     */
-    private fun fetchQuestions(selectedCategory: TriviaCategory, difficulty: String, numberOfQuestions: Int, quizType: String?) {
+     */private fun fetchQuestions(selectedCategory: TriviaCategory, difficulty: String, numberOfQuestions: Int, quizType: String?) {
         CoroutineScope(Dispatchers.IO).launch {
             try {
                 val response = api.getQuestions(
@@ -180,7 +181,7 @@ class ActivityQuizSelection : AppCompatActivity() {
                 )
                 Log.d(myTag, "Questions fetched: ${response.results}")
 
-                // Check if no questions were returned from the API
+                // Check if no questions were gotten from the API
                 if (response.results.isEmpty()) {
                     runOnUiThread {
                         Toast.makeText(
@@ -190,13 +191,24 @@ class ActivityQuizSelection : AppCompatActivity() {
                         ).show()
                     }
                 } else {
-                    // Handle questions and update UI or navigate to another screen
+                    // Process the questions and prepare them as QuizQuestion
+                    val questions = response.results.map { triviaQuestion ->
+                        // Create QuizQuestion by mapping TriviaQuestion data
+                        QuizQuestion(
+                            category = triviaQuestion.category,
+                            type = triviaQuestion.type,
+                            difficulty = triviaQuestion.difficulty,
+                            question = triviaQuestion.question,
+                            options = ArrayList((triviaQuestion.incorrect_answers + triviaQuestion.correct_answer).shuffled()), // Shuffling the answers
+                            correctAnswer = triviaQuestion.correct_answer
+                        )
+                    }
+
+                    // Pass the QuizQuestion list to ActivityQuiz
                     runOnUiThread {
-                        Toast.makeText(
-                            this@ActivityQuizSelection,
-                            "Fetched ${response.results.size} questions!",
-                            Toast.LENGTH_SHORT
-                        ).show()
+                        val intent = Intent(this@ActivityQuizSelection, ActivityQuiz::class.java)
+                        intent.putParcelableArrayListExtra("QUESTIONS", ArrayList(questions)) // Pass as Parcelable
+                        startActivity(intent)
                     }
                 }
 
@@ -212,7 +224,6 @@ class ActivityQuizSelection : AppCompatActivity() {
             }
         }
     }
-
 
     /**
      * Set up the quiz type spinner.
@@ -239,8 +250,8 @@ class ActivityQuizSelection : AppCompatActivity() {
         categorySpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
                 val selectedType = parent?.getItemAtPosition(position).toString()
-                if (position != 0) { // Ignore the placeholder item
-                    // Toast.makeText(this@MainActivity, "Selected: $selectedType", Toast.LENGTH_SHORT).show()
+                if (position != 0) {
+                     Toast.makeText(this@ActivityQuizSelection, "Selected: $selectedType", Toast.LENGTH_SHORT).show()
                 }
             }
 

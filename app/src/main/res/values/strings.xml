@@ -74,7 +74,7 @@
     <string name="dummy_announcement_header">RELEASE: Politics Category</string>
 
     <!--Notes Page Fragment Strings-->
-    <string name="recent_note_title">[ADVANCED] IELTS Exam Daily Vocabulary</string>
+    <string name="recent_note_title">Quiz Title</string>
     <string name="recent_note_date">accessed on 4/10/2024</string>
     <string name="dummy_recent_note_content">1. Cohesion:\nThe use of linking words and phrases to connect ideas effectively.\n\n2. Lexical Resource:\nA range of vocabulary used appropriately to convey precise meanings.\n\n3. Complex Sentences:\nSentences that combine independent and dependent clauses to enhance writing.\n\n4. Task Achievement:\nThe extent to which the response meets the requirements of the prompt.</string>
     <string name="go_to_notes_button_label">MORE NOTES</string>
@@ -118,11 +118,11 @@
     <string name="dummy_level_header">Level Header</string>
     <string name="dummy_level_text">level description\n</string>
     <string name="quiz_selection_instruction">CLICK TO ENTER QUIZ</string>
-    <string name="appbar_item_quiz_header">[Literature] Vocab Quiz 20 – 1</string>
+    <string name="appbar_item_quiz_header">Quiz Tool Bar Header</string>
     <string name="quiz_button_label">RANDOM QUIZ</string>
 
     <!--Quiz Page String-->
-    <string name="dummy_quiz_question">Which word below means \"to suggest or hint at something in an indirect or subtle way\"?</string>
+    <string name="dummy_quiz_question">Quiz Question</string>
     <string name="quiz_multi_top_right_answer">Proclaim</string>
     <string name="quiz_multi_top_left_answer">Intimate</string>
     <string name="quiz_multi_bottom_left_answer">Define</string>
@@ -154,6 +154,8 @@
     <string name="login_header_username">USERNAME</string>
     <string name="login_text_prompt_username">Please Input Username</string>
     <string name="signup_page_name">Sign Up</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 </resources>
 
