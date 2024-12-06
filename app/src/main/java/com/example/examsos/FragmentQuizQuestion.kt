@@ -1,6 +1,7 @@
 package com.example.examsos
 
 import android.os.Bundle
+import android.text.Html
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -57,15 +58,15 @@ class FragmentQuizQuestion : Fragment() {
         questionNumberText.text = "Question $questionNumber"
 
         // Set the question header
-        questionHeaderText.text = questionText
+        questionHeaderText.text = Html.fromHtml(questionText).toString()
 
-        // Set options if available
+        // Decode the options
         options?.let {
             if (it.size >= 4) {
-                option1Text.text = it[0]
-                option2Text.text = it[1]
-                option3Text.text = it[2]
-                option4Text.text = it[3]
+                option1Text.text = Html.fromHtml(it[0]).toString()
+                option2Text.text = Html.fromHtml(it[1]).toString()
+                option3Text.text = Html.fromHtml(it[2]).toString()
+                option4Text.text = Html.fromHtml(it[3]).toString()
             }
         }
 

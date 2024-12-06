@@ -1,9 +1,11 @@
 package com.example.examsos
 
 import android.os.Bundle
+import android.text.Html
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
@@ -17,6 +19,8 @@ class ActivityQuiz : AppCompatActivity() {
     private var currentQuestionIndex = 0
     private var questions: ArrayList<QuizQuestion>? = null
 
+    private lateinit var progressBar: ProgressBar
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_quiz)
@@ -25,14 +29,25 @@ class ActivityQuiz : AppCompatActivity() {
         val mToolbar = findViewById<Toolbar>(R.id.quiz_toolbar)
         setSupportActionBar(mToolbar)
 
+        // Initialize ProgressBar
+        progressBar = findViewById(R.id.quiz_progress_bar)
+
         // Get the questions passed from the previous activity
         questions = intent.getParcelableArrayListExtra("QUESTIONS")
 
         if (questions != null && questions!!.isNotEmpty()) {
+           // updateProgressBar()
             loadQuestion(currentQuestionIndex)
         } else {
             Log.e(myTag, "No questions passed to ActivityQuiz.")
         }
+    }
+
+    private fun updateProgressBar() {
+        val totalQuestions = (questions?.size ?: 1) + 1
+        val progress = ((currentQuestionIndex + 1) / totalQuestions.toFloat() * 100).toInt()
+        progressBar.progress = progress
+        Log.i(myTag, "Progress updated to $progress%")
     }
 
     // Inflate the options menu
@@ -57,11 +72,17 @@ class ActivityQuiz : AppCompatActivity() {
     private fun loadQuestion(questionIndex: Int) {
         //TODO handle True and False Logic
         if (questionIndex < questions!!.size) {
+
             val question = questions!![questionIndex]
+
+            val decodedQuestion = Html.fromHtml(question.question).toString()
+            val decodedOptions = question.options!!.map { Html.fromHtml(it).toString() }
+            val decodedCorrectAnswer = Html.fromHtml(question.correctAnswer).toString()
+
             val quizFragment = FragmentQuizQuestion.newInstance(
-                question.question,
-                question.options!!,
-                question.correctAnswer,
+                decodedQuestion,
+                decodedOptions,
+                decodedCorrectAnswer,
                 questionIndex + 1 // Pass the question number
             )
 
@@ -84,6 +105,7 @@ class ActivityQuiz : AppCompatActivity() {
             Log.i(myTag, "Correct answer selected!")
             showToast("Correct answer!")
             currentQuestionIndex++
+            updateProgressBar()
             loadQuestion(currentQuestionIndex)
 
         } else {

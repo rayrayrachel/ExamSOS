@@ -25,7 +25,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/primary_margin"
             android:indeterminate="false"
-            android:progress="50"
+            android:progress="0"
             android:max="100"
             style="?android:attr/progressBarStyleHorizontal"
             android:progressTint="@color/theme_secondary"/>
