@@ -74,6 +74,7 @@ class ActivityQuiz : AppCompatActivity() {
         if (questionIndex < questions!!.size) {
 
             val question = questions!![questionIndex]
+            val type = question.type
 
             val decodedQuestion = Html.fromHtml(question.question).toString()
             val decodedOptions = question.options!!.map { Html.fromHtml(it).toString() }
@@ -83,6 +84,7 @@ class ActivityQuiz : AppCompatActivity() {
                 decodedQuestion,
                 decodedOptions,
                 decodedCorrectAnswer,
+                type,
                 questionIndex + 1 // Pass the question number
             )
 

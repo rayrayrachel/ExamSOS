@@ -15,6 +15,7 @@ class FragmentQuizQuestion : Fragment() {
     private val myTag = "Rachel'sTag"
 
     private var questionText: String? = null
+    private var questionType: String? = null
     private var options: List<String>? = null
     private var correctAnswer: String? = null
     private var questionNumber: Int = 1
@@ -27,6 +28,7 @@ class FragmentQuizQuestion : Fragment() {
             questionText = it.getString(ARG_QUESTION)
             options = it.getStringArrayList(ARG_OPTIONS)
             correctAnswer = it.getString(ARG_CORRECT_ANSWER)
+            questionType = it.getString(ARG_QUESTION_TYPE)
             questionNumber = it.getInt(ARG_QUESTION_NUMBER)
         }
     }
@@ -61,20 +63,32 @@ class FragmentQuizQuestion : Fragment() {
         questionHeaderText.text = Html.fromHtml(questionText).toString()
 
         // Decode the options
-        options?.let {
-            if (it.size >= 4) {
-                option1Text.text = Html.fromHtml(it[0]).toString()
-                option2Text.text = Html.fromHtml(it[1]).toString()
-                option3Text.text = Html.fromHtml(it[2]).toString()
-                option4Text.text = Html.fromHtml(it[3]).toString()
+        when (questionType) {
+            "boolean" -> {
+                // Hide unused options for boolean type
+                option3Card.visibility = View.GONE
+                option4Card.visibility = View.GONE
+
+                option1Text.text = getString(R.string.quiz_option_true)
+                option2Text.text = getString(R.string.quiz_option_false)
+
+                option1Card.setOnClickListener { handleAnswerSelection("True") }
+                option2Card.setOnClickListener { handleAnswerSelection("False") }
+
+            }
+            "multiple" -> {
+                // Show all four options for multiple-choice
+                option1Text.text = options!![0]
+                option2Text.text = options!![1]
+                option3Text.text = options!![2]
+                option4Text.text = options!![3]
+
+                option1Card.setOnClickListener { handleAnswerSelection(option1Text.text.toString()) }
+                option2Card.setOnClickListener { handleAnswerSelection(option2Text.text.toString()) }
+                option3Card.setOnClickListener { handleAnswerSelection(option3Text.text.toString()) }
+                option4Card.setOnClickListener { handleAnswerSelection(option4Text.text.toString()) }
             }
         }
-
-        // Set click listeners for answer options
-        option1Card.setOnClickListener { handleAnswerSelection(option1Text.text.toString()) }
-        option2Card.setOnClickListener { handleAnswerSelection(option2Text.text.toString()) }
-        option3Card.setOnClickListener { handleAnswerSelection(option3Text.text.toString()) }
-        option4Card.setOnClickListener { handleAnswerSelection(option4Text.text.toString()) }
 
         return view
     }
@@ -96,6 +110,7 @@ class FragmentQuizQuestion : Fragment() {
 
     companion object {
         private const val ARG_QUESTION = "question"
+        private const val ARG_QUESTION_TYPE = "question_type"
         private const val ARG_OPTIONS = "options"
         private const val ARG_CORRECT_ANSWER = "correct_answer"
         private const val ARG_QUESTION_NUMBER = "question_number"
@@ -104,14 +119,21 @@ class FragmentQuizQuestion : Fragment() {
          * Create a new instance of the fragment with the provided question and options.
          */
         @JvmStatic
-        fun newInstance(question: String, options: List<String>, correctAnswer: String, questionNumber: Int) =
-            FragmentQuizQuestion().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_QUESTION, question)
-                    putStringArrayList(ARG_OPTIONS, ArrayList(options))
-                    putString(ARG_CORRECT_ANSWER, correctAnswer)
-                    putInt(ARG_QUESTION_NUMBER, questionNumber)
-                }
+        fun newInstance(
+            question: String,
+            options: List<String>,
+            correctAnswer: String,
+            type: String,
+            questionNumber: Int
+        ) = FragmentQuizQuestion().apply {
+            arguments = Bundle().apply {
+                putString(ARG_QUESTION, question)
+                putString(ARG_QUESTION_TYPE, type)
+                putStringArrayList(ARG_OPTIONS, ArrayList(options))
+                putString(ARG_CORRECT_ANSWER, correctAnswer)
+                putInt(ARG_QUESTION_NUMBER, questionNumber)
             }
+        }
+
     }
 }
