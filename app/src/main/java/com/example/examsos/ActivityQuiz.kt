@@ -1,5 +1,6 @@
 package com.example.examsos
 
+import android.content.Intent
 import android.os.Bundle
 import android.text.Html
 import android.util.Log
@@ -24,6 +25,8 @@ class ActivityQuiz : AppCompatActivity() {
     private var livesLeft = 3
     private var totalScore = 0
     private var difficulty: String? = null
+
+    private var isUserWin = false
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -107,7 +110,16 @@ class ActivityQuiz : AppCompatActivity() {
             showToast("Quiz completed!")
             Log.i(myTag, "Quiz completed!")
             updateTotalScore()
-            //TODO go to new activity
+
+            isUserWin = true
+
+            val intent = Intent(this, ActivityResults::class.java)
+            intent.putExtra("TOTAL_SCORE", totalScore)
+            intent.putExtra("DIFFICULTY", difficulty)
+            intent.putExtra("TOTAL_QUESTIONS", currentQuestionIndex)
+            intent.putExtra("LIVES_REMAINING", livesLeft)
+            intent.putExtra("IS_WIN", isUserWin)
+            startActivity(intent)
             finish()
         }
     }
@@ -133,6 +145,17 @@ class ActivityQuiz : AppCompatActivity() {
             // Check if lives are exhausted
             if (livesLeft <= 0) {
                 showToast("No lives left. Game Over!")
+
+                isUserWin = false
+
+                val intent = Intent(this, ActivityResults::class.java)
+                intent.putExtra("TOTAL_SCORE", 0)
+                intent.putExtra("DIFFICULTY", difficulty)
+                intent.putExtra("TOTAL_QUESTIONS", currentQuestionIndex)
+                intent.putExtra("LIVES_REMAINING", livesLeft)
+                intent.putExtra("IS_WIN", isUserWin)
+                startActivity(intent)
+
                 finish()
             }
         }

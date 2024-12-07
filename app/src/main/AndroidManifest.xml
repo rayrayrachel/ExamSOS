@@ -57,6 +57,11 @@
             android:name=".ActivityQuizSelection"
             android:label="@string/level_page_name" />
 
+        <!-- ActivityResults: Quiz result -->
+        <activity
+            android:name=".ActivityResults"
+            android:label="Results" />
+
         <!-- ActivityNotes: Note-taking section -->
         <activity
             android:name=".ActivityNotes"

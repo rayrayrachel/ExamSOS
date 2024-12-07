@@ -162,13 +162,15 @@
     <string name="quiz_option_true">TRUE</string>
     <string name="quiz_option_false">FALSE</string>
     <string name="result_winning_message">Congratulations! 🌟</string>
-    <string name="result_winning_image">winniingImage</string>
+    <string name="result_winning_image">winningImage</string>
     <string name="result_play_again">Play Again</string>
-    <string name="result_lives_remaining_msg">Lives Remaining: 3</string>
-    <string name="result_total_leaves">Total Leaves: 100</string>
-    <string name="result_number_of_questions">Number of Questions: 50</string>
-    <string name="result_difficulty_hard">Difficulty: Hard</string>
+    <string name="result_lives_remaining_msg">Lives Remaining: </string>
+    <string name="result_total_leaves">Total Leaves: </string>
+    <string name="result_number_of_questions">Number of Questions: </string>
+    <string name="result_difficulty_hard">Difficulty: </string>
     <string name="result_level_selection_button">LEVEL SELECTION</string>
+    <string name="result_difficulty">"Difficulty: "</string>
+    <string name="result_losing_message">You Lose... Try Again?</string>
 
 </resources>
 
