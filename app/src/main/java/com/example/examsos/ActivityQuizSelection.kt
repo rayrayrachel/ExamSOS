@@ -21,6 +21,7 @@ import com.example.examsos.dataValue.QuizQuestion
 import com.example.examsos.dataValue.TriviaCategory
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 class ActivityQuizSelection : AppCompatActivity() {
@@ -28,9 +29,7 @@ class ActivityQuizSelection : AppCompatActivity() {
     private val myTag = "Rachel'sTag"
     private lateinit var cardType : String
     private lateinit var categoryList: List<TriviaCategory>
-    val api = RetrofitClient.api
-
-
+    private val api = RetrofitClient.api
 
     override fun onCreate(savedInstanceState: Bundle?) {
         cardType = intent.getStringExtra("CARD TYPE").toString()
@@ -51,12 +50,11 @@ class ActivityQuizSelection : AppCompatActivity() {
                 setupQuizTypeSpinner()
             }
         }
-        else if (cardType == "random"){
+        else {
             fetchTriviaCategories()
             finish()
         }
     }
-
 
     /**
      * Fetch the trivia categories and update RecyclerView with the data.
@@ -71,7 +69,7 @@ class ActivityQuizSelection : AppCompatActivity() {
 
                 when (cardType) {
                     "custom" -> {
-                        Log.d(myTag, "SELECTED CUSTOM CARD")
+                        Log.d(myTag, "SELECTED CUSTOM CARD (show customise quiz selections, i.e. user can select their own quiz parameters)")
 
                         runOnUiThread {
                             setupRecyclerViewWithData(categoryList)
@@ -79,14 +77,15 @@ class ActivityQuizSelection : AppCompatActivity() {
 
                     }
                     "daily" -> {
-                        Log.d(myTag, "SELECTED DAILY CARD")
+                        Log.d(myTag, "SELECTED DAILY CARD (i.e. set parameters as user configuration in settings, if user hasn't set it before, use default)")
                     }
                     "random" -> {
-                        Log.d(myTag, "SELECTED RANDOM CARD")
+                        Log.d(myTag, "SELECTED RANDOM CARD (i.e. randomize parameters)")
                         handleRandomQuiz(categoryList)
                     }
                     "marathon" -> {
-                        Log.d(myTag, "SELECTED MARATHON CARD")
+                        Log.d(myTag, "SELECTED MARATHON CARD (i.e. setting question size larger than api that can be fetched )")
+                        handleMarathonQuiz()
                     }
                     else -> {
                         // Handle default case
@@ -188,8 +187,9 @@ class ActivityQuizSelection : AppCompatActivity() {
                 // Check if quiz type is selected
                 if (quizType != null) {
                     //the api only return question count for different difficulty without quiz type,
-                // so when quiz type is not null, it has different count, and affect the logic,
-                // since the api does not provide, all i could do is to not proceed
+                    // so when quiz type is not null, it has different count, and affect the logic,
+                    // since the api does not provide, all i could do is to not proceed
+                    Log.w(myTag, "The API doesn't return total count of each difficulty's specific type, it only count for all types.")
                 }
 
                 // Return the available count to the callback
@@ -206,7 +206,7 @@ class ActivityQuizSelection : AppCompatActivity() {
         val randomCategory = data.random()
         var randomNumberOfQuestions = (5..50).random()
         val randomDifficulty = listOf("easy", "medium", "hard").random()
-    //    val randomQuizType = listOf("multiple", "boolean", null).random()
+        //    val randomQuizType = listOf("multiple", "boolean", null).random()
         val randomQuizType = null
 
 
@@ -216,13 +216,6 @@ class ActivityQuizSelection : AppCompatActivity() {
             // Ensure requested number of questions doesn't exceed available count
             if (randomNumberOfQuestions > availableCount) {
                 randomNumberOfQuestions = availableCount
-                runOnUiThread {
-                    Toast.makeText(
-                        this@ActivityQuizSelection,
-                        "Only $availableCount questions available. Adjusting your selection.",
-                        Toast.LENGTH_SHORT
-                    ).show()
-                }
             }
             // Proceed with fetching the questions
             fetchQuestions(randomCategory, randomDifficulty, randomNumberOfQuestions, randomQuizType)
@@ -234,9 +227,85 @@ class ActivityQuizSelection : AppCompatActivity() {
         }
     }
 
+    private fun handleMarathonQuiz() {
+        val marathonCategoryId = 9 // General Knowledge category ID
+        val totalQuestionsPerDifficulty = 50
+        val difficulties = listOf("easy", "medium", "hard")
+        var fetchCount = 0
+
+        CoroutineScope(Dispatchers.IO).launch {
+            try {
+                val allQuestions = mutableListOf<QuizQuestion>()
+
+                // Define the selected category (General Knowledge category)
+                val selectedCategory = TriviaCategory(id = marathonCategoryId, name = "General Knowledge")
+
+                for (difficulty in difficulties) {
+
+                    val response = api.getQuestions(
+                        amount = totalQuestionsPerDifficulty,
+                        category = selectedCategory.id,
+                        difficulty = difficulty,
+                        type = null
+                    )
+
+                    if (response.results.isEmpty()) {
+                        Log.e(myTag, "No questions fetched for difficulty $difficulty")
+                        return@launch
+                    }
+
+                    // Convert TriviaQuestions to QuizQuestions
+                    val quizQuestions = response.results.map { triviaQuestion ->
+                        QuizQuestion(
+                            category = triviaQuestion.category,
+                            type = triviaQuestion.type,
+                            difficulty = triviaQuestion.difficulty,
+                            question = triviaQuestion.question,
+                            options = ArrayList((triviaQuestion.incorrect_answers + triviaQuestion.correct_answer).shuffled()),
+                            correctAnswer = triviaQuestion.correct_answer
+                        )
+                    }
+                    // Add fetched questions to the list
+                    allQuestions.addAll(quizQuestions)
+
+                    fetchCount++
+
+                    if(fetchCount<3) {
+                        Log.i(myTag, "Fetched 50 Questions $fetchCount time, Wait 5 Seconds")
+                        delay(5000)     //have to wait 5 seconds between fetch API
+                    }
+                    else
+                    {
+                        Log.i(myTag, "Fetched 50 Questions $fetchCount time")
+                    }
+
+                }
+
+                // Once all questions are fetched, pass them to the Activity Quiz
+                runOnUiThread {
+                    val intent = Intent(this@ActivityQuizSelection, ActivityQuiz::class.java)
+                    intent.putParcelableArrayListExtra("QUESTIONS", ArrayList(allQuestions))
+                    intent.putExtra("DIFFICULTY_SELECTED", "marathon")
+                    startActivity(intent)
+                }
+            } catch (e: Exception) {
+                Log.e(myTag, "Error fetching marathon questions", e)
+                runOnUiThread {
+                    Toast.makeText(
+                        this@ActivityQuizSelection,
+                        "Failed to fetch Marathon questions. Please try again.",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+            }
+        }
+    }
+
     /**
      * Fetch the questions based on selected options.
-     */private fun fetchQuestions(selectedCategory: TriviaCategory, difficulty: String, numberOfQuestions: Int, quizType: String?) {
+     */
+
+    private fun fetchQuestions(selectedCategory: TriviaCategory, difficulty: String, numberOfQuestions: Int, quizType: String?) {
         CoroutineScope(Dispatchers.IO).launch {
             try {
                 val response = api.getQuestions(
@@ -318,7 +387,7 @@ class ActivityQuizSelection : AppCompatActivity() {
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
                 val selectedType = parent?.getItemAtPosition(position).toString()
                 if (position != 0) {
-                     Toast.makeText(this@ActivityQuizSelection, "Selected: $selectedType", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this@ActivityQuizSelection, "Selected: $selectedType", Toast.LENGTH_SHORT).show()
                 }
             }
 

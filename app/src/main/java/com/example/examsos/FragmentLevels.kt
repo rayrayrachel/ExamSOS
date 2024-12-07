@@ -37,6 +37,9 @@ class FragmentLevels : Fragment() {
 
         view.findViewById<CardView>(R.id.fragment_category_marathon).setOnClickListener {
             handleCardClick("marathon", getString(R.string.fragment_category_marathon))
+            Toast.makeText(requireContext(), "Loading 150 Questions, 10 Seconds Countdown", Toast.LENGTH_LONG).show()
+            Toast.makeText(requireContext(), "Loading 150 Questions, 7 Seconds Countdown", Toast.LENGTH_LONG).show()
+            Toast.makeText(requireContext(), "Loading 150 Questions, 4 Seconds Countdown", Toast.LENGTH_LONG).show()
         }
     }
 
