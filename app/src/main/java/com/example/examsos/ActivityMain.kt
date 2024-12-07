@@ -215,7 +215,6 @@ class ActivityMain : AppCompatActivity() {
         }
     }
 
-
     private fun checkLoginStreak() {
         val localTimestamp = System.currentTimeMillis()
         Log.i(myTag, "Local timestamp for debugging: $localTimestamp")
@@ -226,31 +225,35 @@ class ActivityMain : AppCompatActivity() {
                     // Get the current streak and last login data
                     val lastLogin = document.getLong("lastLogin") ?: 0
                     val streak = document.getLong("streak") ?: 0
-                    val loginDates = document.get("loginDates") as? List<Long> ?: emptyList()
+                    val currentScore = document.getLong("score") ?: 0 // Fetch existing score
 
-                    // Calculate difference in days between last login and current login
-                    val lastLoginDate = java.util.Date(lastLogin)
-                    val currentLoginDate = java.util.Date(localTimestamp)
-
-                    val lastLoginCalendar = java.util.Calendar.getInstance().apply {
-                        time = lastLoginDate
+                    val lastLoginCalendar = Calendar.getInstance().apply {
+                        timeInMillis = lastLogin
                     }
-                    val currentLoginCalendar = java.util.Calendar.getInstance().apply {
-                        time = currentLoginDate
+                    val currentLoginCalendar = Calendar.getInstance().apply {
+                        timeInMillis = localTimestamp
                     }
 
-                    val daysDifference = currentLoginCalendar.get(java.util.Calendar.DAY_OF_YEAR) - lastLoginCalendar.get(java.util.Calendar.DAY_OF_YEAR)
+                    // Check if the user logged in on a new day
+                    val isNewDay = currentLoginCalendar.get(Calendar.YEAR) != lastLoginCalendar.get(Calendar.YEAR) ||
+                            currentLoginCalendar.get(Calendar.DAY_OF_YEAR) != lastLoginCalendar.get(Calendar.DAY_OF_YEAR)
 
                     // Update streak based on login timing
-                    val newStreak = if (daysDifference == 1) {
-                        // Consecutive day login, increment streak
-                        streak + 1
-                    } else if (daysDifference > 1 || lastLoginCalendar.get(java.util.Calendar.YEAR) != currentLoginCalendar.get(java.util.Calendar.YEAR)) {
-                        // Not consecutive or a new year, reset streak
-                        1
+                    val newStreak = if (isNewDay) {
+                        if (currentLoginCalendar.get(Calendar.DAY_OF_YEAR) - lastLoginCalendar.get(Calendar.DAY_OF_YEAR) == 1) {
+                            streak + 1 // Increment streak if consecutive day
+                        } else {
+                            1 // Reset streak if non-consecutive
+                        }
                     } else {
-                        // Same day login, don't reset streak
-                        streak
+                        streak // Same day, no change
+                    }
+
+                    // Update score if it’s a new day
+                    val updatedScore = if (isNewDay) {
+                        currentScore + 10
+                    } else {
+                        currentScore
                     }
 
                     // Update Firestore
@@ -258,12 +261,13 @@ class ActivityMain : AppCompatActivity() {
                         mapOf(
                             "streak" to newStreak,
                             "lastLogin" to localTimestamp,
-                            "loginDates" to FieldValue.arrayUnion(localTimestamp)
+                            "loginDates" to FieldValue.arrayUnion(localTimestamp),
+                            "score" to updatedScore
                         )
                     ).addOnSuccessListener {
-                        Log.i(myTag, "Login streak and dates updated successfully.")
+                        Log.i(myTag, "Login streak, dates, and score updated successfully.")
                     }.addOnFailureListener { e ->
-                        Log.e(myTag, "Failed to update login streak and dates.", e)
+                        Log.e(myTag, "Failed to update login streak, dates, and score.", e)
                     }
 
                 } else {
@@ -274,7 +278,8 @@ class ActivityMain : AppCompatActivity() {
                         mapOf(
                             "streak" to 1,
                             "lastLogin" to localTimestamp,
-                            "loginDates" to listOf(localTimestamp)
+                            "loginDates" to listOf(localTimestamp),
+                            "score" to 10 // Initial score on first login
                         )
                     ).addOnSuccessListener {
                         Log.i(myTag, "New user document created successfully with initial values.")

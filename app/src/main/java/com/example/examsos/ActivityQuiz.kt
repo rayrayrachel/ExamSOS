@@ -5,6 +5,7 @@ import android.text.Html
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -20,6 +21,10 @@ class ActivityQuiz : AppCompatActivity() {
     private var questions: ArrayList<QuizQuestion>? = null
 
     private lateinit var progressBar: ProgressBar
+    private var livesLeft = 3
+    private var totalScore = 0
+    private var difficulty: String? = null
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,6 +39,14 @@ class ActivityQuiz : AppCompatActivity() {
 
         // Get the questions passed from the previous activity
         questions = intent.getParcelableArrayListExtra("QUESTIONS")
+
+        difficulty = intent.getStringExtra("DIFFICULTY_SELECTED")
+        Log.i(myTag, "Difficulty: $difficulty")
+
+        questions!!.forEachIndexed { index, question ->
+            val decodedCorrectAnswer = Html.fromHtml(question.correctAnswer).toString()
+            Log.i(myTag, "Correct answer for Question #$index: $decodedCorrectAnswer")
+        }
 
         if (questions != null && questions!!.isNotEmpty()) {
            // updateProgressBar()
@@ -70,7 +83,6 @@ class ActivityQuiz : AppCompatActivity() {
 
     // Load the next question into the Fragment
     private fun loadQuestion(questionIndex: Int) {
-        //TODO handle True and False Logic
         if (questionIndex < questions!!.size) {
 
             val question = questions!![questionIndex]
@@ -94,6 +106,7 @@ class ActivityQuiz : AppCompatActivity() {
         } else {
             showToast("Quiz completed!")
             Log.i(myTag, "Quiz completed!")
+            updateTotalScore()
             //TODO go to new activity
             finish()
         }
@@ -109,13 +122,97 @@ class ActivityQuiz : AppCompatActivity() {
             currentQuestionIndex++
             updateProgressBar()
             loadQuestion(currentQuestionIndex)
-
         } else {
             Log.i(myTag, "Incorrect answer selected.")
             showToast("Incorrect answer. Try again!")
-            //TODO check leave logic
+
+            // Reduce lives on incorrect answer
+            livesLeft--
+            updateLivesUI()
+
+            // Check if lives are exhausted
+            if (livesLeft <= 0) {
+                showToast("No lives left. Game Over!")
+                finish()
+            }
         }
     }
+
+    private fun updateLivesUI() {
+        when (livesLeft) {
+            3 -> {
+                findViewById<ImageView>(R.id.quiz_first_life).setImageResource(R.drawable.good_leaf)
+                findViewById<ImageView>(R.id.quiz_second_life).setImageResource(R.drawable.good_leaf)
+                findViewById<ImageView>(R.id.quiz_third_life).setImageResource(R.drawable.good_leaf)
+            }
+            2 -> {
+                findViewById<ImageView>(R.id.quiz_first_life).setImageResource(R.drawable.good_leaf)
+                findViewById<ImageView>(R.id.quiz_second_life).setImageResource(R.drawable.good_leaf)
+                findViewById<ImageView>(R.id.quiz_third_life).setImageResource(R.drawable.bad_leaf)
+            }
+            1 -> {
+                findViewById<ImageView>(R.id.quiz_first_life).setImageResource(R.drawable.good_leaf)
+                findViewById<ImageView>(R.id.quiz_second_life).setImageResource(R.drawable.bad_leaf)
+                findViewById<ImageView>(R.id.quiz_third_life).setImageResource(R.drawable.bad_leaf)
+            }
+            0 -> {
+                findViewById<ImageView>(R.id.quiz_first_life).setImageResource(R.drawable.bad_leaf)
+                findViewById<ImageView>(R.id.quiz_second_life).setImageResource(R.drawable.bad_leaf)
+                findViewById<ImageView>(R.id.quiz_third_life).setImageResource(R.drawable.bad_leaf)
+            }
+        }
+    }
+
+    private fun calculateBaseScore(questionIndex: Int, difficulty: String): Int {
+        val baseScore = when (difficulty) {
+            "easy" -> questionIndex
+            "medium" -> (questionIndex ) * 2
+            "hard" -> (questionIndex ) * 3
+            else -> 0
+        }
+        return baseScore
+    }
+
+    private fun calculateLivesBonus(): Int {
+        return when (livesLeft) {
+            3 -> (currentQuestionIndex ) * 2
+            2 -> currentQuestionIndex
+            else -> 0
+        }
+    }
+    private fun calculateQuestionsBonus(): Int {
+        var questionsBonus = 0
+        val n = currentQuestionIndex
+
+        if (n > 10) questionsBonus += 2
+        if (n > 15) questionsBonus += 4
+        if (n > 20) questionsBonus += 8
+        if (n > 25) questionsBonus += 16
+        if (n > 30) questionsBonus += 32
+        if (n > 35) questionsBonus += 64
+        if (n > 40) questionsBonus += 128
+        if (n > 45) questionsBonus += 256
+        return questionsBonus
+    }
+
+    private fun updateTotalScore() {
+        val difficulty = difficulty
+        val baseScore = difficulty?.let { calculateBaseScore(currentQuestionIndex, it) }
+        val livesBonus = calculateLivesBonus()
+        val questionsBonus = calculateQuestionsBonus()
+
+
+        if (baseScore != null) {
+            totalScore = baseScore + livesBonus + questionsBonus
+        }
+        Log.i(myTag, "baseScore : $baseScore")
+        Log.i(myTag, "livesBonus : $livesBonus")
+        Log.i(myTag, "questionsBonus : $questionsBonus")
+        Log.i(myTag, "Total score: $totalScore")
+    }
+
+
+
 
     fun showToast(message: String) {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
