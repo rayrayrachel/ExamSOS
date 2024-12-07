@@ -26,9 +26,15 @@ import kotlinx.coroutines.launch
 class ActivityQuizSelection : AppCompatActivity() {
 
     private val myTag = "Rachel'sTag"
+    private lateinit var cardType : String
     val api = RetrofitClient.api
 
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
+
+        cardType = intent.getStringExtra("CARD TYPE").toString()
+
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_quiz_selection)
 
@@ -36,6 +42,24 @@ class ActivityQuizSelection : AppCompatActivity() {
         setSupportActionBar(mToolbar)
 
         Log.i(myTag, "*** QuizActivity: In onCreate")
+
+        when (cardType) {
+            "custom" -> {
+                Log.d(myTag, "SELECTED CUSTOM CARD")
+            }
+            "daily" -> {
+                Log.d(myTag, "SELECTED DAILY CARD")
+            }
+            "random" -> {
+                Log.d(myTag, "SELECTED RANDOM CARD")
+            }
+            "marathon" -> {
+                Log.d(myTag, "SELECTED MARATHON CARD")
+            }
+            else -> {
+                // Handle default case
+            }
+        }
 
         // Set up the RecyclerView
         fetchTriviaCategories()

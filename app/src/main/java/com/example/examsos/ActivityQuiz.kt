@@ -48,7 +48,7 @@ class ActivityQuiz : AppCompatActivity() {
 
         questions!!.forEachIndexed { index, question ->
             val decodedCorrectAnswer = Html.fromHtml(question.correctAnswer).toString()
-            Log.i(myTag, "Correct answer for Question #$index: $decodedCorrectAnswer")
+            Log.d(myTag, "Correct answer for Question #$index: $decodedCorrectAnswer")
         }
 
         if (questions != null && questions!!.isNotEmpty()) {
@@ -63,7 +63,6 @@ class ActivityQuiz : AppCompatActivity() {
         val totalQuestions = (questions?.size ?: 1) + 1
         val progress = ((currentQuestionIndex + 1) / totalQuestions.toFloat() * 100).toInt()
         progressBar.progress = progress
-        Log.i(myTag, "Progress updated to $progress%")
     }
 
     // Inflate the options menu

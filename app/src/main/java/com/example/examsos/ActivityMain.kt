@@ -217,7 +217,6 @@ class ActivityMain : AppCompatActivity() {
 
     private fun checkLoginStreak() {
         val localTimestamp = System.currentTimeMillis()
-        Log.i(myTag, "Local timestamp for debugging: $localTimestamp")
 
         userDocRef?.get()
             ?.addOnSuccessListener { document ->
@@ -320,7 +319,7 @@ class ActivityMain : AppCompatActivity() {
 
                     // Update the textview
                     loginDaysTextView.text = "$uniqueDaysCount"
-                    Log.i(myTag, "Login days updated: $uniqueDaysCount")
+                    Log.d(myTag, "Login days updated: $uniqueDaysCount")
                 } else {
                     Log.w(myTag, "Document does not exist")
                     loginDaysTextView.text = "0"
@@ -335,7 +334,7 @@ class ActivityMain : AppCompatActivity() {
     private fun fetchUsername() {
 
         if (currentUser != null) {
-            Log.i(myTag, "Current User UID: ${currentUser.uid}")
+            Log.d(myTag, "Current User UID: ${currentUser.uid}")
         } else {
             Log.e(myTag, "No user is logged in")
         }

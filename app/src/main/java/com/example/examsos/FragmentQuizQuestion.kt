@@ -19,7 +19,6 @@ class FragmentQuizQuestion : Fragment() {
     private var options: List<String>? = null
     private var correctAnswer: String? = null
     private var questionNumber: Int = 1
-    //TODO handle true and false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -99,7 +98,6 @@ class FragmentQuizQuestion : Fragment() {
     private fun handleAnswerSelection(selectedOption: String) {
         val isCorrect = selectedOption == correctAnswer
         if (isCorrect) {
-            Log.i(myTag, "Correct Answer")
             (activity as? ActivityQuiz)?.onAnswerSelected(true) // Move to next question if correct
         } else {
             Log.i(myTag, "Wrong Answer")

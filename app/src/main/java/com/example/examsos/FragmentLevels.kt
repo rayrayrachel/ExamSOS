@@ -22,33 +22,32 @@ class FragmentLevels : Fragment() {
 
         return view
     }
-
     private fun setupCardClickListeners(view: View) {
-        view.findViewById<CardView>(R.id.fragment_level_category_humanities).setOnClickListener {
-            // Handle click for preschool card
-            Toast.makeText(requireContext(), getString(R.string.toast_message_fragment_level_category_humanities), Toast.LENGTH_SHORT).show()
-
-            startActivity(Intent(requireContext(), ActivityQuizSelection::class.java))
+        view.findViewById<CardView>(R.id.fragment_category_custom).setOnClickListener {
+            handleCardClick("custom", getString(R.string.toast_message_fragment_category_custom))
         }
 
-        view.findViewById<CardView>(R.id.fragment_level_category_STEM).setOnClickListener {
-            // Handle click for middle school card
-            Toast.makeText(requireContext(), getString(R.string.toast_message_fragment_level_category_stem), Toast.LENGTH_SHORT).show()
-            startActivity(Intent(requireContext(), ActivityQuizSelection::class.java))
+        view.findViewById<CardView>(R.id.fragment_category_daily).setOnClickListener {
+            handleCardClick("daily", getString(R.string.toast_message_fragment_category_daily))
         }
 
-        view.findViewById<CardView>(R.id.fragment_level_category_Literature).setOnClickListener {
-            // Handle click for high school card
-            Toast.makeText(requireContext(), getString(R.string.toast_message_fragment_level_category_literature), Toast.LENGTH_SHORT).show()
-
-            startActivity(Intent(requireContext(), ActivityQuizSelection::class.java))
+        view.findViewById<CardView>(R.id.fragment_category_random).setOnClickListener {
+            handleCardClick("random", getString(R.string.toast_message_fragment_category_random))
         }
 
-        view.findViewById<CardView>(R.id.fragment_level_category_biology).setOnClickListener {
-            // Handle click for advanced card
-            Toast.makeText(requireContext(), getString(R.string.toast_message_fragment_level_category_biology), Toast.LENGTH_SHORT).show()
-
-            startActivity(Intent(requireContext(), ActivityQuizSelection::class.java))
+        view.findViewById<CardView>(R.id.fragment_category_marathon).setOnClickListener {
+            handleCardClick("marathon", getString(R.string.fragment_category_marathon))
         }
     }
+
+    private fun handleCardClick(cardType: String, toastMessage: String) {
+
+        Toast.makeText(requireContext(), toastMessage, Toast.LENGTH_SHORT).show()
+
+        val intent = Intent(requireContext(), ActivityQuizSelection::class.java)
+        intent.putExtra("CARD TYPE", cardType)
+        startActivity(intent)
+    }
+
 }
+

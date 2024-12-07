@@ -31,7 +31,7 @@
             android:rowCount="2">
 
             <androidx.cardview.widget.CardView
-                android:id="@+id/fragment_level_category_humanities"
+                android:id="@+id/fragment_category_custom"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/card_margin"
@@ -71,7 +71,7 @@
             </androidx.cardview.widget.CardView>
 
             <androidx.cardview.widget.CardView
-                android:id="@+id/fragment_level_category_STEM"
+                android:id="@+id/fragment_category_daily"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/card_margin"
@@ -111,7 +111,7 @@
             </androidx.cardview.widget.CardView>
 
             <androidx.cardview.widget.CardView
-                android:id="@+id/fragment_level_category_Literature"
+                android:id="@+id/fragment_category_random"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/card_margin"
@@ -151,7 +151,7 @@
             </androidx.cardview.widget.CardView>
 
             <androidx.cardview.widget.CardView
-                android:id="@+id/fragment_level_category_biology"
+                android:id="@+id/fragment_category_marathon"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/card_margin"

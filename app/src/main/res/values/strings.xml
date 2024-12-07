@@ -101,11 +101,11 @@
 
     <!--Feedback Messages String-->
     <string name="toast_message_go_to_notes_button">Displaying More Notes</string>
-    <string name="toast_message_fragment_level_category_stem">STEM School Category Chosen</string>
-    <string name="toast_message_fragment_level_category_humanities">Humanities Category Chosen</string>
-    <string name="toast_message_fragment_level_category_biology">Biology Category Chosen</string>
-    <string name="toast_message_fragment_level_category_literature">literature Category Chosen</string>
-    <string name="toast_quick_start_button">Accessing Random Quiz</string>
+    <string name="toast_message_fragment_category_daily">Accessing Daily Quiz</string>
+    <string name="toast_message_fragment_category_custom">Accessing Quiz Customizing Page</string>
+    <string name="fragment_category_marathon">Accessing Quiz Marathon</string>
+    <string name="toast_message_fragment_category_random">Accessing Random Quiz</string>
+    <string name="toast_quick_start_button">Accessing Daily Quiz</string>
     <string name="toast_message_check_all_notification_button">Redirect To Notifications</string>
 
 
@@ -161,16 +161,19 @@
     <!--Quiz Page String-->
     <string name="quiz_option_true">TRUE</string>
     <string name="quiz_option_false">FALSE</string>
+
+
+    <!--Quiz Result Page String-->
     <string name="result_winning_message">Congratulations! 🌟</string>
     <string name="result_winning_image">winningImage</string>
     <string name="result_play_again">Play Again</string>
     <string name="result_lives_remaining_msg">Lives Remaining: </string>
-    <string name="result_total_leaves">Total Leaves: </string>
+    <string name="result_total_leaves">Leaves Obtained: </string>
     <string name="result_number_of_questions">Number of Questions: </string>
     <string name="result_difficulty_hard">Difficulty: </string>
     <string name="result_level_selection_button">LEVEL SELECTION</string>
     <string name="result_difficulty">"Difficulty: "</string>
-    <string name="result_losing_message">You Lose... Try Again?</string>
+    <string name="result_losing_message">You Lose… Try Again?</string>
 
 </resources>
 
