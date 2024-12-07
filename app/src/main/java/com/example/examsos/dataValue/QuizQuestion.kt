@@ -12,17 +12,6 @@ data class QuizQuestion(
     val correctAnswer: String
 ) : Parcelable {
 
-    constructor(triviaQuestion: TriviaQuestion) : this(
-        triviaQuestion.category,
-        triviaQuestion.type,
-        triviaQuestion.difficulty,
-        triviaQuestion.question,
-        triviaQuestion.incorrect_answers?.let {
-            ArrayList(it).apply { add(triviaQuestion.correct_answer) } // Add correct answer to the options
-        },
-        triviaQuestion.correct_answer
-    )
-
     constructor(parcel: Parcel) : this(
         parcel.readString() ?: "",
         parcel.readString() ?: "",
