@@ -27,45 +27,36 @@ class ActivityQuizSelection : AppCompatActivity() {
 
     private val myTag = "Rachel'sTag"
     private lateinit var cardType : String
+    private lateinit var categoryList: List<TriviaCategory>
     val api = RetrofitClient.api
 
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
-
         cardType = intent.getStringExtra("CARD TYPE").toString()
 
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_quiz_selection)
-
-        val mToolbar = findViewById<Toolbar>(R.id.quiz_selection_toolbar)
-        setSupportActionBar(mToolbar)
 
         Log.i(myTag, "*** QuizActivity: In onCreate")
 
-        when (cardType) {
-            "custom" -> {
-                Log.d(myTag, "SELECTED CUSTOM CARD")
-            }
-            "daily" -> {
-                Log.d(myTag, "SELECTED DAILY CARD")
-            }
-            "random" -> {
-                Log.d(myTag, "SELECTED RANDOM CARD")
-            }
-            "marathon" -> {
-                Log.d(myTag, "SELECTED MARATHON CARD")
-            }
-            else -> {
-                // Handle default case
+
+        if (cardType == "custom") {
+            runOnUiThread {
+                setContentView(R.layout.activity_quiz_selection)
+
+                val mToolbar = findViewById<Toolbar>(R.id.quiz_selection_toolbar)
+                setSupportActionBar(mToolbar)
+
+                fetchTriviaCategories()
+                setupQuizTypeSpinner()
             }
         }
-
-        // Set up the RecyclerView
-        fetchTriviaCategories()
-
-        setupQuizTypeSpinner()
+        else if (cardType == "random"){
+            fetchTriviaCategories()
+            finish()
+        }
     }
+
 
     /**
      * Fetch the trivia categories and update RecyclerView with the data.
@@ -74,12 +65,32 @@ class ActivityQuizSelection : AppCompatActivity() {
         CoroutineScope(Dispatchers.IO).launch {
             try {
                 val response = RetrofitClient.api.getCategories()
-                val categoryList = response.trivia_categories
+                categoryList = response.trivia_categories
 
                 Log.d(myTag, "Categories fetched: $categoryList")
 
-                runOnUiThread {
-                    setupRecyclerViewWithData(categoryList)
+                when (cardType) {
+                    "custom" -> {
+                        Log.d(myTag, "SELECTED CUSTOM CARD")
+
+                        runOnUiThread {
+                            setupRecyclerViewWithData(categoryList)
+                        }
+
+                    }
+                    "daily" -> {
+                        Log.d(myTag, "SELECTED DAILY CARD")
+                    }
+                    "random" -> {
+                        Log.d(myTag, "SELECTED RANDOM CARD")
+                        handleRandomQuiz(categoryList)
+                    }
+                    "marathon" -> {
+                        Log.d(myTag, "SELECTED MARATHON CARD")
+                    }
+                    else -> {
+                        // Handle default case
+                    }
                 }
             } catch (e: Exception) {
                 Log.e(myTag, "Error fetching trivia categories", e)
@@ -119,7 +130,7 @@ class ActivityQuizSelection : AppCompatActivity() {
             }
 
             // Log the selected values
-            Log.d(myTag, "Category: ${selectedCategory.name}, Difficulty: $difficulty, Questions: $numberOfQuestions, Type: $quizType")
+            Log.d(myTag, "Customised Category: ${selectedCategory.name}, Difficulty: $difficulty, Number Of Questions: $numberOfQuestions, Type: $quizType")
 
             // Fetch available questions count for selected category and difficulty
             fetchCategoryQuestionCount(selectedCategory.id, difficulty, quizType) { availableCount ->
@@ -134,7 +145,6 @@ class ActivityQuizSelection : AppCompatActivity() {
                         ).show()
                     }
                 }
-
                 // Proceed with fetching the questions
                 fetchQuestions(selectedCategory, difficulty, numberOfQuestions, quizType)
             }
@@ -189,6 +199,38 @@ class ActivityQuizSelection : AppCompatActivity() {
                 Log.e(myTag, "Error fetching category question count", e)
                 callback(0)  // If there's an error, assume no questions are available
             }
+        }
+    }
+
+    private fun handleRandomQuiz(data: List<TriviaCategory>){
+        val randomCategory = data.random()
+        var randomNumberOfQuestions = (5..50).random()
+        val randomDifficulty = listOf("easy", "medium", "hard").random()
+    //    val randomQuizType = listOf("multiple", "boolean", null).random()
+        val randomQuizType = null
+
+
+        Log.d(myTag, "Random Generated Category: ${randomCategory.name}, Difficulty: $randomDifficulty, Number Of Questions: $randomNumberOfQuestions, Type: $randomQuizType")
+
+        fetchCategoryQuestionCount(randomCategory.id, randomDifficulty, randomQuizType) { availableCount ->
+            // Ensure requested number of questions doesn't exceed available count
+            if (randomNumberOfQuestions > availableCount) {
+                randomNumberOfQuestions = availableCount
+                runOnUiThread {
+                    Toast.makeText(
+                        this@ActivityQuizSelection,
+                        "Only $availableCount questions available. Adjusting your selection.",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+            }
+            // Proceed with fetching the questions
+            fetchQuestions(randomCategory, randomDifficulty, randomNumberOfQuestions, randomQuizType)
+        }
+
+        //finish after transitioning
+        runOnUiThread {
+            finish()
         }
     }
 
