@@ -147,8 +147,10 @@ class ActivityQuiz : AppCompatActivity() {
 
                 isUserWin = false
 
+                updateTotalScore()
+
                 val intent = Intent(this, ActivityResults::class.java)
-                intent.putExtra("TOTAL_SCORE", 0)
+                intent.putExtra("TOTAL_SCORE", totalScore)
                 intent.putExtra("DIFFICULTY", difficulty)
                 intent.putExtra("TOTAL_QUESTIONS", currentQuestionIndex)
                 intent.putExtra("LIVES_REMAINING", livesLeft)
@@ -190,6 +192,7 @@ class ActivityQuiz : AppCompatActivity() {
             "easy" -> questionIndex
             "medium" -> (questionIndex ) * 2
             "hard" -> (questionIndex ) * 3
+            "marathon"->(questionIndex) * 3
             else -> 0
         }
         return baseScore
@@ -197,8 +200,9 @@ class ActivityQuiz : AppCompatActivity() {
 
     private fun calculateLivesBonus(): Int {
         return when (livesLeft) {
-            3 -> (currentQuestionIndex ) * 2
-            2 -> currentQuestionIndex
+            3 -> (currentQuestionIndex ) * 3
+            2 -> currentQuestionIndex * 2
+            1 -> currentQuestionIndex * 1
             else -> 0
         }
     }
@@ -206,14 +210,15 @@ class ActivityQuiz : AppCompatActivity() {
         var questionsBonus = 0
         val n = currentQuestionIndex
 
-        if (n > 10) questionsBonus += 2
-        if (n > 15) questionsBonus += 4
-        if (n > 20) questionsBonus += 8
-        if (n > 25) questionsBonus += 16
-        if (n > 30) questionsBonus += 32
-        if (n > 35) questionsBonus += 64
-        if (n > 40) questionsBonus += 128
-        if (n > 45) questionsBonus += 256
+        val thresholds = listOf(10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70, 75, 80, 85, 90, 95, 100, 105, 110, 115, 120, 125, 130, 135, 140, 145)
+        val bonuses = listOf(2, 4, 8, 16, 32, 64, 128, 256, 512, 1024, 2048, 4096, 8192, 16384, 32768, 65536, 131072, 262144, 524288, 1048576, 2097152, 4194304, 8388608, 16777216, 33554432, 67108864, 134217728, 268435456)
+
+        for (i in thresholds.indices) {
+            if (n > thresholds[i]) {
+                questionsBonus += bonuses[i]
+            }
+        }
+
         return questionsBonus
     }
 
@@ -232,9 +237,6 @@ class ActivityQuiz : AppCompatActivity() {
         Log.i(myTag, "questionsBonus : $questionsBonus")
         Log.i(myTag, "Total score: $totalScore")
     }
-
-
-
 
     fun showToast(message: String) {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show()

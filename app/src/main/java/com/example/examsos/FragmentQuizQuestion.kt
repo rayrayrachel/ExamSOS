@@ -102,7 +102,6 @@ class FragmentQuizQuestion : Fragment() {
         } else {
             Log.i(myTag, "Wrong Answer")
             (activity as? ActivityQuiz)?.onAnswerSelected(false) // Incorrect answer, check leaf logic and go to lose page
-            //TODO losing page
         }
     }
 
