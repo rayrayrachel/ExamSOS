@@ -54,7 +54,10 @@
                         android:layout_width="48dp"
                         android:layout_height="48dp"
                         android:contentDescription="@string/custom_quiz_icon"
-                        android:src="@drawable/ic_humanity" />
+                        app:tint="@color/white"
+                        android:outlineSpotShadowColor="@color/black"
+
+                        android:src="@drawable/ic_custom" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -93,8 +96,10 @@
                     <ImageView
                         android:layout_width="48dp"
                         android:layout_height="48dp"
+                        app:tint="@color/white"
+                        android:outlineSpotShadowColor="@color/black"
                         android:contentDescription="@string/daily_quiz_icon"
-                        android:src="@drawable/ic_stem" />
+                        android:src="@drawable/ic_daily" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -133,8 +138,10 @@
                     <ImageView
                         android:layout_width="48dp"
                         android:layout_height="48dp"
+                        app:tint="@color/white"
+                        android:outlineSpotShadowColor="@color/black"
                         android:contentDescription="@string/random_quiz_icon"
-                        android:src="@drawable/ic_biology" />
+                        android:src="@drawable/ic_random" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -173,8 +180,10 @@
                     <ImageView
                         android:layout_width="48dp"
                         android:layout_height="48dp"
+                        app:tint="@color/white"
+                        android:outlineSpotShadowColor="@color/black"
                         android:contentDescription="@string/advanced_marathon_icon"
-                        android:src="@drawable/ic_literature" />
+                        android:src="@drawable/ic_marathon" />
 
                     <TextView
                         android:layout_width="wrap_content"
