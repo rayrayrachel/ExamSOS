@@ -180,6 +180,12 @@
 
     <string name="about_us_header">ABOUT US AND RULES AND CREDITS</string>
     <string name="thank_you_text">Thank you for installing</string>
+    <string name="quiz_category_header">Quiz Category</string>
+    <string name="select_quiz_category_hint">Select a category</string>
+    <string name="music_toggle_label">Background Music</string>
+    <string name="music_toggle">On</string>
+    <string name="music_volume_label">Music Volume</string>
+    <string name="music_slider_description">Music Volume Bar</string>
 </resources>
 
 
