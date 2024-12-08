@@ -37,12 +37,14 @@ class ActivityMain : AppCompatActivity() {
     private lateinit var notificationsButton: ImageButton
     private lateinit var welcomeMessage: TextView
     private lateinit var loginDaysTextView: TextView
+    private lateinit var completedQuizTextView: TextView
 
     private val currentUser = FirebaseAuth.getInstance().currentUser
     private val db = FirebaseFirestore.getInstance()
     private val userDocRef = currentUser?.let { db.collection("users").document(it.uid) }
 
     private var loginDatesListener: ListenerRegistration? = null
+    private var completedLevelListener: ListenerRegistration? = null
 
     /**
      * Called when the activity is first created.
@@ -83,6 +85,7 @@ class ActivityMain : AppCompatActivity() {
 
         //Initialize the textvies
         loginDaysTextView = findViewById(R.id.dayCountText)
+        completedQuizTextView = findViewById(R.id.scoreNum)
 
 // get username from firestore
         fetchUsername()
@@ -251,8 +254,14 @@ class ActivityMain : AppCompatActivity() {
                     // Update score if it’s a new day
                     val updatedScore = if (isNewDay) {
                         currentScore + 10
+
                     } else {
                         currentScore
+                    }
+
+                    if(isNewDay)
+                    {
+                        addLeaf(10)
                     }
 
                     // Update Firestore
@@ -285,6 +294,7 @@ class ActivityMain : AppCompatActivity() {
                     }.addOnFailureListener { e ->
                         Log.e(myTag, "Failed to create new user document.", e)
                     }
+                    addLeaf(10)
                 }
             }
             ?.addOnFailureListener { e ->
@@ -331,6 +341,35 @@ class ActivityMain : AppCompatActivity() {
         }
     }
 
+    private fun listenForCompletedLevelUpdates() {
+        // Check if the user is logged in
+        if (currentUser != null) {
+            // Attach a Firestore listener to the user's document
+            completedLevelListener = userDocRef?.addSnapshotListener { snapshot, exception ->
+                if (exception != null) {
+                    Log.e(myTag, "Error listening for completed level updates", exception)
+                    return@addSnapshotListener
+                }
+
+                if (snapshot != null && snapshot.exists()) {
+                    // Get the `completedLevel` from Firestore
+                    val completedLevel = snapshot.getLong("completedLevel") ?: 0
+
+                    // Update the TextView
+                    completedQuizTextView.text = completedLevel.toString()
+
+                    Log.d(myTag, "Completed level updated: $completedLevel")
+                } else {
+                    Log.w(myTag, "Document does not exist. Setting default completed level.")
+                    completedQuizTextView.text = "0"
+                }
+            }
+        } else {
+            Log.w(myTag, "User not logged in")
+            completedQuizTextView.text = "0"
+        }
+    }
+
     private fun fetchUsername() {
 
         if (currentUser != null) {
@@ -362,6 +401,43 @@ class ActivityMain : AppCompatActivity() {
         }
     }
 
+    private fun addLeaf(leaf:Int){
+        userDocRef?.get()
+            ?.addOnSuccessListener { document ->
+                if (document.exists()) {
+                    val leafCount = document.getLong("leafCount") ?: 0
+                    val updatedLeafCount = leafCount + leaf
+
+                    userDocRef.update(
+                        mapOf(
+                            "leafCount" to updatedLeafCount
+                        )
+                    ).addOnSuccessListener {
+                        Log.i(myTag, "Leaf count updated successfully.")
+                    }.addOnFailureListener { e ->
+                        Log.e(myTag, "Failed to update leaf count.", e)
+                    }
+
+                } else {
+                    Log.w(myTag, "User document does not exist. Creating a new document with leaf count.")
+                    // Create a new document with initial leaf count
+
+                    userDocRef.set(
+                        mapOf(
+                            "leafCount" to leaf ,// Initial leaf count
+                            "completedLevel" to 0
+                        )
+                    ).addOnSuccessListener {
+                        Log.i(myTag, "New user document created with initial leaf count.")
+                    }.addOnFailureListener { e ->
+                        Log.e(myTag, "Failed to create new user document.", e)
+                    }
+                }
+            }
+            ?.addOnFailureListener { e ->
+                Log.e(myTag, "Error fetching user document.", e)
+            }
+    }
 
 
     /**
@@ -371,6 +447,7 @@ class ActivityMain : AppCompatActivity() {
         super.onStart()
 
         listenForLoginDatesUpdates()
+        listenForCompletedLevelUpdates()
         Log.i(myTag, "*** ActivityMain: In onStart")
     }
 
@@ -381,7 +458,7 @@ class ActivityMain : AppCompatActivity() {
         super.onStop()
 
         loginDatesListener?.remove()
-
+        completedLevelListener?.remove()
         Log.i(myTag, "*** ActivityMain: In onStop")
     }
 
@@ -414,6 +491,8 @@ class ActivityMain : AppCompatActivity() {
      */
     override fun onDestroy() {
         super.onDestroy()
+        loginDatesListener?.remove()
+        completedLevelListener?.remove()
         Log.i(myTag, "*** ActivityMain: In onDestroy")
     }
 }

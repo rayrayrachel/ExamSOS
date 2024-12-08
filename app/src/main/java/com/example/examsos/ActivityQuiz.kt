@@ -12,6 +12,8 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import com.example.examsos.dataValue.QuizQuestion
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
 
 class ActivityQuiz : AppCompatActivity() {
 
@@ -28,6 +30,9 @@ class ActivityQuiz : AppCompatActivity() {
 
     private var isUserWin = false
 
+    private val currentUser = FirebaseAuth.getInstance().currentUser
+    private val db = FirebaseFirestore.getInstance()
+    private val userDocRef = currentUser?.let { db.collection("users").document(it.uid) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -236,9 +241,68 @@ class ActivityQuiz : AppCompatActivity() {
         Log.i(myTag, "livesBonus : $livesBonus")
         Log.i(myTag, "questionsBonus : $questionsBonus")
         Log.i(myTag, "Total score: $totalScore")
+
+        addLeaf(totalScore)
     }
 
     fun showToast(message: String) {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+    }
+
+    private fun addLeaf(leaf:Int){
+        userDocRef?.get()
+            ?.addOnSuccessListener { document ->
+                if (document.exists()) {
+                    val leafCount = document.getLong("leafCount") ?: 0
+                    val score = document.getLong("score") ?: 0
+                    val completedLevel = document.getLong("completedLevel") ?: 0
+
+                    val updatedLeafCount = leafCount + leaf
+                    val updatedScore = score + leaf
+                    var updatedCompletedLevel = completedLevel
+
+                    if(isUserWin){
+                    updatedCompletedLevel = completedLevel + 1
+                    }
+
+                    userDocRef.update(
+                        mapOf(
+                            "leafCount" to updatedLeafCount,
+                            "score" to updatedScore,
+                            "completedLevel" to updatedCompletedLevel
+                        )
+                    ).addOnSuccessListener {
+                        Log.i(myTag, "Updated successfully.")
+                    }.addOnFailureListener { e ->
+                        Log.e(myTag, "Failed to update.", e)
+                    }
+
+                } else {
+                    Log.w(myTag, "User document does not exist. Creating a new document with leaf count.")
+                    // Create a new document with initial leaf count
+                    var completedLevel = 0
+
+                    if(isUserWin){
+                        completedLevel = 1
+                    }
+
+                    userDocRef.set(
+                        mapOf(
+                            "leafCount" to leaf ,
+                            "score" to leaf,
+                            "completedLevel" to completedLevel
+
+                        )
+                    ).addOnSuccessListener {
+                        Log.i(myTag, "New user document created.")
+                    }.addOnFailureListener { e ->
+                        Log.e(myTag, "Failed to create new user document.", e)
+                    }
+                }
+            }
+            ?.addOnFailureListener { e ->
+                Log.e(myTag, "Error fetching user document.", e)
+            }
+
     }
 }
