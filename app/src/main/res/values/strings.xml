@@ -174,7 +174,12 @@
     <string name="result_level_selection_button">SELECT</string>
     <string name="result_difficulty">"Difficulty: "</string>
     <string name="result_losing_message">You Lose… Try Again?</string>
+    <string name="about_us_text_long">
+    ABOUT US\n\nDeveloper: \n\nHello, my name is Rachel, ExamSOS developer, I am a final year student studying Computer Science. This app is a coursework which I spent days and night for it. Hope you will enjoy. P.S. I am hungry and sleepy.\n\nGAME RULES\n\nObjective:\n\nThe goal of the game is to answer a series of questions correctly earning points for each correct answer. Points can be used to unlock new trees.\n\nGame Modes:\n\n1. Custom Quiz: Choose your own set of categories and difficulty levels for a personalized quiz experience.\n\n2. Daily Quiz: Participate in a new quiz every day with your personalized daily quiz parameter.\n\n3. Random Quiz: Questions are chosen at random from various categories and difficulty levels.\n\n4. Marathon Quiz: Answer as many questions as possible in 150 total questions, with increasing difficulty.\n\nCREDITS\n\n1. Helps: Dr Tom Owen and all the PHD, Master student helper are AMAZING!! \n\n2. Open Trivia Database\n\n3.Visuals: All arts in this app are created by me using Pixel Studio and IBIS Paint, or they are built-in from android studio.\n\n4.Music and Soundtracks: copyright free 8 bit music Krayzius Brainstorm by Virtual Boy and other copyright free soundtracks from https://mixkit.co/
+</string>
 
+    <string name="about_us_header">ABOUT US AND RULES AND CREDITS</string>
+    <string name="thank_you_text">Thank you for installing</string>
 </resources>
 
 

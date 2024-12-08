@@ -1,9 +1,11 @@
 package com.example.examsos
 
 import android.os.Bundle
+import android.text.Html
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 
@@ -17,6 +19,7 @@ class ActivityAboutUs : AppCompatActivity(){
 
         val mToolbar = findViewById<Toolbar>(R.id.about_us_toolbar)
         setSupportActionBar(mToolbar)
+
     }
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.sub_tool_bar_layout, menu)
@@ -34,4 +37,4 @@ class ActivityAboutUs : AppCompatActivity(){
             else -> super.onOptionsItemSelected(item)
         }
     }
-    }
+}
