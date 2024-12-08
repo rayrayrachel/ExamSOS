@@ -186,6 +186,10 @@
     <string name="music_toggle">On</string>
     <string name="music_volume_label">Music Volume</string>
     <string name="music_slider_description">Music Volume Bar</string>
+    <string name="settings_header_text">CONFIGURE DEFAULT DAILY QUESTION</string>
+    <string name="settings_header_text_app">APP SETTINGS</string>
+    <string name="delete_account">DELETE ACCOUNT</string>
+    <string name="update_daily_quiz_configuration_button">UPDATE</string>
 </resources>
 
 

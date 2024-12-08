@@ -32,4 +32,7 @@
     <color name="less_opaque_white">#3DF1F6F5</color>
     <color name="not_opaque_white">#DE6C7A7A</color>
     <color name="not_opaque_teal">#BB59E7D5</color>
+
+    <!-- Apps Colors -->
+    <color name="red">#FF0000</color>
 </resources>
