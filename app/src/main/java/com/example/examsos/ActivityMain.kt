@@ -1,5 +1,6 @@
 package com.example.examsos
 
+import android.app.AlertDialog
 import android.content.Intent
 import android.icu.util.Calendar
 import android.os.Bundle
@@ -262,6 +263,7 @@ class ActivityMain : AppCompatActivity() {
                     if(isNewDay)
                     {
                         addLeaf(10)
+                        showDailyLoginBonusDialog()
                     }
 
                     // Update Firestore
@@ -438,6 +440,19 @@ class ActivityMain : AppCompatActivity() {
                 Log.e(myTag, "Error fetching user document.", e)
             }
     }
+
+    private fun showDailyLoginBonusDialog() {
+        val builder = AlertDialog.Builder(this)
+        builder.setTitle("Daily Login Bonus 🎉")
+        builder.setMessage("Added 10 leaves for you!")
+        builder.setIcon(R.drawable.good_leaf)
+        builder.setPositiveButton("Okay") { dialog, _ ->
+            dialog.dismiss()
+        }
+        val dialog = builder.create()
+        dialog.show()
+    }
+
 
 
     /**
