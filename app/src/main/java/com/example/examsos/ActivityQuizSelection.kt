@@ -378,6 +378,8 @@ class ActivityQuizSelection : AppCompatActivity() {
                         val intent = Intent(this@ActivityQuizSelection, ActivityQuiz::class.java)
                         intent.putParcelableArrayListExtra("QUESTIONS", ArrayList(questions)) // Pass as Parcelable
                         intent.putExtra("DIFFICULTY_SELECTED", difficulty)
+                        intent.putExtra("CATEGORY", selectedCategory.name)
+
                         if (homeDaily == "homeDaily")
                             intent.putExtra("HOME DAILY", "homeDaily")
                         startActivity(intent)

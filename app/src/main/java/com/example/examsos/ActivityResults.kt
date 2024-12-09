@@ -14,6 +14,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import com.example.examsos.dataValue.QuizQuestion
+import com.example.examsos.dataValue.QuizRecord
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.sanojpunchihewa.glowbutton.GlowButton
@@ -38,6 +39,7 @@ class ActivityResults : AppCompatActivity() {
     private var totalQuestions: Int = 0
     private var livesRemaining: Int = 0
     private var isWin: Boolean = true
+    private var category: String = "General Knowledge"
     private lateinit var homeDaily : String
 
 
@@ -72,6 +74,7 @@ class ActivityResults : AppCompatActivity() {
         totalQuestions = intent.getIntExtra("TOTAL_QUESTIONS", 0)
         livesRemaining = intent.getIntExtra("LIVES_REMAINING", 0)
         isWin = intent.getBooleanExtra("IS_WIN", false)
+        category = intent.getStringExtra("CATEGORY") ?: "General Knowledge"
 
         questions = intent.getParcelableArrayListExtra("QUESTIONS")
 
@@ -95,10 +98,13 @@ class ActivityResults : AppCompatActivity() {
                 val intent = Intent(this@ActivityResults, ActivityQuiz::class.java)
                 intent.putParcelableArrayListExtra("QUESTIONS", questions)
                 intent.putExtra("DIFFICULTY_SELECTED", difficulty)
+                intent.putExtra("CATEGORY", category)
                 startActivity(intent)
             }
             finish()
         }
+
+        saveQuizResults()
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -126,6 +132,24 @@ class ActivityResults : AppCompatActivity() {
         mediaPlayer.start()
     }
 
+    private fun saveQuizResults() {
+        val quizRecord = QuizRecord(
+            score = totalScore,
+            difficulty = difficulty,
+            totalQuestions = totalQuestions,
+            livesRemaining = livesRemaining,
+            isWin = isWin,
+            category = category
+        )
+
+        userDocRef?.collection("quizRecords")?.add(quizRecord)
+            ?.addOnSuccessListener {
+                Log.d(myTag, "Quiz record saved successfully.")
+            }
+            ?.addOnFailureListener { exception ->
+                Log.e(myTag, "Error saving quiz record", exception)
+            }
+    }
 
 
     private fun updateUI() {
