@@ -229,6 +229,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="60dp"
                                 android:layout_marginBottom="8dp"
+                                android:layout_marginHorizontal="20dp"
                                 android:orientation="horizontal">
 
                                 <TextView
@@ -240,12 +241,12 @@
 
                                 <Switch
                                     android:id="@+id/music_toggle_switch"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="50dp"
-                                    android:layout_gravity="center_vertical"
-                                    android:layout_marginStart="20dp"
+                                    android:layout_width="122dp"
+                                    android:layout_height="match_parent"
+                                    android:layout_gravity="center"
+                                    android:layout_marginHorizontal="20dp"
                                     android:checked="true"
-                                    android:text="@string/music_toggle"
+                                    android:padding="5dp"
                                     tools:ignore="UseSwitchCompatOrMaterialXml" />
                             </LinearLayout>
 
