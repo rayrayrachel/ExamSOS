@@ -121,7 +121,7 @@ class ActivitySettings : AppCompatActivity() {
             if (document.exists()) {
                 // Retrieve Firestore fields or set defaults
                 val selectedTime = document.getString("selectedTime") ?: "00:00"
-                val selectedDifficulty = document.getString("selectedDifficulty") ?: "Easy"
+                val selectedDifficulty = document.getString("selectedDifficulty") ?: "easy"
                 val numberOfQuestions = document.getLong("numberOfQuestions")?.toFloat() ?: 5f
                 val selectedType = document.getString("selectedType") ?: "Any Type"
                 val selectedCategory = document.getString("selectedCategory") ?: categoryList.firstOrNull()?.name ?: "Any Category"
@@ -132,9 +132,9 @@ class ActivitySettings : AppCompatActivity() {
                 timeEditText.setText(selectedTime)
 
                 val difficultyId = when (selectedDifficulty) {
-                    "Easy" -> R.id.level_easy
-                    "Medium" -> R.id.level_medium
-                    "Hard" -> R.id.level_hard
+                    "easy" -> R.id.level_easy
+                    "medium" -> R.id.level_medium
+                    "hard" -> R.id.level_hard
                     else -> R.id.level_easy
                 }
                 levelRadioGroup.check(difficultyId)
@@ -325,9 +325,9 @@ class ActivitySettings : AppCompatActivity() {
         // Get data from the UI components
         val selectedTime = timeEditText.text.toString()
         val selectedDifficulty = when (levelRadioGroup.checkedRadioButtonId) {
-            R.id.level_easy -> "Easy"
-            R.id.level_medium -> "Medium"
-            R.id.level_hard -> "Hard"
+            R.id.level_easy -> "easy"
+            R.id.level_medium -> "medium"
+            R.id.level_hard -> "hard"
             else -> "Unknown"
         }
         val numberOfQuestions = questionSlider.value.toInt()

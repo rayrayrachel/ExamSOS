@@ -19,6 +19,8 @@ import com.example.examsos.adapter.CategoryAdapter
 import com.example.examsos.api.RetrofitClient
 import com.example.examsos.dataValue.QuizQuestion
 import com.example.examsos.dataValue.TriviaCategory
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
@@ -30,6 +32,10 @@ class ActivityQuizSelection : AppCompatActivity() {
     private lateinit var cardType : String
     private lateinit var categoryList: List<TriviaCategory>
     private val api = RetrofitClient.api
+
+    private val currentUser = FirebaseAuth.getInstance().currentUser
+    private val db = FirebaseFirestore.getInstance()
+    private val userDocRef = currentUser?.let { db.collection("users").document(it.uid) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         cardType = intent.getStringExtra("CARD TYPE").toString()
@@ -69,7 +75,7 @@ class ActivityQuizSelection : AppCompatActivity() {
 
                 when (cardType) {
                     "custom" -> {
-                        Log.d(myTag, "SELECTED CUSTOM CARD (show customise quiz selections, i.e. user can select their own quiz parameters)")
+                        Log.i(myTag, "SELECTED CUSTOM CARD (show customise quiz selections, i.e. user can select their own quiz parameters)")
 
                         runOnUiThread {
                             setupRecyclerViewWithData(categoryList)
@@ -77,14 +83,17 @@ class ActivityQuizSelection : AppCompatActivity() {
 
                     }
                     "daily" -> {
-                        Log.d(myTag, "SELECTED DAILY CARD (i.e. set parameters as user configuration in settings, if user hasn't set it before, use default)")
+                        Log.i(myTag, "SELECTED DAILY CARD (i.e. set parameters as user configuration in settings, if user hasn't set it before, use default)")
+                        runOnUiThread {
+                        handleDailyQuiz(categoryList)
+                        }
                     }
                     "random" -> {
-                        Log.d(myTag, "SELECTED RANDOM CARD (i.e. randomize parameters)")
+                        Log.i(myTag, "SELECTED RANDOM CARD (i.e. randomize parameters)")
                         handleRandomQuiz(categoryList)
                     }
                     "marathon" -> {
-                        Log.d(myTag, "SELECTED MARATHON CARD (i.e. setting question size larger than api that can be fetched )")
+                        Log.i(myTag, "SELECTED MARATHON CARD (i.e. setting question size larger than api that can be fetched )")
                         handleMarathonQuiz()
                     }
                     else -> {
@@ -227,6 +236,27 @@ class ActivityQuizSelection : AppCompatActivity() {
         }
     }
 
+    private fun handleDailyQuiz(data: List<TriviaCategory>) {
+        fetchDailyQuizSettings { difficulty, numberOfQuestions, quizType, categoryId ->
+            val selectedCategory = data.find { it.id == categoryId } ?: data.random()
+            var adjustedNumberOfQuestions = numberOfQuestions
+            Log.d(
+                myTag,
+                "Daily Quiz Settings: Category=${selectedCategory.name}, Difficulty=$difficulty, Number Of Questions=$numberOfQuestions, Type=$quizType"
+            )
+            fetchCategoryQuestionCount(selectedCategory.id, difficulty, null) { availableCount ->
+                if (adjustedNumberOfQuestions > availableCount) {
+                    adjustedNumberOfQuestions = availableCount
+                }
+                fetchQuestions(selectedCategory, difficulty, adjustedNumberOfQuestions, quizType)
+            }
+            runOnUiThread {
+                finish()
+            }
+        }
+    }
+
+
     private fun handleMarathonQuiz() {
         val marathonCategoryId = 9 // General Knowledge category ID
         val totalQuestionsPerDifficulty = 50
@@ -360,6 +390,44 @@ class ActivityQuizSelection : AppCompatActivity() {
             }
         }
     }
+
+    //fetch stored daily quiz preference
+    private fun fetchDailyQuizSettings(callback: (String, Int, String?, Int) -> Unit) {
+        userDocRef?.get()
+            ?.addOnSuccessListener { document ->
+                if (document != null && document.exists()) {
+                    // Fetch from Firestore
+                    val difficulty = document.getString("selectedDifficulty") ?: "easy"
+                    val numberOfQuestions = document.getLong("numberOfQuestions")?.toInt() ?: 5
+                    val quizType = when (document.getString("selectedType")) {
+                        "Any Type" -> null
+                        "Multiple Choice" -> "multiple"
+                        "True/False" -> "boolean"
+                        else -> null
+                    }
+                    val categoryName = document.getString("selectedCategory") ?: "General Knowledge"
+
+                    val categoryId = categoryList.find { it.name == categoryName }?.id ?: 9  // Default to category ID 9
+
+                    Log.d(
+                        myTag,
+                        "Fetched daily quiz settings: Difficulty=$difficulty, Questions=$numberOfQuestions, Type=$quizType, Category=$categoryId"
+                    )
+                    // Return the fetched settings through the callback
+                    callback(difficulty, numberOfQuestions, quizType, categoryId)
+                } else {
+                    Log.d(myTag, "No user-specific quiz settings found, using defaults.")
+                    callback("easy", 5, null, 9)  // Default settings
+                }
+            }
+            ?.addOnFailureListener { exception ->
+                Log.e(myTag, "Error fetching quiz settings", exception)
+                callback("easy", 5, null, 9)  // Default settings
+            }
+    }
+
+
+
 
     /**
      * Set up the quiz type spinner.

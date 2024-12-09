@@ -53,7 +53,8 @@ class ActivityQuiz : AppCompatActivity() {
 
         questions!!.forEachIndexed { index, question ->
             val decodedCorrectAnswer = Html.fromHtml(question.correctAnswer).toString()
-            Log.d(myTag, "Correct answer for Question #$index: $decodedCorrectAnswer")
+            val questionNum = index + 1
+            Log.d(myTag, "Correct answer for Question #$questionNum: $decodedCorrectAnswer")
         }
 
         if (questions != null && questions!!.isNotEmpty()) {
