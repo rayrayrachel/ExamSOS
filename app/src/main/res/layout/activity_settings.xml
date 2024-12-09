@@ -30,6 +30,20 @@
                 android:orientation="vertical" >
 
 
+                <com.sanojpunchihewa.glowbutton.GlowButton
+                    android:id="@+id/update_daily_quiz_configuration_button"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/button_height"
+                    android:layout_margin="@dimen/primary_margin"
+                    android:text="@string/update_daily_quiz_configuration_button"
+                    android:textColor="@color/white"
+                    android:textSize="20sp"
+                    app:buttonColor="@color/theme_secondary"
+                    app:cornerRadius="50dp"
+                    app:glowColor="@color/theme_secondary"
+                    app:pressedGlowSize="25dp"
+                    app:unpressedGlowSize="10dp" />
+
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -173,31 +187,28 @@
                                 android:inputType="none"
                                 android:padding="@dimen/auto_complete_padding" />
 
+                            <TextView
+                                style="@style/HeaderTextStyle"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="start"
+                                android:paddingBottom="@dimen/text_padding"
+                                android:text="@string/time_header" />
+
+                            <EditText
+                                android:id="@+id/editTextTime"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:autofillHints="@string/time_prompt"
+                                android:ems="10"
+                                android:padding="@dimen/auto_complete_padding"
+                                android:background="@drawable/container_square"
+                                style="@style/SelectorTextStyle"
+                                android:hint="@string/time_prompt"
+                                android:inputType="time" />
+
                         </LinearLayout>
                     </androidx.cardview.widget.CardView>
-
-                    <com.sanojpunchihewa.glowbutton.GlowButton
-                        android:id="@+id/update_daily_quiz_configuration_button"
-                        android:layout_width="match_parent"
-                        android:layout_height="@dimen/button_height"
-                        android:layout_margin="@dimen/primary_margin"
-                        android:text="@string/update_daily_quiz_configuration_button"
-                        android:textColor="@color/white"
-                        android:textSize="20sp"
-                        app:buttonColor="@color/theme_secondary"
-                        app:cornerRadius="50dp"
-                        app:glowColor="@color/theme_secondary"
-                        app:pressedGlowSize="25dp"
-                        app:unpressedGlowSize="10dp" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/settings_header_text_app"
-                        android:textStyle="bold"
-                        android:textSize="18sp"
-                        android:textColor="@color/white"
-                        android:layout_gravity="center" />
 
                     <androidx.cardview.widget.CardView
                         android:layout_width="match_parent"
@@ -255,6 +266,15 @@
 
                         </LinearLayout>
                     </androidx.cardview.widget.CardView>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/settings_header_text_app"
+                    android:textStyle="bold"
+                    android:textSize="18sp"
+                    android:textColor="@color/white"
+                    android:layout_gravity="center" />
 
                     <com.sanojpunchihewa.glowbutton.GlowButton
                         android:id="@+id/delete_account_button"

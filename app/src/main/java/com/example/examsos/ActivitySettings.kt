@@ -1,5 +1,6 @@
 package com.example.examsos
 
+import android.app.TimePickerDialog
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -23,6 +24,7 @@ import com.sanojpunchihewa.glowbutton.GlowButton
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import java.util.Calendar
 
 class ActivitySettings : AppCompatActivity() {
 
@@ -43,6 +45,7 @@ class ActivitySettings : AppCompatActivity() {
     private lateinit var musicVolumeSlider: Slider
     private lateinit var deleteAccountButton: GlowButton
     private lateinit var updateDailyConfigButton: GlowButton
+    private lateinit var timeEditText: EditText
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -60,6 +63,8 @@ class ActivitySettings : AppCompatActivity() {
         musicVolumeSlider = findViewById(R.id.music_volume_slider)
         deleteAccountButton = findViewById(R.id.delete_account_button)
         updateDailyConfigButton = findViewById(R.id.update_daily_quiz_configuration_button)
+        timeEditText = findViewById(R.id.editTextTime)
+
 
         // Fetch trivia categories
         fetchTriviaCategories()
@@ -70,7 +75,17 @@ class ActivitySettings : AppCompatActivity() {
         }
 
         updateDailyConfigButton.setOnClickListener {
-            // TODO: Implement update button logic
+            saveSettingsToFirestore()
+        }
+
+        timeEditText.setOnClickListener {
+            showTimePickerDialog(timeEditText)
+        }
+
+        timeEditText.setOnFocusChangeListener { _, hasFocus ->
+            if (hasFocus) {
+                showTimePickerDialog(timeEditText)
+            }
         }
     }
 
@@ -89,7 +104,57 @@ class ActivitySettings : AppCompatActivity() {
     }
 
     private fun initializeDefaultValues() {
-        // Set default values
+        userDocRef?.get()?.addOnSuccessListener { document ->
+            if (document.exists()) {
+                // Retrieve Firestore fields or set defaults
+                val selectedTime = document.getString("selectedTime") ?: "00:00"
+                val selectedDifficulty = document.getString("selectedDifficulty") ?: "Easy"
+                val numberOfQuestions = document.getLong("numberOfQuestions")?.toFloat() ?: 5f
+                val selectedType = document.getString("selectedType") ?: "Any Type"
+                val selectedCategory = document.getString("selectedCategory") ?: categoryList.firstOrNull()?.name ?: "Any Category"
+                val isMusicEnabled = document.getBoolean("isMusicEnabled") ?: true
+                val musicVolume = document.getLong("musicVolume")?.toFloat() ?: 50f
+
+                // Populate UI components from Firestore
+                timeEditText.setText(selectedTime)
+
+                val difficultyId = when (selectedDifficulty) {
+                    "Easy" -> R.id.level_easy
+                    "Medium" -> R.id.level_medium
+                    "Hard" -> R.id.level_hard
+                    else -> R.id.level_easy
+                }
+                levelRadioGroup.check(difficultyId)
+
+                questionSlider.value = numberOfQuestions
+                musicToggleSwitch.isChecked = isMusicEnabled
+                musicVolumeSlider.value = musicVolume
+
+                // Populate spinners
+                val quizTypes = arrayOf("Any Type", "Multiple Choice", "True/False")
+                val adapterType = ArrayAdapter(this, android.R.layout.simple_spinner_item, quizTypes)
+                adapterType.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+                typeSpinner.adapter = adapterType
+                typeSpinner.setSelection(quizTypes.indexOf(selectedType).takeIf { it >= 0 } ?: 0)
+
+                val quizCategories = categoryList.map { it.name }
+                val adapterCategory = ArrayAdapter(this, android.R.layout.simple_spinner_item, quizCategories)
+                adapterCategory.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+                categorySpinner.adapter = adapterCategory
+                categorySpinner.setSelection(quizCategories.indexOf(selectedCategory).takeIf { it >= 0 } ?: 0)
+            } else {
+                Log.w(myTag, "No user document found. Using default values.")
+                setDefaultValues()
+            }
+        }?.addOnFailureListener { e ->
+            Log.e(myTag, "Error fetching user settings. Using default values.", e)
+            setDefaultValues()
+        }
+    }
+
+    // set default values
+    private fun setDefaultValues() {
+        timeEditText.setText("00:00")
         levelRadioGroup.check(R.id.level_easy)
         questionSlider.value = 5f
         musicToggleSwitch.isChecked = true
@@ -100,12 +165,15 @@ class ActivitySettings : AppCompatActivity() {
         val adapterType = ArrayAdapter(this, android.R.layout.simple_spinner_item, quizTypes)
         adapterType.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         typeSpinner.adapter = adapterType
+        typeSpinner.setSelection(0)
 
         val quizCategories = categoryList.map { it.name }
         val adapterCategory = ArrayAdapter(this, android.R.layout.simple_spinner_item, quizCategories)
         adapterCategory.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         categorySpinner.adapter = adapterCategory
+        categorySpinner.setSelection(0)
     }
+
 
     private fun showDeleteConfirmationDialog() {
         val builder = android.app.AlertDialog.Builder(this)
@@ -216,4 +284,94 @@ class ActivitySettings : AppCompatActivity() {
             else -> super.onOptionsItemSelected(item)
         }
     }
+
+    private fun showTimePickerDialog(editText: EditText) {
+        // Get current time as default
+        val calendar = Calendar.getInstance()
+        val currentHour = calendar.get(Calendar.HOUR_OF_DAY)
+        val currentMinute = calendar.get(Calendar.MINUTE)
+
+        // Show TimePickerDialog
+        val timePickerDialog = TimePickerDialog(
+            this,
+            { _, hourOfDay, minute ->
+                // Format and set selected time into EditText
+                val formattedTime = String.format("%02d:%02d", hourOfDay, minute)
+                editText.setText(formattedTime)
+            },
+            currentHour,
+            currentMinute,
+            true // Use 24-hour format; set to false for 12-hour format
+        )
+
+        timePickerDialog.show()
+    }
+
+
+    private fun saveSettingsToFirestore() {
+        // Get data from the UI components
+        val selectedTime = timeEditText.text.toString()
+        val selectedDifficulty = when (levelRadioGroup.checkedRadioButtonId) {
+            R.id.level_easy -> "Easy"
+            R.id.level_medium -> "Medium"
+            R.id.level_hard -> "Hard"
+            else -> "Unknown"
+        }
+        val numberOfQuestions = questionSlider.value.toInt()
+        val selectedType = typeSpinner.selectedItem.toString()
+        val selectedCategory = categorySpinner.selectedItem.toString()
+        val isMusicEnabled = musicToggleSwitch.isChecked
+        val musicVolume = musicVolumeSlider.value.toInt()
+
+        // Ensure userDocRef is not null
+        if (userDocRef == null) {
+            Log.e(myTag, "UserDocRef is null. Ensure a user is logged in.")
+            Toast.makeText(this, "Error: No user logged in.", Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        // Fetch Firestore document
+        userDocRef.get()
+            .addOnSuccessListener { document ->
+                val dataMap = mapOf(
+                    "selectedTime" to selectedTime,
+                    "selectedDifficulty" to selectedDifficulty,
+                    "numberOfQuestions" to numberOfQuestions,
+                    "selectedType" to selectedType,
+                    "selectedCategory" to selectedCategory,
+                    "isMusicEnabled" to isMusicEnabled,
+                    "musicVolume" to musicVolume
+                )
+
+                if (document.exists()) {
+                    // Document exists, update it
+                    userDocRef.update(dataMap)
+                        .addOnSuccessListener {
+                            Log.i(myTag, "Settings updated successfully.")
+                            Toast.makeText(this, "Settings saved!", Toast.LENGTH_SHORT).show()
+                        }
+                        .addOnFailureListener { e ->
+                            Log.e(myTag, "Failed to update settings.", e)
+                            Toast.makeText(this, "Failed to save settings. Try again.", Toast.LENGTH_SHORT).show()
+                        }
+                } else {
+                    // Document does not exist, create it
+                    userDocRef.set(dataMap)
+                        .addOnSuccessListener {
+                            Log.i(myTag, "New settings document created successfully.")
+                            Toast.makeText(this, "Settings saved!", Toast.LENGTH_SHORT).show()
+                        }
+                        .addOnFailureListener { e ->
+                            Log.e(myTag, "Failed to create settings document.", e)
+                            Toast.makeText(this, "Failed to save settings. Try again.", Toast.LENGTH_SHORT).show()
+                        }
+                }
+            }
+            .addOnFailureListener { e ->
+                Log.e(myTag, "Error fetching user document.", e)
+                Toast.makeText(this, "Error: Could not retrieve user settings.", Toast.LENGTH_SHORT).show()
+            }
+    }
+
+
 }
