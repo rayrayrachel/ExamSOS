@@ -1,5 +1,6 @@
 package com.example.examsos
 
+import android.media.MediaPlayer
 import android.os.Bundle
 import android.text.Html
 import android.util.Log
@@ -8,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.cardview.widget.CardView
+import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.fragment.app.Fragment
 
 class FragmentQuizQuestion : Fragment() {
@@ -98,10 +100,23 @@ class FragmentQuizQuestion : Fragment() {
     private fun handleAnswerSelection(selectedOption: String) {
         val isCorrect = selectedOption == correctAnswer
         if (isCorrect) {
+            playSoundEffect(R.raw.correct)
             (activity as? ActivityQuiz)?.onAnswerSelected(true) // Move to next question if correct
         } else {
+            playSoundEffect(R.raw.wrong)
             Log.i(myTag, "Wrong Answer")
             (activity as? ActivityQuiz)?.onAnswerSelected(false) // Incorrect answer, check leaf logic and go to lose page
+        }
+    }
+
+    private fun playSoundEffect(soundResId: Int) {
+        val context = activity?.applicationContext
+        if (context != null) {
+            val mediaPlayer = MediaPlayer.create(context, soundResId)
+            mediaPlayer.setOnCompletionListener { it.release() }
+            mediaPlayer.start()
+        } else {
+            Log.e("Fragment", "Context is not available to play sound.")
         }
     }
 
@@ -131,6 +146,7 @@ class FragmentQuizQuestion : Fragment() {
                 putInt(ARG_QUESTION_NUMBER, questionNumber)
             }
         }
+
 
     }
 }

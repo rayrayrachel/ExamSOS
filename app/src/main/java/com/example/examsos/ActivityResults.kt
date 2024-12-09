@@ -1,5 +1,7 @@
 package com.example.examsos
 
+import android.content.Context
+import android.media.MediaPlayer
 import android.os.Bundle
 import android.util.Log
 import android.view.Menu
@@ -92,6 +94,13 @@ class ActivityResults : AppCompatActivity() {
         }
     }
 
+    private fun playSoundEffect(context: Context, soundResId: Int) {
+        val mediaPlayer = MediaPlayer.create(context, soundResId)
+        mediaPlayer.setOnCompletionListener { it.release() }
+        mediaPlayer.start()
+    }
+
+
 
     private fun updateUI() {
         // Set difficulty
@@ -108,9 +117,11 @@ class ActivityResults : AppCompatActivity() {
 
         // Check if the user won or lost
         if (isWin) {
+            playSoundEffect(this, R.raw.win)
             resultMessage.text = getString(R.string.result_winning_message)
             leafImage.setImageResource(R.drawable.good_leaf)
         } else {
+            playSoundEffect(this, R.raw.wasted)
             resultMessage.text = getString(R.string.result_losing_message)
             leafImage.setImageResource(R.drawable.bad_leaf)
         }
