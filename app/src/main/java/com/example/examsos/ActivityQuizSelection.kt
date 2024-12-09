@@ -30,6 +30,8 @@ class ActivityQuizSelection : AppCompatActivity() {
 
     private val myTag = "Rachel'sTag"
     private lateinit var cardType : String
+    private lateinit var homeDaily : String
+
     private lateinit var categoryList: List<TriviaCategory>
     private val api = RetrofitClient.api
 
@@ -39,6 +41,8 @@ class ActivityQuizSelection : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         cardType = intent.getStringExtra("CARD TYPE").toString()
+        homeDaily = intent.getStringExtra("HOME DAILY").toString()
+
 
         super.onCreate(savedInstanceState)
 
@@ -244,7 +248,7 @@ class ActivityQuizSelection : AppCompatActivity() {
                 myTag,
                 "Daily Quiz Settings: Category=${selectedCategory.name}, Difficulty=$difficulty, Number Of Questions=$numberOfQuestions, Type=$quizType"
             )
-            fetchCategoryQuestionCount(selectedCategory.id, difficulty, null) { availableCount ->
+            fetchCategoryQuestionCount(selectedCategory.id, difficulty, quizType) { availableCount ->
                 if (adjustedNumberOfQuestions > availableCount) {
                     adjustedNumberOfQuestions = availableCount
                 }
@@ -374,6 +378,8 @@ class ActivityQuizSelection : AppCompatActivity() {
                         val intent = Intent(this@ActivityQuizSelection, ActivityQuiz::class.java)
                         intent.putParcelableArrayListExtra("QUESTIONS", ArrayList(questions)) // Pass as Parcelable
                         intent.putExtra("DIFFICULTY_SELECTED", difficulty)
+                        if (homeDaily == "homeDaily")
+                            intent.putExtra("HOME DAILY", "homeDaily")
                         startActivity(intent)
                     }
                 }

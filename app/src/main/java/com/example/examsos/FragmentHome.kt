@@ -1,5 +1,6 @@
 package com.example.examsos
 
+import android.app.AlertDialog
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -45,9 +46,12 @@ class FragmentHome : Fragment() {
         // Quick Start button
         val buttonClick = view.findViewById<Button>(R.id.quick_start_button_id)
         buttonClick.setOnClickListener {
-            val intent = Intent(requireContext(), ActivityQuiz::class.java)
-            startActivity(intent)
-            Toast.makeText(requireContext(), getString(R.string.toast_quick_start_button), Toast.LENGTH_SHORT).show()
+
+//            Toast.makeText(requireContext(), getString(R.string.toast_quick_start_button), Toast.LENGTH_SHORT).show()
+//            val intent = Intent(requireContext(), ActivityQuizSelection::class.java)
+//            intent.putExtra("CARD TYPE", "daily")
+//            startActivity(intent)
+            checkDailyQuizCompletion()
         }
 
         // Start listening to Firestore
@@ -56,6 +60,77 @@ class FragmentHome : Fragment() {
         return view
     }
 
+    private fun checkDailyQuizCompletion() {
+        userDocRef?.get()?.addOnSuccessListener { document ->
+            if (document != null && document.exists()) {
+                val lastDailyQuizTimestamp = document.getLong("lastDailyQuizTimestamp") ?: 0L
+                val currentTimestamp = System.currentTimeMillis()
+
+                // Check if the last daily quiz was completed today
+                if (isSameDay(lastDailyQuizTimestamp, currentTimestamp)) {
+                    // Show dialog if the user already completed quiz today
+                    showQuizAlreadyCompletedDialog()
+                } else {
+                    // Proceed to quiz if the user hasn't completed it today
+                    startDailyQuiz()
+                }
+            } else {
+                Log.w(myTag, "User document does not exist.")
+            }
+        }
+    }
+
+    private fun isSameDay(lastTimestamp: Long, currentTimestamp: Long): Boolean {
+        val calendar = Calendar.getInstance()
+        val lastDate = Date(lastTimestamp)
+        val currentDate = Date(currentTimestamp)
+
+        // Set both dates to midnight to ignore the time part
+        calendar.time = lastDate
+        calendar.set(Calendar.HOUR_OF_DAY, 0)
+        calendar.set(Calendar.MINUTE, 0)
+        calendar.set(Calendar.SECOND, 0)
+        calendar.set(Calendar.MILLISECOND, 0)
+        val startOfLastDay = calendar.timeInMillis
+
+        calendar.time = currentDate
+        calendar.set(Calendar.HOUR_OF_DAY, 0)
+        calendar.set(Calendar.MINUTE, 0)
+        calendar.set(Calendar.SECOND, 0)
+        calendar.set(Calendar.MILLISECOND, 0)
+        val startOfCurrentDay = calendar.timeInMillis
+
+        return startOfLastDay == startOfCurrentDay
+    }
+
+    private fun showQuizAlreadyCompletedDialog() {
+        // Show a dialog informing the user they need to finish the daily quiz
+        AlertDialog.Builder(requireContext())
+            .setTitle("Daily Quiz Completed")
+            .setMessage("You have already completed today's daily quiz. Come back tomorrow!")
+            .setPositiveButton("OK", null)
+            .show()
+    }
+
+    private fun startDailyQuiz() {
+        // Proceed to daily quiz
+        Toast.makeText(requireContext(), getString(R.string.toast_quick_start_button), Toast.LENGTH_SHORT).show()
+
+        val intent = Intent(requireContext(), ActivityQuizSelection::class.java)
+        intent.putExtra("CARD TYPE", "daily")
+        intent.putExtra("HOME DAILY", "homeDaily")
+
+        startActivity(intent)
+
+        // After the quiz starts, mark the daily quiz as completed for today
+        markDailyQuizAsCompleted()
+    }
+
+    private fun markDailyQuizAsCompleted() {
+        val currentTimestamp = System.currentTimeMillis()
+        // Update Firestore to mark the daily quiz as completed for today
+        userDocRef?.update("lastDailyQuizTimestamp", currentTimestamp)
+    }
     /**
      * Start listening to Firestore
      */

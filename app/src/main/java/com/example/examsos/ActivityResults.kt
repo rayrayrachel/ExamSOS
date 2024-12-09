@@ -14,6 +14,8 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import com.example.examsos.dataValue.QuizQuestion
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
 import com.sanojpunchihewa.glowbutton.GlowButton
 
 class ActivityResults : AppCompatActivity() {
@@ -36,10 +38,14 @@ class ActivityResults : AppCompatActivity() {
     private var totalQuestions: Int = 0
     private var livesRemaining: Int = 0
     private var isWin: Boolean = true
+    private lateinit var homeDaily : String
+
 
     private var questions: ArrayList<QuizQuestion>? = null
-    private var currentToast: Toast? = null
 
+    private val currentUser = FirebaseAuth.getInstance().currentUser
+    private val db = FirebaseFirestore.getInstance()
+    private val userDocRef = currentUser?.let { db.collection("users").document(it.uid) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -47,6 +53,9 @@ class ActivityResults : AppCompatActivity() {
 
         val mToolbar = findViewById<Toolbar>(R.id.results_toolbar)
         setSupportActionBar(mToolbar)
+
+        homeDaily = intent.getStringExtra("HOME DAILY").toString()
+
 
         // Bind UI elements
         resultMessage = findViewById(R.id.result_message)
@@ -137,14 +146,17 @@ class ActivityResults : AppCompatActivity() {
             playSoundEffect(this, R.raw.win)
             resultMessage.text = getString(R.string.result_winning_message)
             leafImage.setImageResource(R.drawable.good_leaf)
-            playAgainButton.visibility = View.GONE
 
         } else {
             playSoundEffect(this, R.raw.wasted)
             resultMessage.text = getString(R.string.result_losing_message)
             leafImage.setImageResource(R.drawable.bad_leaf)
-            playAgainButton.visibility = View.VISIBLE
 
+        }
+
+        if (homeDaily == "homeDaily")
+        {
+            playAgainButton.visibility = View.GONE
         }
     }
 }

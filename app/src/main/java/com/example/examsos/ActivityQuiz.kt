@@ -29,6 +29,8 @@ class ActivityQuiz : AppCompatActivity() {
     private var difficulty: String? = null
 
     private var isUserWin = false
+    private lateinit var homeDaily : String
+
 
     private val currentUser = FirebaseAuth.getInstance().currentUser
     private val db = FirebaseFirestore.getInstance()
@@ -41,6 +43,8 @@ class ActivityQuiz : AppCompatActivity() {
         // Set up the toolbar
         val mToolbar = findViewById<Toolbar>(R.id.quiz_toolbar)
         setSupportActionBar(mToolbar)
+
+        homeDaily = intent.getStringExtra("HOME DAILY").toString()
 
         // Initialize ProgressBar
         progressBar = findViewById(R.id.quiz_progress_bar)
@@ -124,6 +128,10 @@ class ActivityQuiz : AppCompatActivity() {
             intent.putExtra("TOTAL_QUESTIONS", currentQuestionIndex)
             intent.putExtra("LIVES_REMAINING", livesLeft)
             intent.putExtra("IS_WIN", isUserWin)
+            intent.putParcelableArrayListExtra("QUESTIONS", questions)
+            if (homeDaily == "homeDaily"){
+                intent.putExtra("HOME DAILY", "homeDaily")
+            }
             startActivity(intent)
             finish()
         }
@@ -162,6 +170,9 @@ class ActivityQuiz : AppCompatActivity() {
                 intent.putExtra("LIVES_REMAINING", livesLeft)
                 intent.putExtra("IS_WIN", isUserWin)
                 intent.putParcelableArrayListExtra("QUESTIONS", questions)
+                if (homeDaily == "homeDaily"){
+                    intent.putExtra("HOME DAILY", "homeDaily")
+                }
                 startActivity(intent)
                 finish()
             }
