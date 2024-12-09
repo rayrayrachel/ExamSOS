@@ -87,6 +87,19 @@ class ActivitySettings : AppCompatActivity() {
                 showTimePickerDialog(timeEditText)
             }
         }
+
+        musicToggleSwitch.setOnCheckedChangeListener { _, isChecked ->
+            userDocRef?.update("isMusicEnabled", isChecked)
+                ?.addOnSuccessListener { Log.i(myTag, "Music toggle updated.") }
+                ?.addOnFailureListener { Log.e(myTag, "Music toggle update failed.") }
+        }
+
+        musicVolumeSlider.addOnChangeListener { _, value, _ ->
+            userDocRef?.update("musicVolume", value.toInt())
+                ?.addOnSuccessListener { Log.i(myTag, "Music volume updated.") }
+                ?.addOnFailureListener { Log.e(myTag, "Music volume update failed.") }
+        }
+
     }
 
     private fun fetchTriviaCategories() {

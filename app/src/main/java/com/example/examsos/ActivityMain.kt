@@ -21,6 +21,7 @@ import com.google.firebase.auth.auth
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ListenerRegistration
+import android.media.MediaPlayer
 
 
 /**
@@ -47,6 +48,8 @@ class ActivityMain : AppCompatActivity() {
     private var loginDatesListener: ListenerRegistration? = null
     private var completedLevelListener: ListenerRegistration? = null
 
+    //backgroundMusic
+    private var mediaPlayer: MediaPlayer? = null
     /**
      * Called when the activity is first created.
      * Initializes the UI components and sets up the action bar.
@@ -119,6 +122,8 @@ class ActivityMain : AppCompatActivity() {
         })
 
         checkLoginStreak()
+
+        updateMusicConfigFromFirestore()
 
     }
 
@@ -453,7 +458,56 @@ class ActivityMain : AppCompatActivity() {
         dialog.show()
     }
 
+//bgm
+private fun initializeMediaPlayer() {
+    // Create MediaPlayer instance with the background music
+    mediaPlayer = MediaPlayer.create(this, R.raw.background_music)
+    mediaPlayer?.isLooping = true // Loop the music
+    mediaPlayer?.setVolume(0.5f, 0.5f) // Set default volume
+}
 
+    private fun startMusic() {
+        if (mediaPlayer == null) initializeMediaPlayer()
+        mediaPlayer?.start()
+    }
+
+    private fun pauseMusic() {
+        mediaPlayer?.pause()
+    }
+
+    private fun stopMusic() {
+        mediaPlayer?.stop()
+        mediaPlayer?.release()
+        mediaPlayer = null
+    }
+
+    private fun updateMusicConfigFromFirestore() {
+        userDocRef?.addSnapshotListener { snapshot, e ->
+            if (e != null) {
+                Log.e(myTag, "Firestore listen failed.", e)
+                return@addSnapshotListener
+            }
+
+            if (snapshot != null && snapshot.exists()) {
+                // Fetch music configuration from Firestore
+                val isMusicEnabled = snapshot.getBoolean("isMusicEnabled") ?: true
+                val musicVolume = snapshot.getLong("musicVolume")?.toFloat() ?: 50f
+
+                if (isMusicEnabled) {
+                    startMusic()
+                    setMusicVolume(musicVolume / 100f) // Normalize
+                } else {
+                    pauseMusic()
+                }
+            } else {
+                Log.w(myTag, "User document does not exist.")
+            }
+        }
+    }
+
+    private fun setMusicVolume(volume: Float) {
+        mediaPlayer?.setVolume(volume, volume)
+    }
 
     /**
      * Called when the activity is becoming visible to the user.
@@ -471,7 +525,7 @@ class ActivityMain : AppCompatActivity() {
      */
     override fun onStop() {
         super.onStop()
-
+        //pauseMusic()
         loginDatesListener?.remove()
         completedLevelListener?.remove()
         Log.i(myTag, "*** ActivityMain: In onStop")
@@ -482,6 +536,7 @@ class ActivityMain : AppCompatActivity() {
      */
     override fun onPause() {
         super.onPause()
+       // pauseMusic()
         Log.i(myTag, "*** ActivityMain: In onPause")
     }
 
@@ -490,6 +545,7 @@ class ActivityMain : AppCompatActivity() {
      */
     override fun onRestart() {
         super.onRestart()
+       // startMusic()
         Log.i(myTag, "*** ActivityMain: In onRestart")
     }
 
@@ -508,6 +564,7 @@ class ActivityMain : AppCompatActivity() {
         super.onDestroy()
         loginDatesListener?.remove()
         completedLevelListener?.remove()
+        stopMusic()
         Log.i(myTag, "*** ActivityMain: In onDestroy")
     }
 }
