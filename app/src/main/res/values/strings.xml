@@ -171,7 +171,7 @@
     <string name="result_total_leaves">Leaves Obtained: </string>
     <string name="result_number_of_questions">Number of Questions: </string>
     <string name="result_difficulty_hard">Difficulty: </string>
-    <string name="result_level_selection_button">SELECT</string>
+    <string name="result_level_selection_button">RETURN</string>
     <string name="result_difficulty">"Difficulty: "</string>
     <string name="result_losing_message">You Lose… Try Again?</string>
     <string name="about_us_text_long">

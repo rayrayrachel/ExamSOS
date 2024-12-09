@@ -1,15 +1,19 @@
 package com.example.examsos
 
 import android.content.Context
+import android.content.Intent
 import android.media.MediaPlayer
 import android.os.Bundle
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
+import com.example.examsos.dataValue.QuizQuestion
 import com.sanojpunchihewa.glowbutton.GlowButton
 
 class ActivityResults : AppCompatActivity() {
@@ -32,6 +36,9 @@ class ActivityResults : AppCompatActivity() {
     private var totalQuestions: Int = 0
     private var livesRemaining: Int = 0
     private var isWin: Boolean = true
+
+    private var questions: ArrayList<QuizQuestion>? = null
+    private var currentToast: Toast? = null
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -57,6 +64,9 @@ class ActivityResults : AppCompatActivity() {
         livesRemaining = intent.getIntExtra("LIVES_REMAINING", 0)
         isWin = intent.getBooleanExtra("IS_WIN", false)
 
+        questions = intent.getParcelableArrayListExtra("QUESTIONS")
+
+
 
         Log.i(myTag, "DIFFICULTY $difficulty")
         Log.i(myTag, "TOTAL_QUESTIONS $totalQuestions")
@@ -72,7 +82,12 @@ class ActivityResults : AppCompatActivity() {
         }
 
         playAgainButton.setOnClickListener {
-            //TODO redirect to Activity Quiz
+            runOnUiThread {
+                val intent = Intent(this@ActivityResults, ActivityQuiz::class.java)
+                intent.putParcelableArrayListExtra("QUESTIONS", questions)
+                intent.putExtra("DIFFICULTY_SELECTED", difficulty)
+                startActivity(intent)
+            }
             finish()
         }
     }
@@ -96,7 +111,9 @@ class ActivityResults : AppCompatActivity() {
 
     private fun playSoundEffect(context: Context, soundResId: Int) {
         val mediaPlayer = MediaPlayer.create(context, soundResId)
-        mediaPlayer.setOnCompletionListener { it.release() }
+        mediaPlayer.setOnCompletionListener { it.release()
+            Log.i(myTag, "Sound effect completed and media player released.")
+        }
         mediaPlayer.start()
     }
 
@@ -120,10 +137,14 @@ class ActivityResults : AppCompatActivity() {
             playSoundEffect(this, R.raw.win)
             resultMessage.text = getString(R.string.result_winning_message)
             leafImage.setImageResource(R.drawable.good_leaf)
+            playAgainButton.visibility = View.GONE
+
         } else {
             playSoundEffect(this, R.raw.wasted)
             resultMessage.text = getString(R.string.result_losing_message)
             leafImage.setImageResource(R.drawable.bad_leaf)
+            playAgainButton.visibility = View.VISIBLE
+
         }
     }
 }

@@ -161,8 +161,8 @@ class ActivityQuiz : AppCompatActivity() {
                 intent.putExtra("TOTAL_QUESTIONS", currentQuestionIndex)
                 intent.putExtra("LIVES_REMAINING", livesLeft)
                 intent.putExtra("IS_WIN", isUserWin)
+                intent.putParcelableArrayListExtra("QUESTIONS", questions)
                 startActivity(intent)
-
                 finish()
             }
         }
