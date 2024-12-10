@@ -23,54 +23,174 @@
             app:drawableLeftCompat="@drawable/ic_note"
             app:drawableTint="@color/light_gray" />
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="130dp"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/container_square"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:padding="10dp"
+                android:layout_margin="10dp">
+
+                <TextView
+                    android:id="@+id/attemptNumberHeader"
+                    style="@style/FancyTextStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/attemptNumberHeader" />
+
+                <TextView
+                    android:id="@+id/attemptNumberCount"
+                    style="@style/LargeNumberTextStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/dummy_day_streak" />
+
+
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/container_square"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:layout_margin="10dp"
+                android:padding="10dp">
+
+                <TextView
+                    android:id="@+id/highScoreHeader"
+                    style="@style/FancyTextStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/highScoreHeader" />
+
+                <TextView
+                    android:id="@+id/highScoreCount"
+                    style="@style/LargeNumberTextStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/dummy_day_streak" />
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/container_square"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:layout_margin="10dp"
+                android:padding="10dp">
+
+                <TextView
+                    android:id="@+id/totalScoreHeader"
+                    style="@style/FancyTextStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/totalScoreHeader" />
+
+                <TextView
+                    android:id="@+id/totalScoreCount"
+                    style="@style/LargeNumberTextStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/dummy_day_streak" />
+
+            </LinearLayout>
+        </LinearLayout>
+
+
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:layout_margin="@dimen/card_margin"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
             app:cardCornerRadius="@dimen/card_radius"
             app:cardElevation="@dimen/card_elevation"
-            android:backgroundTint="@color/white">
+            android:backgroundTint="@color/light_gray">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="@dimen/card_padding">
+                android:padding="16dp"
+                android:orientation="horizontal"
+                android:gravity="center_vertical">
 
-                <TextView
-                    android:id="@+id/note_title"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/recent_note_title"
-                    android:textStyle="bold"
-                    android:textSize="18sp"
-                    android:textColor="@color/black" />
+                <ImageView
+                    android:id="@+id/note_item_icon"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_marginEnd="8dp"
+                    android:contentDescription="@string/note_icon"
+                    android:src="@drawable/good_leaf" />
 
-                <TextView
-                    android:id="@+id/note_date"
-                    android:layout_width="wrap_content"
+                <LinearLayout
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:text="@string/recent_note_date"
-                    android:layout_marginTop="8dp"
-                    android:textSize="12sp"
-                    android:textColor="@color/darker_gray" />
-
-                <ScrollView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="4dp">
+                    android:orientation="vertical"
+                    android:layout_weight="1">
 
                     <TextView
-                        android:id="@+id/note_content_snippet"
+                        android:id="@+id/categoryTextView"
                         style="@style/HeaderTextStyle"
-                        android:gravity="start"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/dummy_recent_note_content"
-                        android:layout_marginTop="4dp"
-                        android:scrollbars="vertical" />
-                </ScrollView>
+                        android:text="@string/quiz_record_item_category"
+                        android:textSize="20sp"/>
+
+                    <TextView
+                        android:id="@+id/timestamp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/timestamp"
+                        android:textColor="@color/white"
+                        android:textSize="15sp"/>
+
+                    <TextView
+                        android:id="@+id/difficultyTextView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/quiz_record_item_difficulty"
+                        android:textSize="16sp"/>
+
+                    <TextView
+                        android:id="@+id/attemptedQuestionNumberTextView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/quiz_record_item_attempted_question_number"
+                        android:textSize="16sp"/>
+
+                    <TextView
+                        android:id="@+id/livesRemainingTextView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/quiz_record_item_lives_remaining"
+                        android:textSize="16sp"/>
+
+                    <TextView
+                        android:id="@+id/scoreTextView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/quiz_record_item_score"
+                        android:textSize="16sp"/>
+
+                    <TextView
+                        android:id="@+id/winTextView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/quiz_record_item_win_loss"
+                        android:textSize="16sp"
+                        android:textColor="@color/mint_green"/>
+                </LinearLayout>
             </LinearLayout>
         </androidx.cardview.widget.CardView>
 
@@ -79,7 +199,7 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/button_height"
             android:layout_marginHorizontal="@dimen/card_margin"
-            android:layout_marginBottom="10dp"
+            android:layout_marginVertical="10dp"
             android:text="@string/go_to_notes_button_label"
             android:textColor="@color/white"
             android:textSize="20sp"

@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.cardview.widget.CardView
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.example.examsos.R
@@ -24,6 +25,7 @@ class QuizRecordsAdapter(private val quizRecords: List<QuizRecord>) :
         val livesRemainingTextView: TextView = itemView.findViewById(R.id.livesRemainingTextView)
         val timestampTextView: TextView = itemView.findViewById(R.id.timestamp)
         val notificationIcon: ImageView = itemView.findViewById(R.id.note_item_icon)
+        val noteItemCardView: CardView = itemView.findViewById(R.id.noteItem)
 
     }
 
@@ -49,9 +51,11 @@ class QuizRecordsAdapter(private val quizRecords: List<QuizRecord>) :
         if (record.isWin) {
             holder.notificationIcon.setImageResource(R.drawable.good_leaf)
             holder.winTextView.setTextColor(ContextCompat.getColor(holder.itemView.context, R.color.theme_primary))
+            holder.noteItemCardView.setCardBackgroundColor(ContextCompat.getColor(holder.itemView.context, R.color.mint_green))
         } else {
             holder.notificationIcon.setImageResource(R.drawable.bad_leaf)
             holder.winTextView.setTextColor(ContextCompat.getColor(holder.itemView.context, R.color.red))
+            holder.noteItemCardView.setCardBackgroundColor(ContextCompat.getColor(holder.itemView.context, R.color.medium_gray))
 
         }
     }
