@@ -51,7 +51,7 @@
                     style="@style/LargeNumberTextStyle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/dummy_day_streak" />
+                    android:text="@string/dummy_count" />
 
 
             </LinearLayout>
@@ -77,7 +77,7 @@
                     style="@style/LargeNumberTextStyle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/dummy_day_streak" />
+                    android:text="@string/dummy_count" />
 
 
             </LinearLayout>
@@ -104,7 +104,7 @@
                     style="@style/LargeNumberTextStyle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/dummy_day_streak" />
+                    android:text="@string/dummy_count" />
 
             </LinearLayout>
         </LinearLayout>

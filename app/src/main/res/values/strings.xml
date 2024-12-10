@@ -204,6 +204,8 @@
     <string name="attemptNumberHeader">ATTEMPT</string>
     <string name="highScoreHeader">HIGH SCORE</string>
     <string name="totalScoreHeader">TOTAL SCORE</string>
+    <string name="dummy_count">0</string>
+    <string name="toast_message_no_past_records">No Past Record. Take A Quiz!</string>
 </resources>
 
 

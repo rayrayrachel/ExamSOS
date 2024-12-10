@@ -13,16 +13,14 @@ import android.widget.Toast
 import androidx.cardview.widget.CardView
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
-import com.example.examsos.adapter.QuizRecordsAdapter
 import com.example.examsos.dataValue.QuizRecord
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
-
+import com.sanojpunchihewa.glowbutton.GlowButton
 
 class FragmentNotes : Fragment() {
 
     private val myTag = "Rachel's Tag"
-
     private val db = FirebaseFirestore.getInstance()
     private val currentUser = FirebaseAuth.getInstance().currentUser
     private val userDocRef = currentUser?.let { db.collection("users").document(it.uid) }
@@ -40,7 +38,7 @@ class FragmentNotes : Fragment() {
     private lateinit var attemptNumberCount: TextView
     private lateinit var highScoreCount: TextView
     private lateinit var totalScoreCount: TextView
-
+    private lateinit var moreNotesButton: GlowButton
 
     private lateinit var quizRecordsList: List<QuizRecord>
 
@@ -71,21 +69,25 @@ class FragmentNotes : Fragment() {
         attemptNumberCount = view.findViewById(R.id.attemptNumberCount)
         highScoreCount = view.findViewById(R.id.highScoreCount)
         totalScoreCount = view.findViewById(R.id.totalScoreCount)
+        moreNotesButton = view.findViewById(R.id.go_to_notes_button)
 
-
-        // Fetch quiz records and display the most recent
-        fetchQuizRecords()
+        // Start listening for real-time updates from Firestore
+        listenToQuizRecords()
+        listenToUserScore()
 
         return view
     }
 
-    private fun fetchQuizRecords() {
+    private fun listenToQuizRecords() {
         userDocRef?.collection("quizRecords")
-            ?.get()
-            ?.addOnSuccessListener { querySnapshot ->
-                val quizRecords = mutableListOf<QuizRecord>()
+            ?.addSnapshotListener { querySnapshot, exception ->
+                if (exception != null) {
+                    Log.e(myTag, "Error fetching quiz records", exception)
+                    return@addSnapshotListener
+                }
 
-                for (document in querySnapshot.documents) {
+                val quizRecords = mutableListOf<QuizRecord>()
+                for (document in querySnapshot?.documents ?: emptyList()) {
                     try {
                         val record = document.toObject(QuizRecord::class.java)
                         if (record != null) {
@@ -101,6 +103,9 @@ class FragmentNotes : Fragment() {
                 if (quizRecords.isNotEmpty()) {
                     quizRecordsList = quizRecords
 
+                    recentNoteCardView.visibility = View.VISIBLE
+                    moreNotesButton.visibility = View.VISIBLE
+
                     // Get the most recent record
                     val recentRecord = quizRecordsList.maxByOrNull { it.timestamp }
 
@@ -110,7 +115,6 @@ class FragmentNotes : Fragment() {
                     // Calculate highest score
                     val highestScore = quizRecordsList.maxByOrNull { it.score }?.score ?: 0
                     highScoreCount.text = highestScore.toString()
-
 
                     if (recentRecord != null) {
                         categoryTextView.text = recentRecord.category
@@ -126,8 +130,6 @@ class FragmentNotes : Fragment() {
                             notificationIcon.setImageResource(R.drawable.good_leaf)
                             winTextView.setTextColor(ContextCompat.getColor(requireContext(), R.color.theme_primary))
                             recentNoteCardView.setCardBackgroundColor(ContextCompat.getColor(requireContext(), R.color.mint_green))
-
-
                         } else {
                             notificationIcon.setImageResource(R.drawable.bad_leaf)
                             winTextView.setTextColor(ContextCompat.getColor(requireContext(), R.color.red))
@@ -136,28 +138,24 @@ class FragmentNotes : Fragment() {
                     }
                 } else {
                     Log.e(myTag, "No quiz records found")
+                    recentNoteCardView.visibility = View.GONE
+                    moreNotesButton.visibility = View.GONE
+                    Toast.makeText(requireContext(), getString(R.string.toast_message_no_past_records), Toast.LENGTH_SHORT).show()
                 }
-
-                userDocRef.get().addOnSuccessListener { document ->
-                    val cumulatedScore = document.getLong("score") ?: 0L
-                    totalScoreCount.text = cumulatedScore.toString()
-                }
-            }
-            ?.addOnFailureListener { exception ->
-                Log.e(myTag, "Error fetching records", exception)
             }
     }
 
-    private fun displayQuizRecords(quizRecordsList: List<QuizRecord>) {
-        for (record in quizRecordsList) {
-            Log.d(myTag, "Timestamp: ${record.timestamp}")
-            Log.d(myTag, "Score: ${record.score}")
-            Log.d(myTag, "Difficulty: ${record.difficulty}")
-            Log.d(myTag, "Total Questions: ${record.totalQuestions}")
-            Log.d(myTag, "Lives Remaining: ${record.livesRemaining}")
-            Log.d(myTag, "Category: ${record.category}")
-            Log.d(myTag, "Is Win: ${record.isWin}")
+    private fun listenToUserScore() {
+        userDocRef?.addSnapshotListener { documentSnapshot, exception ->
+            if (exception != null) {
+                Log.e(myTag, "Error fetching user document", exception)
+                return@addSnapshotListener
+            }
+
+            if (documentSnapshot != null && documentSnapshot.exists()) {
+                val cumulatedScore = documentSnapshot.getLong("score") ?: 0L
+                totalScoreCount.text = cumulatedScore.toString()
+            }
         }
     }
 }
-
