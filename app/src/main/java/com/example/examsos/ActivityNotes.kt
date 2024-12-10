@@ -8,11 +8,14 @@ import android.view.MenuItem
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.example.examsos.adapter.QuizRecordsAdapter
 import com.example.examsos.dataValue.QuizRecord
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 
-class ActivityNotes : AppCompatActivity(){
+class ActivityNotes : AppCompatActivity() {
 
     private val myTag = "Rachel's Tag"
 
@@ -20,6 +23,8 @@ class ActivityNotes : AppCompatActivity(){
     private val currentUser = FirebaseAuth.getInstance().currentUser
     private val userDocRef = currentUser?.let { db.collection("users").document(it.uid) }
 
+    private lateinit var recyclerView: RecyclerView
+    private lateinit var adapter: QuizRecordsAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,13 +33,19 @@ class ActivityNotes : AppCompatActivity(){
         val mToolbar = findViewById<Toolbar>(R.id.notes_toolbar)
         setSupportActionBar(mToolbar)
 
+        // Check user authentication
         if (currentUser == null) {
             Toast.makeText(this, "User not authenticated!", Toast.LENGTH_SHORT).show()
             finish()
             return
         }
 
-       fetchQuizRecords()
+        // Initialize RecyclerView
+        recyclerView = findViewById(R.id.quizRecordsRecyclerView)
+        recyclerView.layoutManager = LinearLayoutManager(this)
+
+        // Fetch quiz records
+        fetchQuizRecords()
     }
 
     private fun fetchQuizRecords() {
@@ -57,6 +68,10 @@ class ActivityNotes : AppCompatActivity(){
                 }
 
 
+                adapter = QuizRecordsAdapter(quizRecords)
+                recyclerView.adapter = adapter
+
+
                 displayQuizRecords(quizRecords)
             }
             ?.addOnFailureListener { exception ->
@@ -64,7 +79,6 @@ class ActivityNotes : AppCompatActivity(){
                 Toast.makeText(this, "Failed to fetch quiz records.", Toast.LENGTH_SHORT).show()
             }
     }
-
 
     private fun displayQuizRecords(quizRecords: List<QuizRecord>) {
         for (record in quizRecords) {
@@ -75,7 +89,6 @@ class ActivityNotes : AppCompatActivity(){
             Log.d(myTag, "Lives Remaining: ${record.livesRemaining}")
             Log.d(myTag, "Category: ${record.category}")
             Log.d(myTag, "Is Win: ${record.isWin}")
-
         }
     }
 
@@ -93,37 +106,29 @@ class ActivityNotes : AppCompatActivity(){
                 Log.i(myTag, "Up Button clicked")
                 true
             }
-
             R.id.settings -> {
-                val intent = Intent(this, ActivitySettings::class.java)
-                startActivity(intent)
+                startActivity(Intent(this, ActivitySettings::class.java))
                 Log.i(myTag, "Settings clicked")
                 true
             }
-
             R.id.about_us -> {
-                val intent = Intent(this, ActivityAboutUs::class.java)
-                startActivity(intent)
+                startActivity(Intent(this, ActivityAboutUs::class.java))
                 Log.i(myTag, "About Us clicked")
                 true
             }
-
             R.id.announcement -> {
-                val intent = Intent(this, ActivityAnnouncement::class.java)
-                startActivity(intent)
+                startActivity(Intent(this, ActivityAnnouncement::class.java))
                 Log.i(myTag, "Announcement clicked")
                 true
             }
-
             R.id.logout -> {
                 val intent = Intent(this, ActivityLogin::class.java)
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
                 startActivity(intent)
                 finish()
-                Log.i(myTag, "Settings clicked")
+                Log.i(myTag, "Logout clicked")
                 true
             }
-
             else -> super.onOptionsItemSelected(item)
         }
     }

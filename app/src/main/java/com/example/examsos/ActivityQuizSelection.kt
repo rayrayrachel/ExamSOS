@@ -320,6 +320,7 @@ class ActivityQuizSelection : AppCompatActivity() {
                     val intent = Intent(this@ActivityQuizSelection, ActivityQuiz::class.java)
                     intent.putParcelableArrayListExtra("QUESTIONS", ArrayList(allQuestions))
                     intent.putExtra("DIFFICULTY_SELECTED", "marathon")
+                    intent.putExtra("CATEGORY", "Marathon")
                     startActivity(intent)
                 }
             } catch (e: Exception) {

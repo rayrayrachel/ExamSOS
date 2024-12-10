@@ -133,6 +133,10 @@ class ActivityResults : AppCompatActivity() {
     }
 
     private fun saveQuizResults() {
+        if (homeDaily == "homeDaily")
+        {
+            category = "Daily Quiz"
+        }
         val quizRecord = QuizRecord(
             score = totalScore,
             difficulty = difficulty,

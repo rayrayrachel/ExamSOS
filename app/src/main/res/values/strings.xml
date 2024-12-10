@@ -192,6 +192,15 @@
     <string name="update_daily_quiz_configuration_button">UPDATE CONFIGURATIONS</string>
     <string name="time_prompt">Choose daily quiz notification time.</string>
     <string name="time_header">Daily Quiz Notification Time</string>
+    <string name="quiz_record_item_difficulty">Difficulty</string>
+    <string name="quiz_record_item_score">Score</string>
+    <string name="quiz_record_item_category">Category</string>
+    <string name="quiz_record_item_win_loss">Completed Quiz</string>
+    <string name="timestamp">"Accessed On: "</string>
+    <string name="quiz_record_item_lives_remaining">"Lives Remaining: "</string>
+    <string name="quiz_record_item_attempted_question_number">"Attempted Question Count: "</string>
+    <string name="note_icon">note icon</string>
+    <string name="note_page_header">ATTEMPTED QUIZ</string>
 </resources>
 
 
