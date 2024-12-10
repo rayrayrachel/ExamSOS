@@ -46,12 +46,13 @@ class FragmentHome : Fragment() {
         // Quick Start button
         val buttonClick = view.findViewById<Button>(R.id.quick_start_button_id)
         buttonClick.setOnClickListener {
-
-//            Toast.makeText(requireContext(), getString(R.string.toast_quick_start_button), Toast.LENGTH_SHORT).show()
-//            val intent = Intent(requireContext(), ActivityQuizSelection::class.java)
-//            intent.putExtra("CARD TYPE", "daily")
-//            startActivity(intent)
             checkDailyQuizCompletion()
+        }
+
+        val treeStoreButtonClick = view.findViewById<Button>(R.id.grow_your_tree_button)
+        treeStoreButtonClick.setOnClickListener {
+            val intent = Intent(requireContext(), ActivityTree::class.java) // For Fragment use requireContext()
+            startActivity(intent)
         }
 
         // Start listening to Firestore

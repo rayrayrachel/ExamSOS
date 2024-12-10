@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
-    <uses-permission android:name="android.permission.POST_NOTIFICATIONS"/>
+
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
     <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" />
 
     <application
@@ -14,67 +15,50 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ExamSOS"
         tools:targetApi="31">
-
+        <activity
+            android:name=".ActivityTree"
+            android:exported="false" />
         <activity
             android:name=".ActivityController"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".ActivitySignup"
             android:label="@string/signup_page_name" />
-
         <activity
             android:name=".ActivityMain"
-            android:label="@string/home_page_name" />
-
-
-        <!-- ActivityLogin: For user authentication -->
+            android:label="@string/home_page_name" /> <!-- ActivityLogin: For user authentication -->
         <activity
             android:name=".ActivityLogin"
-            android:label="@string/appbar_item_login" />
-
-        <!-- ActivityAnnouncement: Display announcements -->
-        <activity
-            android:name=".ActivityAnnouncement"
-            android:label="@string/appbar_item_announcement" />
-
-        <!-- ActivitySettings: Application settings and preferences -->
+            android:label="@string/appbar_item_login" /> <!-- ActivitySettings: Application settings and preferences -->
         <activity
             android:name=".ActivitySettings"
-            android:label="@string/appbar_item_settings" />
-
-        <!-- ActivityAboutUs: About the application -->
+            android:label="@string/appbar_item_settings" /> <!-- ActivityAboutUs: About the application -->
         <activity
             android:name=".ActivityAboutUs"
-            android:label="@string/appbar_item_about_us" />
-
-        <!-- QuizActivitySelection: Quiz selction section -->
+            android:label="@string/appbar_item_about_us" /> <!-- QuizActivitySelection: Quiz selction section -->
         <activity
             android:name=".ActivityQuizSelection"
-            android:label="@string/level_page_name" />
-
-        <!-- ActivityResults: Quiz result -->
+            android:label="@string/level_page_name" /> <!-- ActivityResults: Quiz result -->
         <activity
             android:name=".ActivityResults"
-            android:label="Results" />
-
-        <!-- ActivityNotes: Note-taking section -->
+            android:label="Results" /> <!-- ActivityNotes: Note-taking section -->
         <activity
             android:name=".ActivityNotes"
-            android:label="@string/note_page_name" />
-
-        <!-- QuizActivity: Quiz section -->
+            android:label="@string/note_page_name" /> <!-- QuizActivity: Quiz section -->
         <activity
             android:name=".ActivityQuiz"
             android:label="@string/appbar_item_quiz_header" />
 
-        <receiver android:name=".DailyQuizReminderReceiver" android:enabled="true" android:exported="false"/>
-
+        <receiver
+            android:name=".DailyQuizReminderReceiver"
+            android:enabled="true"
+            android:exported="false" />
     </application>
 
 </manifest>

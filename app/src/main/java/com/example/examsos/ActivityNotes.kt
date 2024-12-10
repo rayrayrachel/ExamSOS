@@ -93,7 +93,7 @@ class ActivityNotes : AppCompatActivity() {
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.tool_bar_layout, menu)
+        menuInflater.inflate(R.menu.sub_tool_bar_layout, menu)
         val refreshButton = menu?.findItem(R.id.refresh)
         refreshButton?.isVisible = false
         return super.onCreateOptionsMenu(menu)
@@ -104,29 +104,6 @@ class ActivityNotes : AppCompatActivity() {
             R.id.upButton -> {
                 finish()
                 Log.i(myTag, "Up Button clicked")
-                true
-            }
-            R.id.settings -> {
-                startActivity(Intent(this, ActivitySettings::class.java))
-                Log.i(myTag, "Settings clicked")
-                true
-            }
-            R.id.about_us -> {
-                startActivity(Intent(this, ActivityAboutUs::class.java))
-                Log.i(myTag, "About Us clicked")
-                true
-            }
-            R.id.announcement -> {
-                startActivity(Intent(this, ActivityAnnouncement::class.java))
-                Log.i(myTag, "Announcement clicked")
-                true
-            }
-            R.id.logout -> {
-                val intent = Intent(this, ActivityLogin::class.java)
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
-                startActivity(intent)
-                finish()
-                Log.i(myTag, "Logout clicked")
                 true
             }
             else -> super.onOptionsItemSelected(item)

@@ -98,7 +98,6 @@ class ActivityMain : AppCompatActivity() {
 
         levelsButton = findViewById(R.id.nav_levels)
         notesButton = findViewById(R.id.nav_notes)
-        notificationsButton = findViewById(R.id.nav_notifications)
 
         welcomeMessage = findViewById(R.id.login_welcome_msg_text_view)
 
@@ -124,10 +123,6 @@ class ActivityMain : AppCompatActivity() {
             Log.i(myTag, "*** Home Fragment Button Clicked: In Notes Fragment")
         }
 
-        notificationsButton.setOnClickListener {
-            viewPager.currentItem = 3 // Set to the fourth fragment
-            Log.i(myTag,"*** Home Fragment Button Clicked: In Notification Fragment")
-        }
 
         // Register the page change callback
         viewPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
@@ -161,12 +156,10 @@ class ActivityMain : AppCompatActivity() {
         homeButton.setBackgroundColor(getColor(R.color.white))
         levelsButton.setBackgroundColor(getColor(R.color.white))
         notesButton.setBackgroundColor(getColor(R.color.white))
-        notificationsButton.setBackgroundColor(getColor(R.color.white))
         // Reset all button icons to default color
         homeButton.setColorFilter(getColor(R.color.theme_primary))
         levelsButton.setColorFilter(getColor(R.color.theme_primary))
         notesButton.setColorFilter(getColor(R.color.theme_primary))
-        notificationsButton.setColorFilter(getColor(R.color.theme_primary))
 
         // Change the color of the selected button and icon to teal and white
         when (selectedPosition) {
@@ -179,9 +172,7 @@ class ActivityMain : AppCompatActivity() {
             2 -> {notesButton.setBackgroundColor(getColor(R.color.theme_secondary))
                 notesButton.setColorFilter(getColor(R.color.white))
             }
-            3 -> {notificationsButton.setBackgroundColor(getColor(R.color.theme_secondary))
-                notificationsButton.setColorFilter(getColor(R.color.white))
-            }
+
 
         }
     }
@@ -388,12 +379,6 @@ class ActivityMain : AppCompatActivity() {
                 val intent = Intent(this, ActivityAboutUs::class.java)
                 startActivity(intent)
                 Log.i(myTag, "About Us clicked")
-                true
-            }
-            R.id.announcement -> {
-                val intent = Intent(this, ActivityAnnouncement::class.java)
-                startActivity(intent)
-                Log.i(myTag, "Announcement clicked")
                 true
             }
 

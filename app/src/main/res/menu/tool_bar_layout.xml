@@ -17,9 +17,6 @@
         android:title="@string/appbar_item_back"
         app:showAsAction="ifRoom" />
 
-    <item
-        android:id="@+id/announcement"
-        android:title="@string/appbar_item_announcement"/>
 
     <item
         android:id="@+id/settings"

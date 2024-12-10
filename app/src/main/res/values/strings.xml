@@ -206,6 +206,8 @@
     <string name="totalScoreHeader">TOTAL SCORE</string>
     <string name="dummy_count">0</string>
     <string name="toast_message_no_past_records">No Past Record. Take A Quiz!</string>
+    <string name="grow_your_tree_button_text">GROW YOUR TREE</string>
+    <string name="appbar_item_tree">TREE SHOP</string>
 </resources>
 
 
