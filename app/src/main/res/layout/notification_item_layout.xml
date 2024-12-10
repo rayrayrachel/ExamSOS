@@ -22,11 +22,11 @@ xmlns:app="http://schemas.android.com/apk/res-auto"
 
             <ImageView
                 android:id="@+id/notification_icon"
-                android:layout_width="wrap_content"
+                android:layout_width="50dp"
                 android:layout_height="match_parent"
                 android:layout_marginEnd="8dp"
                 android:contentDescription="@string/announcement_icon_description"
-                android:src="@drawable/ic_notifications" />
+                android:src="@raw/tree_healthy" />
 
 
             <LinearLayout

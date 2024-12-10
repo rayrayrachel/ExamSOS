@@ -1,7 +1,11 @@
 package com.example.examsos
 
 import android.app.AlertDialog
+import android.app.NotificationChannel
+import android.app.NotificationManager
+import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.icu.util.Calendar
 import android.os.Bundle
 import android.util.Log
@@ -22,6 +26,13 @@ import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ListenerRegistration
 import android.media.MediaPlayer
+import android.os.Build
+import android.widget.Toast
+import androidx.core.app.ActivityCompat
+import androidx.core.app.NotificationCompat
+import androidx.core.content.ContextCompat
+import android.Manifest
+import androidx.annotation.RequiresApi
 
 
 /**
@@ -125,6 +136,11 @@ class ActivityMain : AppCompatActivity() {
 
         updateMusicConfigFromFirestore()
 
+
+
+        createNotificationChannel(this)
+        checkNotificationPermission(this)
+
     }
 
     private fun updateButtonColors(selectedPosition: Int) {
@@ -156,6 +172,77 @@ class ActivityMain : AppCompatActivity() {
 
         }
     }
+
+    private fun createNotificationChannel(context: Context) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val channel = NotificationChannel(
+                "dailyQuizChannel",
+                "Daily Quiz Reminders",
+                NotificationManager.IMPORTANCE_DEFAULT
+            ).apply {
+                description = "Channel for daily quiz reminders"
+            }
+
+            val notificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+            notificationManager.createNotificationChannel(channel)
+        }
+    }
+
+    private fun checkNotificationPermission(context: Context) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            if (ContextCompat.checkSelfPermission(
+                    context,
+                    Manifest.permission.POST_NOTIFICATIONS
+                ) == PackageManager.PERMISSION_GRANTED) {
+                sendNotification(context)
+            } else {
+                requestNotificationPermission()
+            }
+        } else {
+            sendNotification(context)
+        }
+    }
+
+    private fun sendNotification(context: Context) {
+        val notificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+
+        val notification = NotificationCompat.Builder(context, "dailyQuizChannel")
+            .setSmallIcon(R.raw.tree_healthy)
+            .setContentTitle("Daily Quiz Ready")
+            .setContentText("Your daily trivia quiz is ready to play!")
+            .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+            .build()
+
+        notificationManager.notify(1, notification)
+    }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        if (requestCode == 1) {
+            if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                // Permission granted, send notification
+                sendNotification(this)
+            } else {
+                // Permission denied
+                Toast.makeText(this, "Permission denied. Can't send notifications.", Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
+
+
+    @RequiresApi(Build.VERSION_CODES.TIRAMISU)
+    private fun requestNotificationPermission() {
+        ActivityCompat.requestPermissions(
+            this,
+            arrayOf(Manifest.permission.POST_NOTIFICATIONS),
+            1 // Request code
+        )
+    }
+
 
     /**
      * Called to inflate the menu items for the action bar.
