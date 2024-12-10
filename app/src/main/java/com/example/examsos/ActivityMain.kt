@@ -1,5 +1,5 @@
 package com.example.examsos
-
+import android.provider.Settings
 import android.app.AlertDialog
 import android.app.NotificationChannel
 import android.app.NotificationManager
@@ -32,6 +32,10 @@ import androidx.core.app.ActivityCompat
 import androidx.core.app.NotificationCompat
 import androidx.core.content.ContextCompat
 import android.Manifest
+import android.app.AlarmManager
+import android.app.PendingIntent
+import android.net.Uri
+import android.text.format.DateUtils
 import androidx.annotation.RequiresApi
 
 
@@ -137,6 +141,15 @@ class ActivityMain : AppCompatActivity() {
         updateMusicConfigFromFirestore()
 
 
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            if (!isExactAlarmPermissionGranted(this)) {
+                requestExactAlarmPermission(this)
+            } else {
+                scheduleDailyQuizReminder(this)
+            }
+        } else {
+            scheduleDailyQuizReminder(this)
+        }
 
         createNotificationChannel(this)
         checkNotificationPermission(this)
@@ -194,12 +207,12 @@ class ActivityMain : AppCompatActivity() {
                     context,
                     Manifest.permission.POST_NOTIFICATIONS
                 ) == PackageManager.PERMISSION_GRANTED) {
-                sendNotification(context)
+                //sendNotification(context)
             } else {
                 requestNotificationPermission()
             }
         } else {
-            sendNotification(context)
+            //sendNotification(context)
         }
     }
 
@@ -225,7 +238,7 @@ class ActivityMain : AppCompatActivity() {
         if (requestCode == 1) {
             if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 // Permission granted, send notification
-                sendNotification(this)
+                //sendNotification(this)
             } else {
                 // Permission denied
                 Toast.makeText(this, "Permission denied. Can't send notifications.", Toast.LENGTH_SHORT).show()
@@ -243,8 +256,94 @@ class ActivityMain : AppCompatActivity() {
         )
     }
 
+    @RequiresApi(Build.VERSION_CODES.S)
+    private fun isExactAlarmPermissionGranted(context: Context): Boolean {
+        val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
+        return alarmManager.canScheduleExactAlarms()
+    }
 
-    /**
+    private fun requestExactAlarmPermission(context: Context) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            val intent = Intent(Settings.ACTION_REQUEST_SCHEDULE_EXACT_ALARM)
+            intent.data = Uri.parse("package:${context.packageName}")
+            startActivity(intent)
+        }
+    }
+
+
+        private fun scheduleDailyQuizReminder(context: Context) {
+            val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
+
+            userDocRef?.get()?.addOnSuccessListener { document ->
+                val selectedTime = document?.getString("selectedTime") ?: "08:00"
+
+                val timeParts = selectedTime.split(":")
+                val hour = timeParts[0].toIntOrNull() ?: 8
+                val minute = timeParts[1].toIntOrNull() ?: 0
+
+                val calendar = Calendar.getInstance().apply {
+                    set(Calendar.HOUR_OF_DAY, hour)
+                    set(Calendar.MINUTE, minute)
+                    set(Calendar.SECOND, 0)
+                    set(Calendar.MILLISECOND, 0)
+
+                    if (timeInMillis < System.currentTimeMillis()) {
+                        add(Calendar.DATE, 1)
+                    }
+                }
+
+                val intent = Intent(context, DailyQuizReminderReceiver::class.java)
+                val pendingIntent = PendingIntent.getBroadcast(
+                    context,
+                    0,
+                    intent,
+                    PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+                )
+
+                // Schedule the alarm
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, calendar.timeInMillis, pendingIntent)
+                } else {
+                    alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.timeInMillis, AlarmManager.INTERVAL_DAY, pendingIntent)
+                }
+
+                Log.d("QuizReminder", "Daily quiz reminder scheduled for $hour:$minute")
+            }?.addOnFailureListener { exception ->
+                // Log failure and fallback to default 08:00 time
+                Log.e("QuizReminder", "Failed to fetch selectedTime. Using default 08:00. Error: ${exception.message}")
+
+                // Schedule with default time (08:00)
+                val calendar = Calendar.getInstance().apply {
+                    set(Calendar.HOUR_OF_DAY, 8)
+                    set(Calendar.MINUTE, 0)
+                    set(Calendar.SECOND, 0)
+                    set(Calendar.MILLISECOND, 0)
+
+                    if (timeInMillis < System.currentTimeMillis()) {
+                        add(Calendar.DATE, 1)
+                    }
+                }
+
+                val intent = Intent(context, DailyQuizReminderReceiver::class.java)
+                val pendingIntent = PendingIntent.getBroadcast(
+                    context,
+                    0,
+                    intent,
+                    PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+                )
+
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, calendar.timeInMillis, pendingIntent)
+                } else {
+                    alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.timeInMillis, AlarmManager.INTERVAL_DAY, pendingIntent)
+                }
+
+                Log.d("QuizReminder", "Fallback: Daily quiz reminder scheduled for 08:00")
+            }
+        }
+
+
+        /**
      * Called to inflate the menu items for the action bar.
      *
      * @param menu The options menu in which you place your items.
